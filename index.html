@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AIM Acute Medicine Education — a postgraduate exam-preparation platform with three hand-authored multiplayer SBA banks for medical, nursing, and pharmacy teams. 1,130+ questions referenced to NICE, BTS, KDIGO, BCSH, Surviving Sepsis Campaign and other authoritative guidelines.">
+<title>AIM Acute Medicine · Education Hub</title>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     AIM ACUTE MEDICINE EDUCATION — UNIFIED HUB
+     ═══════════════════════════════════════════════════════════════
+     Single-file landing page that hosts links to all three quizzes:
+       · sce-acute-quiz.html              (medical / MRCP-SCE)
+       · Acute-medicine-nursing-quiz.html (nursing)
+       · acute-medicine-pharmacy-quiz.html (pharmacy)
+
+     CONFIGURATION
+     Edit the HUB_CONFIG block below to point at wherever each quiz
+     is hosted. Use relative paths if all four files share a folder
+     on GitHub Pages, or absolute URLs otherwise.
+
+     DEPLOYMENT
+     · GitHub Pages — drop all four HTML files into the same repo
+       folder; this file becomes the front door.
+     · SharePoint — upload here for a corporate-styled launcher, but
+       remember the actual quizzes need GitHub Pages (most NHS
+       SharePoint tenants block JavaScript in uploaded HTML).
+
+     No CDN dependencies beyond Google Fonts. No localStorage. No
+     analytics. No tracking. Works inside an iframe.
+     ═══════════════════════════════════════════════════════════════ -->
+
+<script>
+window.HUB_CONFIG = {
+  // ── Links to each quiz ──────────────────────────────────────────
+  medicalQuizUrl:  'sce-acute-quiz.html',
+  nursingQuizUrl:  'Acute-medicine-nursing-quiz.html',
+  pharmacyQuizUrl: 'acute-medicine-pharmacy-quiz.html',
+
+  // ── Display ─────────────────────────────────────────────────────
+  ownerName:    'Acute Medicine Education',
+  contactEmail: '',                  // optional — shown in footer if set
+
+  // ── Question counts (hand-maintained) ──────────────────────────
+  medicalCount:  366,
+  nursingCount:  366,
+  pharmacyCount: 398
+};
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Shared editorial palette */
+  --paper:        #F7F3EA;
+  --paper-warm:   #EFE9DA;
+  --paper-deep:   #E8E1CE;
+  --ink:          #0F1F2E;
+  --ink-soft:     #2C3E50;
+  --ink-muted:    #5A6B7E;
+  --ink-faint:    #8A9AAE;
+  --rule:         #D6CFBF;
+  --rule-soft:    #E4DCC8;
+  --warm:         #B45309;
+  --highlight:    #FAEBC8;
+
+  /* Discipline accents (lifted from each quiz file) */
+  --med:          #0b5fae;        /* clinical blue — medical/SCE */
+  --med-deep:     #094a89;
+  --med-soft:     #E1ECF7;
+
+  --nur:          #4A6E5D;        /* calm sage — nursing */
+  --nur-deep:     #2F4A3D;
+  --nur-soft:     #E0E8E2;
+
+  --pha:          #0d4f4a;        /* deep teal — pharmacy */
+  --pha-deep:     #0a3d39;
+  --pha-soft:     #DDE9E7;
+
+  /* Type */
+  --serif:  'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans:   'DM Sans', -apple-system, system-ui, sans-serif;
+  --mono:   'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+
+  /* Elevation */
+  --shadow:      0 1px 2px rgba(15,31,46,.04), 0 8px 24px rgba(15,31,46,.06);
+  --shadow-lift: 0 4px 12px rgba(15,31,46,.08), 0 16px 40px rgba(15,31,46,.10);
+  --shadow-deep: 0 8px 20px rgba(15,31,46,.10), 0 24px 56px rgba(15,31,46,.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  background-image:
+    radial-gradient(ellipse 80% 45% at 50% 0%, rgba(11,95,174,.05) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(180,83,9,.04) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 0% 50%, rgba(13,79,74,.04) 0%, transparent 55%);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Paper grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: .4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.45 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection { background: var(--ink); color: var(--paper); }
+
+.wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 56px 32px 80px;
+}
+
+/* ────────────────── MASTHEAD ────────────────── */
+
+.masthead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 32px;
+  padding-bottom: 28px;
+  border-bottom: 1.5px solid var(--rule);
+  margin-bottom: 56px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, var(--med) 0%, var(--med-deep) 55%, var(--pha-deep) 100%);
+  position: relative;
+  box-shadow: inset 0 -2px 6px rgba(0,0,0,.25), 0 2px 6px rgba(15,31,46,.15);
+}
+.brand-mark::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--paper);
+  opacity: .4;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.brand-text .name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.brand-text .sub {
+  font-family: var(--sans);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--ink-muted);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.masthead-meta {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+  letter-spacing: .04em;
+  line-height: 1.5;
+}
+.masthead-meta .vol { font-weight: 500; color: var(--ink-soft); }
+.masthead-meta .iss { display: block; }
+
+/* ────────────────── HERO ────────────────── */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 64px;
+  align-items: start;
+  margin-bottom: 96px;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--warm);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1.5px;
+  background: var(--warm);
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(42px, 6.2vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--med-deep);
+}
+
+.hero-lede {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 56ch;
+}
+.hero-lede strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.hero-figure {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 28px 24px;
+  background: var(--paper-warm);
+  box-shadow: var(--shadow);
+  position: relative;
+}
+.hero-figure::before {
+  content: 'Census';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: var(--paper);
+  padding: 0 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: var(--ink-muted);
+}
+
+.figure-total {
+  text-align: center;
+  padding: 12px 0 18px;
+  border-bottom: 1px dashed var(--rule);
+  margin-bottom: 18px;
+}
+.figure-total .num {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 88px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--ink);
+  display: block;
+}
+.figure-total .lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--ink-muted);
+  margin-top: 8px;
+  display: block;
+}
+
+.figure-breakdown {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.figure-row {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.figure-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.figure-dot.med { background: var(--med); }
+.figure-dot.nur { background: var(--nur); }
+.figure-dot.pha { background: var(--pha); }
+.figure-row .lbl { font-weight: 500; }
+.figure-row .val { font-family: var(--mono); font-size: 12px; color: var(--ink-muted); }
+
+/* ────────────────── DISCIPLINE CARDS ────────────────── */
+
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 36px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 36px;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.section-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--ink-muted);
+}
+
+.disciplines {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 96px;
+}
+
+.card {
+  --c-accent:      var(--med);
+  --c-accent-deep: var(--med-deep);
+  --c-accent-soft: var(--med-soft);
+
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 32px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: transform .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s ease, border-color .35s ease;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card.nur { --c-accent: var(--nur); --c-accent-deep: var(--nur-deep); --c-accent-soft: var(--nur-soft); }
+.card.pha { --c-accent: var(--pha); --c-accent-deep: var(--pha-deep); --c-accent-soft: var(--pha-soft); }
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--c-accent);
+  opacity: .85;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  top: 24px; right: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: var(--c-accent-soft);
+  opacity: .55;
+  z-index: 0;
+  transition: transform .5s cubic-bezier(.2,.7,.3,1), opacity .35s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--c-accent);
+}
+.card:hover::after {
+  transform: scale(1.15);
+  opacity: .75;
+}
+
+.card-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.card-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--c-accent-deep);
+  background: var(--c-accent-soft);
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+.card-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+  letter-spacing: .04em;
+}
+
+.card-title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.card-subtitle {
+  position: relative;
+  z-index: 1;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--c-accent-deep);
+  margin-bottom: 24px;
+  letter-spacing: -0.005em;
+}
+
+.card-desc {
+  position: relative;
+  z-index: 1;
+  font-size: 14.5px;
+  line-height: 1.62;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+  flex-grow: 1;
+}
+
+.card-spec {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+  padding: 16px 0;
+  border-top: 1px dashed var(--rule);
+  border-bottom: 1px dashed var(--rule);
+  margin-bottom: 22px;
+}
+.card-spec dt {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: var(--ink-muted);
+  grid-column: 1;
+}
+.card-spec dd {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  grid-column: 2;
+  text-align: right;
+}
+
+.card-count {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.card-count .num {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 52px;
+  letter-spacing: -0.04em;
+  color: var(--c-accent-deep);
+  line-height: 1;
+}
+.card-count .lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--ink-muted);
+}
+
+.card-cta {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--paper);
+  background: var(--c-accent);
+  border: 1.5px solid var(--c-accent);
+  border-radius: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .2s ease, transform .15s ease, box-shadow .25s ease;
+}
+.card-cta:hover {
+  background: var(--c-accent-deep);
+  border-color: var(--c-accent-deep);
+  box-shadow: 0 6px 16px rgba(15,31,46,.18);
+}
+.card-cta:active { transform: translateY(1px); }
+.card-cta svg {
+  width: 14px; height: 14px;
+  transition: transform .25s ease;
+}
+.card-cta:hover svg { transform: translateX(3px); }
+
+/* ────────────────── WHAT'S INSIDE ────────────────── */
+
+.inside {
+  display: grid;
+  grid-template-columns: 1fr 2.2fr;
+  gap: 64px;
+  margin-bottom: 96px;
+  padding: 56px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.inside-aside {
+  position: sticky;
+  top: 32px;
+  align-self: start;
+}
+.inside-aside h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.inside-aside p {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink-muted);
+  line-height: 1.55;
+  max-width: 32ch;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px 40px;
+}
+.feature h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.feature h3::before {
+  content: '';
+  width: 18px;
+  height: 1.5px;
+  background: var(--ink);
+}
+.feature p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.feature p code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: var(--paper-warm);
+  padding: 1px 5px;
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+/* ────────────────── COVERAGE ────────────────── */
+
+.coverage {
+  margin-bottom: 88px;
+}
+
+.coverage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.coverage-col {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 24px 22px;
+  position: relative;
+}
+.coverage-col h4 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid;
+  letter-spacing: -0.015em;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.coverage-col.med h4 { border-color: var(--med); }
+.coverage-col.nur h4 { border-color: var(--nur); }
+.coverage-col.pha h4 { border-color: var(--pha); }
+
+.coverage-col h4 .roman {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.coverage-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.coverage-col li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  padding-left: 14px;
+  position: relative;
+}
+.coverage-col li::before {
+  content: '·';
+  position: absolute;
+  left: 4px;
+  color: var(--ink-muted);
+  font-weight: 700;
+}
+
+/* ────────────────── REFERENCES STRIP ────────────────── */
+
+.refs {
+  margin-bottom: 88px;
+  padding: 36px 32px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.4), rgba(255,255,255,0)),
+    var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.refs h3 {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--ink-muted);
+  margin-bottom: 18px;
+}
+
+.refs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.refs-list span {
+  position: relative;
+  padding: 0 16px;
+  border-right: 1px solid var(--rule);
+}
+.refs-list span:last-child { border-right: none; }
+.refs-list span:first-child { padding-left: 0; }
+
+/* ────────────────── DEPLOYMENT ────────────────── */
+
+.deploy {
+  margin-bottom: 64px;
+  padding: 36px 36px 32px;
+  background: var(--paper);
+  border: 1px dashed var(--rule);
+  border-radius: 4px;
+  position: relative;
+}
+.deploy::before {
+  content: 'For administrators';
+  position: absolute;
+  top: -10px;
+  left: 24px;
+  background: var(--paper);
+  padding: 0 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--ink-muted);
+}
+
+.deploy h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.deploy p {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  max-width: 78ch;
+  margin-bottom: 10px;
+}
+
+.deploy p code, .deploy li code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: var(--paper-warm);
+  padding: 1px 6px;
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+.deploy-list {
+  list-style: none;
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+}
+.deploy-list li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  padding-left: 22px;
+  position: relative;
+  line-height: 1.55;
+}
+.deploy-list li::before {
+  content: counter(deploy);
+  counter-increment: deploy;
+  font-family: var(--mono);
+  font-size: 10px;
+  position: absolute;
+  left: 0; top: 3px;
+  width: 16px; height: 16px;
+  border: 1px solid var(--ink-muted);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 14px;
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+.deploy-list { counter-reset: deploy; }
+
+/* ────────────────── FOOTER ────────────────── */
+
+footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  padding-top: 36px;
+  border-top: 1.5px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+  letter-spacing: .04em;
+}
+footer .left   { text-align: left;   }
+footer .center { text-align: center; font-family: var(--serif); font-style: italic; font-size: 12px; color: var(--ink-faint); }
+footer .right  { text-align: right;  }
+
+/* ────────────────── CONFIG WARNING ────────────────── */
+
+.warn {
+  display: none;
+  margin-bottom: 32px;
+  padding: 14px 18px;
+  background: #FFF8DC;
+  border: 1px solid #E0C66D;
+  border-radius: 4px;
+  font-size: 13.5px;
+  color: #6A5510;
+  line-height: 1.55;
+}
+.warn code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: rgba(180,83,9,.08);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* ────────────────── ANIMATION ────────────────── */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero, .disciplines, .inside, .coverage, .refs, .deploy {
+  animation: rise .7s cubic-bezier(.2,.7,.3,1) both;
+}
+.disciplines { animation-delay: .08s; }
+.inside      { animation-delay: .16s; }
+.coverage    { animation-delay: .22s; }
+
+.card { animation: rise .7s cubic-bezier(.2,.7,.3,1) both; }
+.card:nth-child(1) { animation-delay: .14s; }
+.card:nth-child(2) { animation-delay: .22s; }
+.card:nth-child(3) { animation-delay: .30s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ────────────────── RESPONSIVE ────────────────── */
+
+@media (max-width: 960px) {
+  .wrap { padding: 40px 24px 60px; }
+  .hero { grid-template-columns: 1fr; gap: 48px; margin-bottom: 72px; }
+  .disciplines { grid-template-columns: 1fr; gap: 20px; margin-bottom: 72px; }
+  .inside { grid-template-columns: 1fr; gap: 32px; padding: 40px 0; margin-bottom: 72px; }
+  .inside-aside { position: static; }
+  .coverage-grid { grid-template-columns: 1fr; }
+  .deploy-list { grid-template-columns: 1fr; }
+  .feature-grid { grid-template-columns: 1fr; gap: 28px; }
+  footer { grid-template-columns: 1fr; gap: 8px; text-align: center; }
+  footer .left, footer .right { text-align: center; }
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 28px 18px 48px; }
+  .masthead { grid-template-columns: 1fr; gap: 12px; margin-bottom: 40px; }
+  .masthead-meta { text-align: left; }
+  .hero-title { font-size: 44px; }
+  .figure-total .num { font-size: 64px; }
+  .section-head { grid-template-columns: 1fr; }
+  .refs { padding: 24px 20px; }
+  .refs-list { font-size: 16px; }
+  .refs-list span { padding: 0 10px 0 0; border-right: none; }
+  .deploy { padding: 28px 22px 24px; }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<!-- ═══════════════════════ MASTHEAD ═══════════════════════ -->
+<header class="masthead">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true"></div>
+    <div class="brand-text">
+      <span class="name">AIM Acute Medicine</span>
+      <span class="sub" id="owner-line">Education · Quiz Hub</span>
+    </div>
+  </div>
+  <div class="masthead-meta">
+    <span class="vol" id="hub-date">Today</span>
+    <span class="iss">Volume III · No. 1 · MMXXVI</span>
+  </div>
+</header>
+
+<!-- Config warning (only shows if URLs are missing) -->
+<div class="warn" id="warn">
+  ⚠️ <strong>Configuration needed.</strong> One or more quiz URLs are missing from the
+  <code>HUB_CONFIG</code> block at the top of this file. Open the source in a text editor
+  and set <code>medicalQuizUrl</code>, <code>nursingQuizUrl</code>, and <code>pharmacyQuizUrl</code>.
+</div>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Postgraduate exam preparation · Three disciplines</div>
+    <h1 class="hero-title">A teaching room <em>for the whole acute team.</em></h1>
+    <p class="hero-lede">
+      <strong>1,130 hand-authored single best answer questions</strong> across
+      medical, nursing, and pharmacy practice — referenced to NICE, BTS, BCSH,
+      KDIGO, Surviving Sepsis Campaign and other authoritative guidelines.
+      Multiplayer by design, with QR-code joining for the room you're standing in.
+    </p>
+  </div>
+
+  <aside class="hero-figure">
+    <div class="figure-total">
+      <span class="num">1,130</span>
+      <span class="lbl">Total SBAs · Hand-authored</span>
+    </div>
+    <div class="figure-breakdown">
+      <div class="figure-row">
+        <span class="figure-dot med"></span>
+        <span class="lbl">Medical (MRCP / SCE)</span>
+        <span class="val" id="fig-med">366</span>
+      </div>
+      <div class="figure-row">
+        <span class="figure-dot nur"></span>
+        <span class="lbl">Nursing</span>
+        <span class="val" id="fig-nur">366</span>
+      </div>
+      <div class="figure-row">
+        <span class="figure-dot pha"></span>
+        <span class="lbl">Pharmacy</span>
+        <span class="val" id="fig-pha">398</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<!-- ═══════════════════════ DISCIPLINE CARDS ═══════════════════════ -->
+<section>
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">The three banks</div>
+      <h2 class="section-title">Pick your discipline.</h2>
+    </div>
+    <div class="section-meta">Distinct content · Shared engine</div>
+  </div>
+
+  <div class="disciplines">
+
+    <!-- MEDICAL -->
+    <article class="card med">
+      <div class="card-head">
+        <span class="card-tag">Medical</span>
+        <span class="card-num">№ 01 / 03</span>
+      </div>
+      <h3 class="card-title">SCE Acute Medicine</h3>
+      <div class="card-subtitle">for MRCP(UK) Specialty Certificate Examination</div>
+      <p class="card-desc">
+        Vignette-led SBAs across the full MRCP / SCE blueprint — cardiology,
+        respiratory, gastroenterology, neurology, endocrinology, renal, infectious
+        diseases, critical care, and clinical pharmacology. Mapped to one question
+        per day of the year.
+      </p>
+      <dl class="card-spec">
+        <dt>Audience</dt><dd>Medical registrars</dd>
+        <dt>Blueprint</dt><dd>MRCP / SCE</dd>
+        <dt>Format</dt><dd>Single best answer</dd>
+      </dl>
+      <div class="card-count">
+        <span class="num" id="count-med">366</span>
+        <span class="lbl">questions · daily rotation</span>
+      </div>
+      <a href="#" id="cta-med" class="card-cta" rel="noopener">
+        Launch medical quiz
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 7h10M8 3l4 4-4 4"/>
+        </svg>
+      </a>
+    </article>
+
+    <!-- NURSING -->
+    <article class="card nur">
+      <div class="card-head">
+        <span class="card-tag">Nursing</span>
+        <span class="card-num">№ 02 / 03</span>
+      </div>
+      <h3 class="card-title">Nursing Practice</h3>
+      <div class="card-subtitle">acute &amp; intermediate care competencies</div>
+      <p class="card-desc">
+        Bedside-relevant SBAs spanning NEWS2 escalation, sepsis screening, fluid
+        balance, drug administration safety, falls and pressure ulcer prevention,
+        end-of-life care, and acute deterioration. Written for the team, not for
+        the textbook.
+      </p>
+      <dl class="card-spec">
+        <dt>Audience</dt><dd>Ward &amp; AAU nurses</dd>
+        <dt>Competencies</dt><dd>NMC-aligned</dd>
+        <dt>Format</dt><dd>Single best answer</dd>
+      </dl>
+      <div class="card-count">
+        <span class="num" id="count-nur">366</span>
+        <span class="lbl">questions · daily rotation</span>
+      </div>
+      <a href="#" id="cta-nur" class="card-cta" rel="noopener">
+        Launch nursing quiz
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 7h10M8 3l4 4-4 4"/>
+        </svg>
+      </a>
+    </article>
+
+    <!-- PHARMACY -->
+    <article class="card pha">
+      <div class="card-head">
+        <span class="card-tag">Pharmacy</span>
+        <span class="card-num">№ 03 / 03</span>
+      </div>
+      <h3 class="card-title">Pharmacy Practice</h3>
+      <div class="card-subtitle">acute medicine pharmaceutical care</div>
+      <p class="card-desc">
+        The largest of the three banks. Per-question NPIS- and DrugBank-grounded
+        feedback: option-by-option distractor analysis with colour-coded correct
+        and incorrect indicators, plus clickable, specialty-specific reference
+        links inline with each answer.
+      </p>
+      <dl class="card-spec">
+        <dt>Audience</dt><dd>Acute care pharmacists</dd>
+        <dt>References</dt><dd>NICE · BNF · NPIS · DrugBank</dd>
+        <dt>Format</dt><dd>SBA + distractor analysis</dd>
+      </dl>
+      <div class="card-count">
+        <span class="num" id="count-pha">398</span>
+        <span class="lbl">questions · printable bank</span>
+      </div>
+      <a href="#" id="cta-pha" class="card-cta" rel="noopener">
+        Launch pharmacy quiz
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 7h10M8 3l4 4-4 4"/>
+        </svg>
+      </a>
+    </article>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ WHAT'S INSIDE ═══════════════════════ -->
+<section class="inside">
+  <aside class="inside-aside">
+    <h2>One engine, three banks.</h2>
+    <p>All three quizzes share the same multiplayer hosting machinery — only the questions, accents, and audience change.</p>
+  </aside>
+
+  <div class="feature-grid">
+    <div class="feature">
+      <h3>Multiplayer by default</h3>
+      <p>Host opens a room on a meeting-room screen; the team joins from any phone or laptop via QR code or 4-letter room code. Live leaderboard, no app install, no account needed.</p>
+    </div>
+    <div class="feature">
+      <h3>Hand-authored content</h3>
+      <p>Every vignette is written by a clinician against published guidelines. No LLM-generated questions, no scraped MCQ banks. References are clickable and specialty-specific.</p>
+    </div>
+    <div class="feature">
+      <h3>Self-contained files</h3>
+      <p>Each quiz is one HTML file with all questions embedded. No backend. No CDN dependency beyond Firebase Realtime Database for multiplayer state and Google Fonts for type.</p>
+    </div>
+    <div class="feature">
+      <h3>Namespaced rooms</h3>
+      <p>Each discipline writes to its own Firebase path — <code>rooms/medical/…</code>, <code>rooms/nursing/…</code>, <code>rooms/pharmacy/…</code> — so a medical session and a pharmacy session can run simultaneously without collision.</p>
+    </div>
+    <div class="feature">
+      <h3>Deterministic daily mode</h3>
+      <p>Solo learners get one question per day of the year. The same date returns the same question on every device — useful for "question of the day" board displays.</p>
+    </div>
+    <div class="feature">
+      <h3>Privacy by design</h3>
+      <p>No analytics. No tracking pixels. No localStorage of personal data. Player names are random 4-letter codes by default; the host shows with a ★ on the leaderboard.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ COVERAGE ═══════════════════════ -->
+<section class="coverage">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">Curriculum coverage</div>
+      <h2 class="section-title">What each bank covers.</h2>
+    </div>
+    <div class="section-meta">Indicative blueprint · Per discipline</div>
+  </div>
+
+  <div class="coverage-grid">
+
+    <div class="coverage-col med">
+      <h4>Medical <span class="roman">SCE I–XIII</span></h4>
+      <ul>
+        <li>Cardiology &amp; arrhythmia</li>
+        <li>Respiratory &amp; pulmonary embolism</li>
+        <li>Gastroenterology &amp; hepatology</li>
+        <li>Neurology &amp; stroke</li>
+        <li>Elderly medicine &amp; frailty</li>
+        <li>Endocrine, diabetes &amp; electrolytes</li>
+        <li>Infectious diseases</li>
+        <li>Renal medicine &amp; AKI</li>
+        <li>Haematology &amp; oncology</li>
+        <li>Critical care medicine</li>
+        <li>Clinical pharmacology &amp; poisoning</li>
+        <li>Rheumatology, allergy, statistics</li>
+      </ul>
+    </div>
+
+    <div class="coverage-col nur">
+      <h4>Nursing <span class="roman">Competencies</span></h4>
+      <ul>
+        <li>NEWS2 scoring &amp; escalation</li>
+        <li>Sepsis 6 &amp; ABCDE assessment</li>
+        <li>Fluid balance &amp; IV therapy</li>
+        <li>Medication administration &amp; safety</li>
+        <li>Falls &amp; pressure ulcer prevention</li>
+        <li>Oxygen therapy &amp; airway care</li>
+        <li>Pain assessment &amp; management</li>
+        <li>End-of-life &amp; palliative care</li>
+        <li>Infection prevention &amp; control</li>
+        <li>Mental capacity &amp; consent</li>
+        <li>Safeguarding &amp; documentation</li>
+        <li>Acute deterioration recognition</li>
+      </ul>
+    </div>
+
+    <div class="coverage-col pha">
+      <h4>Pharmacy <span class="roman">Practice areas</span></h4>
+      <ul>
+        <li>Anticoagulation &amp; reversal</li>
+        <li>Antimicrobial stewardship</li>
+        <li>Toxicology &amp; antidotes (NPIS)</li>
+        <li>Renal dose adjustment (KDIGO)</li>
+        <li>Hepatic impairment prescribing</li>
+        <li>Critical care infusions</li>
+        <li>Drug interactions &amp; QT</li>
+        <li>Pharmacokinetics &amp; TDM</li>
+        <li>End-of-life prescribing</li>
+        <li>Insulin &amp; glycaemic emergencies</li>
+        <li>Acute pain &amp; opioid conversion</li>
+        <li>Discharge counselling &amp; reconciliation</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ REFERENCE GUIDELINES ═══════════════════════ -->
+<section class="refs">
+  <h3>Referenced against</h3>
+  <div class="refs-list">
+    <span>NICE</span>
+    <span>BTS</span>
+    <span>BCSH</span>
+    <span>KDIGO</span>
+    <span>Surviving Sepsis Campaign</span>
+    <span>NPIS</span>
+    <span>BNF / DrugBank</span>
+    <span>Resus Council UK</span>
+    <span>NMC standards</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════ DEPLOYMENT ═══════════════════════ -->
+<section class="deploy">
+  <h3>For team administrators</h3>
+  <p>
+    This is the front door — a launcher for all three banks. Each quiz itself runs on
+    GitHub Pages because most NHS SharePoint tenants block JavaScript in uploaded HTML
+    files. This hub can live anywhere: a SharePoint document library, a Modern
+    SharePoint Page (via the Embed or Quick Links web part), or directly on GitHub
+    Pages alongside the quizzes.
+  </p>
+  <p>
+    Edit the <code>HUB_CONFIG</code> block at the top of the source file to set quiz
+    URLs and the displayed team name. Use relative paths if all four HTML files share
+    a folder; absolute URLs otherwise. See <code>DEPLOY.txt</code> in the repo for the
+    detailed GitHub Pages route.
+  </p>
+  <ol class="deploy-list">
+    <li>Open <code>index.html</code> in a text editor and update <code>HUB_CONFIG</code>.</li>
+    <li>Optionally change <code>ownerName</code> to your team or department.</li>
+    <li>Upload <code>index.html</code> plus the three quiz HTML files to GitHub Pages.</li>
+    <li>Share the hub URL — pin it to Teams, SharePoint, or a teaching handout.</li>
+  </ol>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer>
+  <div class="left">v1.0 · 1,130 SBAs · 3 banks</div>
+  <div class="center">Set in Fraunces &amp; DM Sans on warm paper.</div>
+  <div class="right">AIM Acute Medicine</div>
+</footer>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// Apply configuration to the page
+// ═══════════════════════════════════════════════════════════════
+(function () {
+  const cfg = window.HUB_CONFIG || {};
+
+  // Owner / team name in masthead
+  if (cfg.ownerName) {
+    document.getElementById('owner-line').textContent = cfg.ownerName + ' · Quiz Hub';
+  }
+
+  // Today's date in masthead
+  const today = new Date().toLocaleDateString('en-GB', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+  });
+  document.getElementById('hub-date').textContent = today;
+
+  // Wire CTA links
+  const map = [
+    { id: 'cta-med', url: cfg.medicalQuizUrl  },
+    { id: 'cta-nur', url: cfg.nursingQuizUrl  },
+    { id: 'cta-pha', url: cfg.pharmacyQuizUrl }
+  ];
+  let missing = 0;
+  map.forEach(function (m) {
+    const el = document.getElementById(m.id);
+    if (!el) return;
+    if (m.url && String(m.url).trim().length) {
+      el.href = m.url;
+    } else {
+      el.href = '#';
+      el.setAttribute('aria-disabled', 'true');
+      missing++;
+    }
+  });
+
+  // Question counts
+  if (typeof cfg.medicalCount  === 'number') {
+    document.getElementById('count-med').textContent = cfg.medicalCount;
+    document.getElementById('fig-med').textContent   = cfg.medicalCount;
+  }
+  if (typeof cfg.nursingCount  === 'number') {
+    document.getElementById('count-nur').textContent = cfg.nursingCount;
+    document.getElementById('fig-nur').textContent   = cfg.nursingCount;
+  }
+  if (typeof cfg.pharmacyCount === 'number') {
+    document.getElementById('count-pha').textContent = cfg.pharmacyCount;
+    document.getElementById('fig-pha').textContent   = cfg.pharmacyCount;
+  }
+
+  // Show warning only if URLs are missing
+  if (missing > 0) {
+    document.getElementById('warn').style.display = 'block';
+  }
+})();
+</script>
+
+</body>
+</html>
