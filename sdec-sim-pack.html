@@ -1,0 +1,2763 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SDEC Simulation Pack — twelve replicable 10-minute scenarios for the unselected medical take, each with sim card, MRCP-style SBA reinforcement, and faculty crib sheet.">
+<title>SDEC Simulation Pack · Unselected medical take</title>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DEPLOYMENT NOTES
+     ═══════════════════════════════════════════════════════════════
+     Single-file HTML. No CDN dependencies (except Google Fonts).
+     No localStorage, no analytics, no tracking.
+     Works in iframes (no X-Frame-Options issues from your end).
+
+     1. Upload sdec-sim-pack.html to a static host (GitHub Pages
+        recommended — SharePoint blocks JavaScript on uploaded HTML
+        in most NHS tenants).
+     2. Share the resulting URL. No configuration required.
+     3. Faculty mode toggle in the header reveals the crib sheet
+        for facilitators. Off by default for shared screens.
+     4. Each scenario is deep-linkable: /#1 to /#12 plus optional
+        /sba, /crib, e.g. /#5/sba.
+     ═══════════════════════════════════════════════════════════════ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --paper: #F7F3EA;
+  --paper-warm: #EFE9DA;
+  --paper-deep: #E8E1CF;
+  --ink: #0F1F2E;
+  --ink-soft: #2C3E50;
+  --ink-muted: #5A6B7E;
+  --rule: #D6CFBF;
+  --rule-soft: #E5DFCF;
+  --accent: #4A6E5D;
+  --accent-deep: #2F4A3D;
+  --accent-soft: #E8E4D6;
+  --warm: #B45309;
+  --warm-soft: #FAEBC8;
+  --red: #9A2A20;
+  --red-soft: #F4E4E0;
+  --green: #2F5D3C;
+  --shadow: 0 1px 2px rgba(15, 31, 46, 0.04), 0 8px 24px rgba(15, 31, 46, 0.06);
+  --shadow-lift: 0 4px 12px rgba(15, 31, 46, 0.08), 0 16px 40px rgba(15, 31, 46, 0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(74, 110, 93, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(180, 83, 9, 0.04) 0%, transparent 50%);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Grain overlay for paper feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.45 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 28px 32px 64px;
+}
+
+a { color: var(--ink); text-decoration: none; }
+a:hover { color: var(--accent-deep); }
+
+/* ────────────────── HEADER ────────────────── */
+header.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 56px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.brand-mark {
+  width: 34px; height: 34px;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-weight: 600; font-size: 18px; color: var(--ink);
+  background: var(--paper);
+}
+.brand-text { line-height: 1.2; }
+.brand-text .b-main { color: var(--ink); font-weight: 500; }
+.brand-text .b-sub { color: var(--ink-muted); font-size: 10.5px; margin-top: 2px; }
+
+.header-controls { display: flex; align-items: center; gap: 12px; }
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  transition: all 0.2s ease;
+}
+.toggle:hover { border-color: var(--ink); color: var(--ink); }
+.toggle.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.toggle .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ink-muted);
+  display: inline-block;
+}
+.toggle.on .dot { background: var(--warm-soft); }
+
+/* ────────────────── HOME — HERO ────────────────── */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  color: var(--accent-deep);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow:before {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--accent);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 56px;
+  align-items: end;
+  margin-bottom: 80px;
+}
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 32px; }
+}
+
+h1.hero-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 0.97;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+h1.hero-title em {
+  font-style: italic;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100;
+  color: var(--accent-deep);
+}
+.lede {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 560px;
+  margin-bottom: 0;
+}
+
+.hero-figure {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  padding: 36px 32px;
+  position: relative;
+  box-shadow: var(--shadow);
+  font-family: 'Fraunces', serif;
+}
+.hero-figure::before {
+  content: '';
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 22px; height: 22px;
+  border-top: 1.5px solid var(--accent);
+  border-right: 1.5px solid var(--accent);
+}
+.figure-num {
+  font-size: 84px;
+  line-height: 0.85;
+  font-weight: 500;
+  color: var(--ink);
+  font-variation-settings: 'opsz' 144;
+  letter-spacing: -0.04em;
+}
+.figure-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  margin-top: 6px;
+  margin-bottom: 22px;
+}
+.figure-divider {
+  height: 1px;
+  background: var(--rule);
+  margin: 22px 0;
+}
+.figure-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  font-family: 'DM Sans', sans-serif;
+}
+.figure-stat .num {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+  display: block;
+}
+.figure-stat .lbl {
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ────────────────── SECTION TITLE ────────────────── */
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.section-title .roman {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* ────────────────── HOW TO RUN STRIP ────────────────── */
+.howto {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 80px;
+}
+@media (max-width: 720px) { .howto { grid-template-columns: 1fr; } }
+.howto-step {
+  background: var(--paper);
+  padding: 28px 26px;
+}
+.howto-step .step-n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.howto-step .step-t {
+  font-family: 'Fraunces', serif;
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.howto-step .step-d {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+/* ────────────────── SCENARIO GRID ────────────────── */
+.scenarios {
+  margin-bottom: 80px;
+}
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.sc-card {
+  background: var(--paper);
+  padding: 30px 26px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;
+  transition: background 0.2s ease;
+  position: relative;
+}
+.sc-card:hover { background: var(--paper-warm); }
+.sc-card .sc-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.sc-card .sc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+.sc-card .sc-domain {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  padding: 4px 9px;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  background: var(--accent-soft);
+}
+.sc-card .sc-title {
+  font-family: 'Fraunces', serif;
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 1.18;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.sc-card .sc-tagline {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  margin-bottom: auto;
+  padding-bottom: 22px;
+}
+.sc-card .sc-action {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+.sc-card .arrow { transition: transform 0.2s ease; }
+.sc-card:hover .arrow { transform: translateX(4px); }
+
+/* ────────────────── ABOUT BLOCK ────────────────── */
+.about {
+  padding-top: 16px;
+}
+.about p {
+  max-width: 720px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+.about p strong { color: var(--ink); font-weight: 600; }
+
+/* ────────────────── FOOTER ────────────────── */
+footer {
+  margin-top: 96px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+footer .colophon {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+}
+
+/* ────────────────── SCENARIO PAGE ────────────────── */
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 28px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+}
+.crumb:hover { color: var(--ink); }
+.crumb .arr { transition: transform 0.2s ease; }
+.crumb:hover .arr { transform: translateX(-3px); }
+
+.scenario-head {
+  margin-bottom: 36px;
+}
+.scenario-head .sh-meta {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.scenario-head .sh-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.scenario-head .sh-domain {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  padding: 4px 9px;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  background: var(--accent-soft);
+}
+.scenario-head .sh-target {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+.scenario-head h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.scenario-head h2 em {
+  font-style: italic;
+  color: var(--accent-deep);
+}
+.scenario-head .sh-tagline {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  max-width: 720px;
+}
+
+/* ────────────────── TABS ────────────────── */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.tab {
+  background: none;
+  border: none;
+  padding: 14px 22px 14px 0;
+  margin-right: 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tab:hover { color: var(--ink); }
+.tab.active {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+  font-weight: 600;
+}
+.tab .tab-icon {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  padding: 2px 7px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper-warm);
+  text-transform: uppercase;
+}
+.tab.active .tab-icon { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.tab.locked { opacity: 0.4; cursor: not-allowed; }
+.tab.locked:hover { color: var(--ink-muted); }
+
+/* ────────────────── PANEL ────────────────── */
+.panel {
+  display: none;
+  animation: fadeIn 0.25s ease;
+}
+.panel.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ────────────────── SIM CARD CONTENT ────────────────── */
+.section-h {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin: 36px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.section-h:first-child { margin-top: 0; }
+
+.obj-list { list-style: none; padding: 0; }
+.obj-list li {
+  padding: 6px 0 6px 22px;
+  position: relative;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.obj-list li:before {
+  content: '◆';
+  position: absolute;
+  left: 0; top: 6px;
+  color: var(--accent);
+  font-size: 10px;
+}
+
+.brief-quote {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--ink);
+  padding: 14px 22px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  margin: 14px 0 6px;
+}
+
+.patient-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 14.5px;
+}
+.patient-table tr { border-bottom: 1px solid var(--rule-soft); }
+.patient-table tr:last-child { border-bottom: none; }
+.patient-table th {
+  text-align: left;
+  width: 30%;
+  vertical-align: top;
+  padding: 12px 14px 12px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.patient-table td {
+  padding: 12px 0;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.script-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 6px;
+}
+.script-list li {
+  padding: 8px 0 8px 22px;
+  position: relative;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  border-bottom: 1px dashed var(--rule-soft);
+}
+.script-list li:last-child { border-bottom: none; }
+.script-list li:before {
+  content: '"';
+  position: absolute;
+  left: 0; top: 4px;
+  font-family: 'Fraunces', serif;
+  color: var(--accent);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.trigger-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 14.5px;
+}
+.trigger-table th {
+  text-align: left;
+  padding: 10px 14px;
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.trigger-table th:first-child { width: 22%; }
+.trigger-table td {
+  padding: 14px;
+  border: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  background: var(--paper);
+}
+.trigger-table td.when {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent-deep);
+}
+
+.actions-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 6px;
+  counter-reset: act;
+}
+.actions-list li {
+  padding: 8px 0 8px 32px;
+  position: relative;
+  counter-increment: act;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  border-bottom: 1px dashed var(--rule-soft);
+}
+.actions-list li:last-child { border-bottom: none; }
+.actions-list li:before {
+  content: counter(act, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+/* Debrief blocks */
+.debrief-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 8px;
+}
+@media (max-width: 760px) { .debrief-grid { grid-template-columns: 1fr; } }
+.debrief-block {
+  background: var(--paper);
+  padding: 22px 22px 20px;
+}
+.debrief-block h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.debrief-block .timing {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.debrief-block p, .debrief-block li {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.debrief-block ol {
+  padding-left: 22px;
+  margin-top: 4px;
+}
+.debrief-block ol li { margin-bottom: 8px; padding-left: 4px; }
+.debrief-block ul.applies { list-style: none; padding: 0; margin-top: 4px; }
+.debrief-block ul.applies li {
+  padding: 6px 0 6px 22px;
+  position: relative;
+}
+.debrief-block ul.applies li:before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 6px;
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* ────────────────── SBA PANEL ────────────────── */
+.sba-intro {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-muted);
+  margin-bottom: 28px;
+}
+.sba-stem {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+.sba-question {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+.sba-options { list-style: none; padding: 0; margin-bottom: 32px; }
+.sba-option {
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 14px 16px 14px 50px;
+  margin-bottom: 8px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.sba-option:hover:not(.revealed) {
+  background: var(--paper-warm);
+  border-color: var(--ink-muted);
+}
+.sba-option .letter {
+  position: absolute;
+  left: 16px; top: 14px;
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  width: 22px;
+}
+.sba-option.picked {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.sba-option.correct {
+  border-color: var(--green);
+  background: #E8F0E5;
+  color: var(--ink);
+}
+.sba-option.correct .letter { color: var(--green); }
+.sba-option.wrong {
+  border-color: var(--red);
+  background: var(--red-soft);
+  color: var(--ink-soft);
+}
+.sba-option.wrong .letter { color: var(--red); }
+.sba-option.correct::after {
+  content: '✓';
+  position: absolute;
+  right: 18px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--green);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.sba-reveal {
+  margin-top: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn:hover { background: var(--accent-deep); border-color: var(--accent-deep); transform: translateY(-1px); }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.ghost:hover { background: var(--ink); color: var(--paper); }
+.btn.small { padding: 8px 14px; font-size: 12px; }
+
+.sba-explain {
+  display: none;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  animation: fadeIn 0.3s ease;
+}
+.sba-explain.show { display: block; }
+.sba-explain h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 12px;
+}
+.sba-explain p { font-size: 15px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 18px; }
+.sba-explain .answer-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.sba-explain .answer-stamp .lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.sba-explain .answer-stamp .val {
+  font-family: 'Fraunces', serif;
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--green);
+  line-height: 1;
+}
+.sba-distract { list-style: none; padding: 0; margin: 8px 0 18px; }
+.sba-distract li {
+  padding: 6px 0 6px 22px;
+  position: relative;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.sba-distract li:before {
+  content: '–';
+  position: absolute; left: 0; top: 6px;
+  color: var(--red);
+  font-weight: 600;
+}
+.pearl {
+  background: var(--warm-soft);
+  border-left: 4px solid var(--warm);
+  padding: 16px 22px;
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.pearl .pearl-label {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--warm);
+  margin-right: 8px;
+}
+
+/* ────────────────── CRIB PANEL ────────────────── */
+.crib-warning {
+  background: var(--red-soft);
+  border-left: 4px solid var(--red);
+  padding: 18px 22px;
+  margin-bottom: 32px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.crib-warning strong { color: var(--red); font-weight: 600; }
+
+.locked-panel {
+  text-align: center;
+  padding: 80px 24px;
+  border: 1px dashed var(--rule);
+  background: var(--paper-warm);
+  margin-bottom: 24px;
+}
+.locked-panel .lp-icon {
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.locked-panel h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.locked-panel p {
+  font-size: 15px;
+  color: var(--ink-muted);
+  margin-bottom: 20px;
+}
+
+.crib-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 28px;
+}
+.crib-table th {
+  text-align: left;
+  padding: 12px 16px;
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.crib-table th:first-child { width: 48%; }
+.crib-table td {
+  padding: 16px;
+  border: 1px solid var(--rule);
+  vertical-align: top;
+  background: var(--paper);
+}
+.crib-table .err-n {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--red);
+  margin-right: 6px;
+}
+.crib-table .err-text {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.crib-table .move {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.crib-table .move::before { content: '"'; }
+.crib-table .move::after { content: '"'; }
+
+.crib-key {
+  background: var(--warm-soft);
+  border-left: 4px solid var(--warm);
+  padding: 18px 22px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.crib-key .lbl {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--warm);
+  margin-right: 8px;
+}
+
+/* ────────────────── TIMER ────────────────── */
+.timer-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  padding: 14px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: var(--shadow-lift);
+  display: none;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s ease;
+}
+.timer-toggle:hover { transform: translateY(-2px); }
+.timer-toggle.visible { display: inline-flex; }
+
+.timer-panel {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  width: 280px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: var(--shadow-lift);
+  padding: 22px;
+  z-index: 60;
+  display: none;
+}
+.timer-panel.open { display: block; }
+.timer-panel .timer-head {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.timer-panel .timer-phase {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--accent-deep);
+  margin-bottom: 12px;
+}
+.timer-panel .timer-value {
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+.timer-panel .timer-bar {
+  height: 6px;
+  background: var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+  display: flex;
+}
+.timer-panel .timer-segment {
+  height: 100%;
+  background: var(--rule-soft);
+  border-right: 1px solid var(--paper);
+}
+.timer-panel .timer-segment.complete { background: var(--accent); }
+.timer-panel .timer-segment.active { background: linear-gradient(90deg, var(--accent) var(--p, 0%), var(--rule-soft) var(--p, 0%)); }
+.timer-panel .timer-segments-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 16px;
+}
+.timer-panel .timer-controls {
+  display: flex;
+  gap: 8px;
+}
+.timer-panel .timer-controls button {
+  flex: 1;
+  padding: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.timer-panel .timer-controls button:hover {
+  border-color: var(--ink);
+  background: var(--paper-warm);
+}
+.timer-panel .timer-controls button.primary {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* ────────────────── NAV LINKS ────────────────── */
+.scenario-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+  gap: 16px;
+}
+.scenario-nav a {
+  flex: 1;
+  padding: 18px 22px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  transition: background 0.2s ease;
+  display: block;
+  cursor: pointer;
+}
+.scenario-nav a:hover { background: var(--paper-warm); }
+.scenario-nav .nav-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  display: block;
+  margin-bottom: 6px;
+}
+.scenario-nav .nav-t {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.scenario-nav .next { text-align: right; }
+
+/* ────────────────── PRINT ────────────────── */
+@media print {
+  body { background: white; padding: 0; }
+  body::before { display: none; }
+  .wrap { padding: 0; max-width: 100%; }
+  header.top, footer, .timer-toggle, .timer-panel, .scenario-nav, .crumb, .tabs, .btn { display: none !important; }
+  .panel { display: block !important; page-break-after: always; }
+  .scenario-head { margin-bottom: 24px; }
+  h1.hero-title, h2 { color: black; }
+  .sba-explain { display: block !important; }
+  .crib-warning { display: none; }
+  .locked-panel { display: none; }
+}
+
+/* ────────────────── MOBILE ────────────────── */
+@media (max-width: 640px) {
+  .wrap { padding: 20px 18px 48px; }
+  .hero { gap: 24px; margin-bottom: 56px; }
+  .hero-figure { padding: 26px 22px; }
+  .scenario-head h2 { font-size: 34px; }
+  .scenario-head .sh-tagline { font-size: 18px; }
+  header.top { font-size: 10.5px; }
+  .header-controls { gap: 6px; }
+  .toggle { padding: 6px 10px; font-size: 10px; }
+  .tabs { gap: 0; }
+  .tab { margin-right: 14px; padding: 12px 16px 12px 0; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="brand" id="brand-home">
+    <div class="brand-mark">S</div>
+    <div class="brand-text">
+      <div class="b-main">SDEC simulation pack</div>
+      <div class="b-sub">Unselected medical take · 10-minute scenarios</div>
+    </div>
+  </div>
+  <div class="header-controls">
+    <button class="toggle" id="faculty-toggle" type="button" title="Show faculty crib sheets">
+      <span class="dot"></span>
+      <span class="lbl">Faculty mode</span>
+    </button>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  <div>v1.0 · 12 scenarios</div>
+  <div class="colophon">For the unselected medical take in SDEC.</div>
+  <div>Acute Medicine Education</div>
+</footer>
+
+</div>
+
+<button class="timer-toggle" id="timer-toggle" type="button">
+  <span id="timer-tt-icon">⏱</span>
+  <span id="timer-tt-val">10:00</span>
+</button>
+
+<div class="timer-panel" id="timer-panel">
+  <div class="timer-head">
+    <span>10-minute sim</span>
+    <button type="button" id="timer-close" style="background:none;border:none;color:var(--ink-muted);cursor:pointer;font-family:inherit;font-size:11px;">close</button>
+  </div>
+  <div class="timer-phase" id="timer-phase">Ready</div>
+  <div class="timer-value" id="timer-value">10:00</div>
+  <div class="timer-bar" id="timer-bar">
+    <div class="timer-segment" data-i="0" style="width: 10%;"></div>
+    <div class="timer-segment" data-i="1" style="width: 50%;"></div>
+    <div class="timer-segment" data-i="2" style="width: 40%;"></div>
+  </div>
+  <div class="timer-segments-label">
+    <span>Brief 1m</span>
+    <span>Run 5m</span>
+    <span>Debrief 4m</span>
+  </div>
+  <div class="timer-controls">
+    <button type="button" id="timer-start" class="primary">Start</button>
+    <button type="button" id="timer-reset">Reset</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// DATA — 12 scenarios with sim, SBA, and crib
+// ═══════════════════════════════════════════════════════════════
+
+const SIMS = [
+  {
+    n: 1,
+    title: "The quiet deterioration",
+    tagline: "Atypical sepsis in the elderly",
+    domain: "Sepsis",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Recognise that NEWS2 trajectory matters more than the single triage snapshot",
+      "Identify atypical sepsis presentations in older adults (afebrile, off-legs, falls, confusion)",
+      "Initiate the Sepsis 6 bundle within the Golden Hour",
+      "Reframe a GP referral diagnosis when the picture does not fit"
+    ],
+    preBrief: "You're the medical SHO covering SDEC. The triage nurse hands you this lady — she came from her GP for 'review of weakness'. Triage obs were normal 20 minutes ago. Please go and see her.",
+    patient: {
+      "Name / age": "Mrs Mary D, 78",
+      "PMH": "T2DM, hypertension, R) THR 6/12 ago, mild dementia",
+      "Drugs": "Metformin, ramipril, amlodipine",
+      "GP letter": "&ldquo;Off feet for 2 days, daughter concerned. ?UTI ?dehydration. Please assess and treat.&rdquo;",
+      "Triage obs": "RR 18 · HR 92 · BP 118/72 · SpO₂ 95% air · T 36.4 · AVPU A → NEWS2 = 2"
+    },
+    script: [
+      "Sleepy, brief answers. 'I'm just tired.'",
+      "No cough, no urinary symptoms, no abdominal pain",
+      "On exam: CRT 4 s, cool peripheries, dry tongue"
+    ],
+    triggers: [
+      ["T+90 s", "Repeat obs card: RR 24 · HR 112 · BP 96/58 · SpO₂ 91% air · T 36.0 · POC lactate 3.8 → NEWS2 = 8"],
+      ["A–E + escalates by T+3 min", "Reward bloods: WCC 18, neuts 16, CRP 240, creat 198 (baseline 90). CXR: R lower zone consolidation"],
+      ["Anchors on UTI / no abx by T+3 min", "Deteriorate: BP 78/40, GCS 13"]
+    ],
+    actions: [
+      "A–E assessment within 90 seconds",
+      "Recognises rising NEWS2 + lactate 3.8 as the signal — not the triage number",
+      "Sepsis 6 inside 5 minutes (O₂, cultures, IV abx, IV fluids, lactate, urine output / catheter)",
+      "Names the trap: elderly sepsis is often afebrile / normotensive at triage",
+      "Reframes diagnosis: CAP, not UTI",
+      "SBAR to registrar; flags frailty / ceiling-of-care discussion"
+    ],
+    analyse: [
+      "What made you act? — anchor on trajectory (Δ NEWS2, lactate, peripheries), not the absolute number.",
+      "How did the GP letter shape your thinking? — anchoring bias; 'UTI' is the default label for any unwell elderly woman.",
+      "What does sepsis look like at 78? — often normothermic / hypothermic; confusion, falls, off legs. Don't wait for fever."
+    ],
+    apply: [
+      "The change matters more than the snapshot. Re-check obs at the bedside.",
+      "The GP referral diagnosis is a hypothesis, not a label.",
+      "The SDEC trap is the well-looking elderly woman. Lactate, mental state, peripheries — before you accept 'stable'."
+    ],
+    sba: {
+      stem: "A 76-year-old woman is reviewed in SDEC having been referred by her GP with 'general weakness, ?UTI'. Triage observations (40 minutes earlier) were normal: HR 88, BP 122/76, RR 16, SpO₂ 96% on air, T 36.6°C. The nurse asks for review because she is now drowsy. Repeat observations: HR 116, BP 94/56, RR 24, SpO₂ 91% on air, T 36.0°C, capillary lactate 3.6 mmol/L. Urinalysis is negative. Chest examination reveals fine crackles at the right base.",
+      question: "Which is the most appropriate immediate management?",
+      options: [
+        "Reassure the patient and observe pending senior review",
+        "Insert urinary catheter, send urine culture, await microbiology",
+        "Initiate the Sepsis Six bundle and escalate to the medical registrar",
+        "Give 500 mL 0.9% saline and re-assess in 30 minutes",
+        "Prescribe oral co-amoxiclav for presumed UTI"
+      ],
+      answer: "C",
+      rationale: "The picture is septic shock: falling BP, rising HR/RR, hypoxia, lactate 3.6 in an elderly patient who was well at triage. Negative urinalysis makes UTI unlikely; chest is the likely source. Sepsis Six within the Golden Hour saves lives.",
+      distract: [
+        "A — 'Reassure and observe' in septic shock is unsafe; trajectory has flipped.",
+        "B — Catheter + culture appropriate but delaying broad-spectrum antibiotics costs lives.",
+        "D — Fluid alone is incomplete; antibiotics are the time-critical step.",
+        "E — Oral antibiotics in shock are inadequate; route and spectrum are wrong."
+      ],
+      pearl: "Trajectory &gt; snapshot. In the elderly, sepsis is often afebrile / normotensive at presentation — the change is the diagnosis."
+    },
+    crib: {
+      errors: [
+        { e: "Accepts the triage NEWS2 of 2 as 'she's stable, can wait'.", r: "She came in 20 minutes ago. Tell me the trend, not the snapshot. What's changed?" },
+        { e: "Anchors on the GP's '?UTI' label despite negative urinalysis and chest signs.", r: "Cover up the GP letter for a moment. If you were seeing her fresh, what would you call this?" },
+        { e: "Gives fluids but holds antibiotics pending source clarification.", r: "She doesn't have 60 minutes for you to find the source. What does 'empirical' mean?" }
+      ],
+      key: "The teaching is trajectory, anchoring, and the Golden Hour. Don't let them off any of the three."
+    }
+  },
+
+  {
+    n: 2,
+    title: "&ldquo;Just anxiety&rdquo;",
+    tagline: "Submassive pulmonary embolism in a young woman",
+    domain: "Cardiovascular",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Recognise PE risk factors (COCP, recent long-haul travel, family history)",
+      "Use Wells score and PERC rule appropriately, including ambulation hypoxia",
+      "Distinguish low-risk vs intermediate-risk vs high-risk PE — and act accordingly",
+      "Avoid premature diagnostic closure on 'anxiety' in a tachycardic young patient"
+    ],
+    preBrief: "GP referral: 'anxiety attacks'. She is 32 years old and the triage nurse says she looks fine. Have a chat and decide whether she goes home.",
+    patient: {
+      "Name / age": "Ms Hannah K, 32",
+      "PMH": "No significant PMH; COCP for 5 years",
+      "Drugs": "Microgynon 30",
+      "GP letter": "&ldquo;Panic attacks for 48 hours. Sumatriptan helped previous migraines but not this. Please reassure / consider propranolol.&rdquo;",
+      "History": "Returned 4 days ago from a Thai holiday (12-hour flight)",
+      "Triage obs": "RR 22 · HR 110 · BP 122/74 · SpO₂ 96% air · T 36.8 → NEWS2 = 3"
+    },
+    script: [
+      "Tearful, says 'I just can't catch my breath when I move'",
+      "Denies chest pain at rest; mild pleuritic right-sided ache on deep breath",
+      "Right calf mildly tender on focused exam"
+    ],
+    triggers: [
+      ["T+90 s", "Facilitator asks learner to walk patient to chair: SpO₂ falls to 91%, HR 128, BP 100/60 within 1 minute. Patient sits down distressed."],
+      ["Considers PE / Wells", "ECG: sinus tachy, S1Q3T3 in lead III. D-dimer 4.2. Troponin mildly elevated."],
+      ["Requests CTPA", "Bilateral lobar PE with right ventricular dilatation, septal bowing"],
+      ["Treats as anxiety / discharges with diazepam", "Collapses in waiting area — peri-arrest call"]
+    ],
+    actions: [
+      "Repeat obs on mobilising — exertional desaturation is the giveaway",
+      "Wells score ≥ 4 → 'PE likely' → CTPA without D-dimer",
+      "Recognise submassive PE: normotensive but RV strain on ECG/echo and raised troponin",
+      "Therapeutic LMWH or DOAC; involve med reg / on-call consultant",
+      "Consider thrombolysis IF haemodynamic collapse occurs",
+      "Counsel on stopping COCP and switching contraception"
+    ],
+    analyse: [
+      "What flipped your thinking from anxiety to PE? — exertional desaturation, calf tenderness, the risk factors hiding in plain sight.",
+      "What's the difference between massive, submassive and low-risk PE? — and why does it matter for management?",
+      "Why is COCP + long-haul flight the classic exam answer? — and what would you tell her about future contraception?"
+    ],
+    apply: [
+      "Tachycardia in a young woman is not anxiety until you have ruled out PE.",
+      "Always re-check obs after mobilisation in suspected PE.",
+      "S1Q3T3 is neither sensitive nor specific — but sinus tachycardia is the commonest ECG finding."
+    ],
+    sba: {
+      stem: "A 31-year-old woman attends SDEC with breathlessness for 2 days that her GP has labelled 'panic attacks'. She takes the combined oral contraceptive pill and returned from Thailand 5 days ago (12-hour flight). At rest: HR 108, BP 118/72, SpO₂ 96% on air. After walking 90 seconds in the assessment room: HR 130, SpO₂ 91%. ECG: sinus tachycardia. Two-level Wells score is calculated as 4.5.",
+      question: "What is the most appropriate next step?",
+      options: [
+        "Request a D-dimer and re-assess based on the result",
+        "Discharge with diazepam and arrange anxiety follow-up",
+        "Request an urgent CTPA",
+        "Request a V/Q scan as first-line imaging",
+        "Start treatment-dose LMWH and arrange CTPA the following day"
+      ],
+      answer: "C",
+      rationale: "NICE NG158: Wells score &gt;4 → 'PE likely' → proceed directly to CTPA (D-dimer not required). Exertional desaturation, recent flight, COCP and an unexplained sinus tachycardia in a young woman are red flags.",
+      distract: [
+        "A — D-dimer is for 'PE unlikely' (Wells ≤ 4). With this Wells, D-dimer adds delay, not information.",
+        "B — Diazepam in untreated submassive PE risks haemodynamic collapse.",
+        "D — V/Q is the alternative if iodinated contrast is contraindicated (renal failure, allergy).",
+        "E — Empirical LMWH appropriate if CTPA delayed &gt;4 h, but imaging today is feasible."
+      ],
+      pearl: "Tachycardia in a young woman is not anxiety until you have excluded PE. The mobilisation test costs nothing and changes management."
+    },
+    crib: {
+      errors: [
+        { e: "Anchors on 'anxiety attack' and doesn't take a focused VTE history.", r: "What questions did the GP not ask her? Travel, contraception, family history, calf." },
+        { e: "Doesn't re-check obs on mobilisation.", r: "Her life involves walking around. Let's see her walk — then take the obs again." },
+        { e: "Requests D-dimer first instead of going direct to CTPA.", r: "What's her Wells score? And what does ≥ 4 mean for your imaging pathway?" }
+      ],
+      key: "The two-step assessment is risk-stratify, then image. Don't accept anxiety until PE is excluded."
+    }
+  },
+
+  {
+    n: 3,
+    title: "Tearing chest pain",
+    tagline: "Aortic dissection masquerading as ACS",
+    domain: "Cardiovascular",
+    target: "SHO / IMT1–2 / ED SHO",
+    objectives: [
+      "Recognise the red flags for aortic dissection that distinguish it from ACS",
+      "Avoid antiplatelets / anticoagulation in suspected dissection",
+      "Initiate BP and HR control with IV beta-blockade (labetalol / esmolol)",
+      "Escalate Type A dissection to cardiothoracic surgery without delay"
+    ],
+    preBrief: "65-year-old man sent in by his GP with chest pain. The triage nurse has already done an ECG — she says it's 'normal-ish'. He's waiting for you in cubicle 4.",
+    patient: {
+      "Name / age": "Mr Derek B, 65",
+      "PMH": "Hypertension (poorly controlled), 40-pack-year smoker, dyslipidaemia",
+      "Drugs": "Amlodipine 10 mg (admits inconsistent compliance)",
+      "GP letter": "&ldquo;Sudden severe chest pain 2 h ago, ?MI but pain settling now. ECG 'normal'. Please assess.&rdquo;",
+      "Triage obs": "HR 88 · BP 162/94 (right arm) · SpO₂ 98% · RR 18 · T 36.6 → NEWS2 = 2"
+    },
+    script: [
+      "'Felt like something tore between my shoulder blades, ripping. Came on in a second.'",
+      "Pain radiates from anterior chest through to back",
+      "Mild paraesthesia in left arm, says it 'went numb for a minute'"
+    ],
+    triggers: [
+      ["T+90 s", "If learner checks both arms: BP left arm 118/72 (44 mmHg discrepancy). Early diastolic murmur at left sternal edge. Faint left radial pulse."],
+      ["Suspects dissection", "CXR: widened mediastinum. CT aorta: Type A dissection extending from root to left subclavian."],
+      ["Gives aspirin / anticoagulates as ACS", "Massive haemodynamic collapse — tamponade physiology, BP 60/30"]
+    ],
+    actions: [
+      "Examine both arms — BP discrepancy &gt;20 mmHg is a major red flag",
+      "Listen for AR murmur, check pulses in all four limbs",
+      "Do NOT give antiplatelets / anticoagulation until dissection excluded",
+      "IV labetalol — target HR &lt;60, sBP 100–120 mmHg",
+      "Adequate opioid analgesia",
+      "Urgent CT aorta + immediate cardiothoracic referral for Type A",
+      "Type B (descending only, uncomplicated) → medical management on critical care"
+    ],
+    analyse: [
+      "What in the history made you abandon the ACS pathway? — tearing quality, abrupt-peak pain, back radiation, BP asymmetry.",
+      "Why is giving aspirin in this scenario potentially lethal? — extends the bleeding into a false lumen, worsens haemopericardium.",
+      "How do you choose between IV labetalol and esmolol — and what comes first, HR or BP control? — HR first (reduce dP/dt), then BP."
+    ],
+    apply: [
+      "Examine BOTH arms in every chest pain you take.",
+      "If the pain peaked instantly, think dissection until imaging excludes it.",
+      "Beta-blockade BEFORE vasodilators — unopposed vasodilation increases shear stress."
+    ],
+    sba: {
+      stem: "A 66-year-old man with poorly controlled hypertension presents with sudden severe interscapular chest pain 2 hours ago. The pain has now improved. Right arm BP 168/96; left arm BP 122/68. ECG: sinus rhythm, no ST changes. Troponin negative. CXR shows a widened mediastinum.",
+      question: "Which is the most appropriate FIRST drug to administer?",
+      options: [
+        "Aspirin 300 mg PO",
+        "Glyceryl trinitrate sublingually",
+        "IV labetalol",
+        "IV ticagrelor",
+        "IV unfractionated heparin"
+      ],
+      answer: "C",
+      rationale: "Suspected Type A aortic dissection (sudden interscapular pain, BP discrepancy &gt;20 mmHg, widened mediastinum). Reducing dP/dt with IV beta-blockade is the priority — rate control BEFORE pressure control reduces shear stress and propagation.",
+      distract: [
+        "A — Aspirin worsens haemorrhage into a false lumen; contraindicated until dissection excluded.",
+        "B — GTN alone causes reflex tachycardia and increases shear stress.",
+        "D — Antiplatelets contraindicated as above.",
+        "E — Anticoagulation contraindicated in dissection."
+      ],
+      pearl: "Always BP in both arms in suspected ACS. &gt;20 mmHg difference plus the right pain story = dissection until imaging excludes it."
+    },
+    crib: {
+      errors: [
+        { e: "Takes a single BP and proceeds down an ACS pathway with aspirin/ticagrelor.", r: "Quickly — BP in the other arm now. What's the difference?" },
+        { e: "Gives GTN before achieving rate control.", r: "If you vasodilate before you slow the heart, what happens to dP/dt and shear stress?" },
+        { e: "Waits for the CT report before involving cardiothoracic surgery.", r: "Dial the cardiothoracic registrar while CT is being done — they need the head-start." }
+      ],
+      key: "Both arms, every chest pain. Antiplatelets are not free; in dissection they bleed."
+    }
+  },
+
+  {
+    n: 4,
+    title: "Pain out of proportion",
+    tagline: "Necrotising fasciitis behind a 'cellulitis'",
+    domain: "Infection",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Recognise pain out of proportion + systemic toxicity = nec fasc until proven otherwise",
+      "Use the LRINEC score to stratify risk in apparent cellulitis",
+      "Initiate broad-spectrum antibiotics + clindamycin (toxin suppression)",
+      "Refer surgically as an emergency — debridement is the only definitive treatment"
+    ],
+    preBrief: "GP has sent in a man with 'cellulitis not responding to flucloxacillin' for IV antibiotics. Triage has put him in cubicle 6 — please clerk him.",
+    patient: {
+      "Name / age": "Mr Alan P, 58",
+      "PMH": "T2DM (HbA1c 78), BMI 38, gout",
+      "Drugs": "Metformin, gliclazide, allopurinol; started oral flucloxacillin yesterday",
+      "GP letter": "&ldquo;Cellulitis right calf, started flucloxacillin 24 h ago, not improving. Needs IV. Please admit.&rdquo;",
+      "Triage obs": "T 38.2 · HR 108 · BP 124/68 · RR 20 · SpO₂ 96% → NEWS2 = 5"
+    },
+    script: [
+      "Right calf is dusky red with ill-defined edge; mild crepitus to palpation",
+      "Says pain is 10/10 even on light touch — but central area of skin feels numb",
+      "Daughter at bedside: 'it's gone darker just in the last couple of hours'"
+    ],
+    triggers: [
+      ["T+90 s", "Vital signs deteriorate: HR 124, BP 102/60. Glucose 22. Patient now diaphoretic."],
+      ["Suspects nec fasc / requests LRINEC", "WCC 22, Hb 118, Na 128, glucose 22, creat 180, CRP 380 → LRINEC = 9 (high risk)"],
+      ["Escalates to surgery", "Plastics + general surgery to theatre within 2 h; ITU bed booked"],
+      ["'IV fluclox + co-amox' alone, no surgery", "Skin necrosis spreads visibly; septic shock; mortality clock starts"]
+    ],
+    actions: [
+      "Examine for the cardinal features: pain out of proportion, anaesthesia, crepitus, dusky/bullous skin, systemic toxicity",
+      "LRINEC score: Na, WCC, Hb, glucose, creat, CRP — ≥ 6 high risk, ≥ 8 very high",
+      "Broad-spectrum antibiotics (piperacillin-tazobactam or meropenem) + clindamycin (toxin suppression) + IV fluids",
+      "Surgical referral as an EMERGENCY — debridement within 6 h is the only intervention that changes mortality",
+      "Mark the skin border with a pen and time-stamp — review hourly",
+      "Critical care input; group + save, crossmatch, coagulation"
+    ],
+    analyse: [
+      "What clinical signs separated nec fasc from severe cellulitis? — pain disproportionate to skin, central anaesthesia, crepitus, systemic toxicity, rapid progression.",
+      "Why add clindamycin? — it suppresses streptococcal/staphylococcal exotoxin production, independent of its antibacterial effect.",
+      "What's your script for the surgical SpR at 3 a.m.? — SBAR, name nec fasc explicitly, give LRINEC, state 'needs theatre tonight'."
+    ],
+    apply: [
+      "If the pain doesn't match the skin, it isn't just cellulitis.",
+      "Anaesthesia over the most painful area is pathognomonic and late.",
+      "Antibiotics never substitute for the knife — debridement saves lives."
+    ],
+    sba: {
+      stem: "A 58-year-old man with poorly controlled T2DM (HbA1c 78) was started on oral flucloxacillin 24 hours ago for 'cellulitis right calf' and has not improved. Observations: T 38.5°C, HR 124, BP 96/58, RR 22. The right calf has dusky violaceous discoloration with a central area of skin anaesthesia and palpable crepitus. Bloods: WCC 22, Na 128, glucose 22, Hb 118, creatinine 180, CRP 380. LRINEC score = 9.",
+      question: "Which is the SINGLE most important next step?",
+      options: [
+        "Switch to IV co-amoxiclav and review in 6 hours",
+        "Mark the skin edge with a pen and review hourly",
+        "Commence IV piperacillin-tazobactam plus IV clindamycin",
+        "Refer immediately for surgical debridement",
+        "Send a wound swab to guide antibiotic choice"
+      ],
+      answer: "D",
+      rationale: "LRINEC ≥ 6 raises suspicion of necrotising fasciitis; ≥ 8 makes it the working diagnosis. Antibiotics and resuscitation are essential adjuncts, but ONLY surgical debridement is curative — every hour of delay increases mortality.",
+      distract: [
+        "A — Continued antibiotic mono-therapy without surgery is the path to death.",
+        "B — Necessary but not the most important step.",
+        "C — Correct antibiotic regimen and important, but does not substitute for surgery.",
+        "E — Swab cannot change the disposition; theatre is the answer."
+      ],
+      pearl: "Pain out of proportion + systemic toxicity + dusky / anaesthetic skin = call the surgeon now. Antibiotics never replace the knife."
+    },
+    crib: {
+      errors: [
+        { e: "Treats as severe cellulitis with IV co-amoxiclav and fluids.", r: "Which examination finding makes this not just cellulitis? Show me on the leg." },
+        { e: "Refers to surgery in a low-urgency way without naming the diagnosis.", r: "Use the actual words: 'necrotising fasciitis', 'LRINEC 9', 'theatre tonight'. Call them now." },
+        { e: "Omits clindamycin and runs flucloxacillin alone.", r: "What does clindamycin do that flucloxacillin cannot? Why does it matter here?" }
+      ],
+      key: "Antibiotics never replace the knife. The conversation with surgery sets the clock."
+    }
+  },
+
+  {
+    n: 5,
+    title: "&ldquo;Just dizziness&rdquo;",
+    tagline: "Posterior circulation stroke mistaken for labyrinthitis",
+    domain: "Stroke",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Differentiate central from peripheral vertigo using the HINTS exam",
+      "Recognise that early CT is often normal in posterior circulation stroke",
+      "Use stroke risk factors (AF, age, hypertension) to recalibrate 'benign' vertigo",
+      "Escalate to stroke team / MRI in any dizziness with central features"
+    ],
+    preBrief: "GP has referred a woman with vertigo for IV fluids and prochlorperazine. She's been vomiting and looks miserable. Please clerk and write up symptomatic treatment.",
+    patient: {
+      "Name / age": "Mrs Janet F, 67",
+      "PMH": "Hypertension, AF on apixaban, hypercholesterolaemia",
+      "Drugs": "Apixaban 5 mg BD, ramipril, atorvastatin, bisoprolol",
+      "GP letter": "&ldquo;Vertigo onset this morning. ?Labyrinthitis. Vomiting +++. Please admit for IV fluids and prochlorperazine.&rdquo;",
+      "Triage obs": "HR 78 (irregular) · BP 148/86 · SpO₂ 98% · RR 14 · T 36.8 → NEWS2 = 1"
+    },
+    script: [
+      "Persistent vertigo for 4 hours, no positional triggering",
+      "Cannot sit unsupported; vomits once during clerking",
+      "Subtle nystagmus noted; complains of 'clumsy hands'"
+    ],
+    triggers: [
+      ["T+90 s", "On focused exam: vertical and direction-changing nystagmus; abnormal HINTS (normal head-impulse, direction-changing nystagmus, skew deviation present)"],
+      ["Considers central cause", "MRI brain (diffusion-weighted): acute right cerebellar (PICA) infarct"],
+      ["Gives prochlorperazine + discharges as labyrinthitis", "Returns 6 h later — drowsy, brainstem compression from cerebellar swelling"]
+    ],
+    actions: [
+      "HINTS exam: peripheral lesion = abnormal head impulse, unidirectional nystagmus, no skew; central = the opposite",
+      "'Stand and walk' test — inability to stand unsupported in vertigo is a central feature",
+      "Recognise that CT head is often falsely reassuring in early posterior strokes — request MRI",
+      "Stroke team referral / hyperacute pathway",
+      "Hold apixaban pending imaging review (treatment dose already, so no acute change needed)",
+      "Plan for swelling: cerebellar infarct &gt;3 cm carries risk of obstructive hydrocephalus — neurosurg awareness"
+    ],
+    analyse: [
+      "What in this presentation should never be called labyrinthitis? — AF + sudden vertigo + inability to stand + nystagmus features.",
+      "Walk me through your HINTS exam, including which findings reassure you and which don't.",
+      "Why is the CT scan a trap here? — early posterior fossa strokes are frequently missed on CT; MRI is the imaging of choice."
+    ],
+    apply: [
+      "'Dizziness + AF' is stroke until imaging proves otherwise.",
+      "HINTS exam beats imaging for central vs peripheral in the first hours.",
+      "Inability to stand unsupported is the simplest red flag — at the bedside, no equipment needed."
+    ],
+    sba: {
+      stem: "A 70-year-old woman with atrial fibrillation (on apixaban) presents with 4 hours of continuous vertigo and vomiting. She cannot stand unsupported. On examination she has direction-changing horizontal nystagmus and skew deviation; the head impulse test is normal. CT head is reported as normal.",
+      question: "Which is the most likely diagnosis?",
+      options: [
+        "Benign paroxysmal positional vertigo",
+        "Acute labyrinthitis",
+        "Vestibular neuritis",
+        "Cerebellar or brainstem ischaemic stroke",
+        "Vestibular migraine"
+      ],
+      answer: "D",
+      rationale: "Three central features on HINTS (normal head impulse, direction-changing nystagmus, present skew) — more sensitive than early CT or even early MRI for posterior circulation stroke. AF + sudden vertigo + inability to stand reinforces this.",
+      distract: [
+        "A — BPPV is positional and brief; this is continuous and severe.",
+        "B / C — Peripheral lesions give ABNORMAL head impulse, unidirectional nystagmus, no skew.",
+        "E — Vestibular migraine: episodic, usually with headache and photophobia; doesn't explain the central HINTS."
+      ],
+      pearl: "Early CT misses posterior circulation strokes. HINTS at the bedside is more sensitive than scanning in the first hours."
+    },
+    crib: {
+      errors: [
+        { e: "Accepts 'labyrinthitis' because the GP letter says so.", r: "She has AF and she can't stand. Talk me through how that's a peripheral lesion." },
+        { e: "Doesn't perform HINTS — or performs it incorrectly.", r: "Head impulse, nystagmus, test of skew. Show me each one at the bedside." },
+        { e: "Trusts a normal CT and discharges with cyclizine.", r: "How sensitive is CT for posterior fossa stroke in the first hours? What's your next image?" }
+      ],
+      key: "AF + sudden vertigo + can't stand = central until imaging proves otherwise. HINTS beats early CT."
+    }
+  },
+
+  {
+    n: 6,
+    title: "The wheezy one",
+    tagline: "Near-fatal asthma — the silent chest",
+    domain: "Respiratory",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Recognise life-threatening and near-fatal asthma features (silent chest, exhaustion, normal/rising CO₂)",
+      "Escalate to anaesthetics / critical care early",
+      "Use the BTS/SIGN asthma escalation ladder appropriately",
+      "Avoid being falsely reassured by a 'calmer' patient"
+    ],
+    preBrief: "A 24-year-old with asthma is in for review after two GP-surgery nebs. He still feels short of breath. Please assess.",
+    patient: {
+      "Name / age": "Mr Tom S, 24",
+      "PMH": "Severe atopic asthma, 2 previous PICU/HDU admissions, frequent OCS courses",
+      "Drugs": "Salbutamol PRN (3–4 inhalers/month), beclometasone-formoterol, montelukast; previously on omalizumab",
+      "GP letter": "&ldquo;Asthma exacerbation. Two nebs at the surgery, peak flow not improved. Please assess for IV steroids.&rdquo;",
+      "Triage obs": "RR 28 · HR 132 · SpO₂ 92% on air · T 37.0 · PEFR 180 (predicted 580 → 31%)"
+    },
+    script: [
+      "Speaking in short phrases, accessory muscle use",
+      "Tripoded forward; wide-eyed but quietening",
+      "Auscultation: diminishing wheeze bilaterally"
+    ],
+    triggers: [
+      ["T+90 s", "Becomes notably quieter. Silent chest on auscultation. SpO₂ falls to 87% on 15 L NRB. Drowsy, head nodding."],
+      ["Gas requested", "ABG: pH 7.31, PaCO₂ 6.5 (rising — should be low in asthma), PaO₂ 8.9 on 15 L, lactate 4.1"],
+      ["Anaesthetics called + IV magnesium given", "Patient stabilises on continuous nebs + IV mag; anaesthetics arrive to RSI"],
+      ["Continues nebs + IV hydrocortisone alone", "Arrests — peri-arrest call"]
+    ],
+    actions: [
+      "Recognise life-threatening features (SpO₂ &lt;92%, silent chest, exhaustion, PEFR &lt;33%)",
+      "Recognise near-fatal features (raised PaCO₂, the need for mechanical ventilation)",
+      "Continuous salbutamol nebs + ipratropium 500 mcg + IV hydrocortisone 100 mg",
+      "IV magnesium sulphate 2 g over 20 min",
+      "Anaesthetics / critical care call EARLY — pre-arrest, not at arrest",
+      "Consider IV salbutamol / aminophylline only under critical care guidance",
+      "Avoid sedation; if intubation needed, ketamine is preferred for bronchodilation"
+    ],
+    analyse: [
+      "What's the difference between life-threatening and near-fatal asthma? — and which features apply here?",
+      "Why does a rising PaCO₂ in asthma terrify a senior? — fatigue and impending respiratory failure; normal CO₂ is abnormal here.",
+      "When would you call anaesthetics? — BEFORE the silent chest, not after."
+    ],
+    apply: [
+      "Silent chest is not improvement.",
+      "Rising or normal CO₂ in acute asthma = peri-arrest.",
+      "If you're thinking about calling anaesthetics — call them now, not in five minutes."
+    ],
+    sba: {
+      stem: "A 26-year-old man with severe brittle asthma is reviewed after two nebulised salbutamol treatments. PEFR is 31% predicted. He has become quieter, with diminishing wheeze and is now drowsy. SpO₂ falls to 87% on 15 L/min via non-rebreathe mask despite continuous nebulised salbutamol. ABG: pH 7.28, PaO₂ 8.4 (on 15 L), PaCO₂ 6.8, lactate 4.2.",
+      question: "Which single feature most clearly identifies this as NEAR-FATAL (rather than life-threatening) asthma?",
+      options: [
+        "PEFR 31% predicted",
+        "SpO₂ 87% on 15 L oxygen",
+        "Quietening chest sounds",
+        "Drowsiness",
+        "PaCO₂ 6.8 kPa"
+      ],
+      answer: "E",
+      rationale: "BTS/SIGN 2019: 'Life-threatening' features include silent chest, exhaustion, drowsiness, cyanosis, SpO₂ &lt;92%, PEFR &lt;33%. 'Near-fatal' is specifically defined by RAISED PaCO₂ and/or need for mechanical ventilation. In acute asthma CO₂ should be LOW from hyperventilation; rising / normal CO₂ = imminent failure.",
+      distract: [
+        "A, B, C, D — All are life-threatening features but apply to the broader category.",
+        "Near-fatal is a higher-severity subset distinguished by the gas."
+      ],
+      pearl: "Normal CO₂ in acute asthma is abnormal. Silent chest is not improvement — call anaesthetics before the arrest."
+    },
+    crib: {
+      errors: [
+        { e: "Reassured by the patient appearing calmer / quieter.", r: "He's quieter because he's exhausted. Listen again — and check the gas." },
+        { e: "Delays anaesthetic call until peri-arrest.", r: "You're thinking about calling anaesthetics? Then the call goes out now, not in five minutes." },
+        { e: "Misreads a normal/rising PaCO₂ as reassuring.", r: "In acute asthma, what is the expected CO₂? So what does this number mean?" }
+      ],
+      key: "Silent chest is not improvement. CO₂ should be low in acute asthma — not low is near-fatal."
+    }
+  },
+
+  {
+    n: 7,
+    title: "&ldquo;Sugar's not too bad&rdquo;",
+    tagline: "Euglycaemic DKA on an SGLT2 inhibitor",
+    domain: "Endocrine",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Recognise that DKA can occur with a normal or only mildly raised glucose on SGLT2 inhibitors",
+      "Always check ketones in an unwell diabetic regardless of glucose",
+      "Manage euglycaemic DKA: fluids, fixed-rate insulin, glucose infusion, stop SGLT2i",
+      "Counsel patients on sick-day rules for SGLT2 inhibitors"
+    ],
+    preBrief: "A 54-year-old known T2DM has been referred with 'gastroenteritis'. Her GP has done a glucose at 11 — please rehydrate and prescribe antiemetics.",
+    patient: {
+      "Name / age": "Ms Priti J, 54",
+      "PMH": "T2DM (8 years), hypertension, ischaemic heart disease",
+      "Drugs": "Metformin 1 g BD, empagliflozin 25 mg OD (added 4 months ago), ramipril, atorvastatin",
+      "GP letter": "&ldquo;Gastroenteritis — nausea, vomiting, abdominal pain for 24 h. Glucose 11 on stick. Please rehydrate.&rdquo;",
+      "Triage obs": "RR 24 · HR 110 · BP 110/70 · SpO₂ 99% · T 36.6 → NEWS2 = 4",
+      "Diet": "Started keto/low-carb diet 2 weeks ago for weight loss"
+    },
+    script: [
+      "Nauseated, thirsty, mild diffuse abdominal pain",
+      "Deep, sighing breathing — Kussmaul",
+      "Capillary glucose 12.4 (stick); 'my sugars have been better than ever'"
+    ],
+    triggers: [
+      ["T+90 s", "VBG: pH 7.18, HCO₃ 11, BE −14, glucose 12.4, ketones 5.8, K⁺ 5.2, lactate 1.6"],
+      ["Diagnoses euglycaemic DKA + starts fluids/insulin/dextrose", "Acidosis corrects over 8 h; SGLT2i held; metabolic team review next morning"],
+      ["Continues IV saline + ondansetron without insulin", "Acidosis worsens; potassium starts climbing; circulatory collapse"]
+    ],
+    actions: [
+      "Always check ketones in unwell diabetic — glucose level does not exclude DKA",
+      "Hold empagliflozin immediately",
+      "0.9% NaCl resuscitation — fluid rates per DKA protocol",
+      "Fixed-rate intravenous insulin infusion 0.1 U/kg/h",
+      "Add 10% dextrose alongside saline once glucose &lt;14 — keeps insulin going to clear ketones",
+      "Aggressive potassium replacement (&gt;40 mmol/L once K ≤ 5.5)",
+      "Refer to diabetes team; counsel on sick-day rules"
+    ],
+    analyse: [
+      "Why was the glucose only 11? — SGLT2 inhibitors continuously dump glucose in urine, blunting hyperglycaemia even as ketosis develops.",
+      "Who is at highest risk of euglycaemic DKA? — surgery, sepsis, starvation, low-carb diets, alcohol — all on SGLT2i.",
+      "What are the sick-day rules for SGLT2 inhibitors? — STOP when unwell (vomiting, surgery, sepsis); resume only when eating and drinking normally."
+    ],
+    apply: [
+      "Ketones, ketones, ketones — every unwell diabetic, regardless of glucose.",
+      "Euglycaemic DKA needs dextrose alongside saline so insulin can keep running.",
+      "Sick days = SADMANS list (Sulfonylureas, ACEi, Diuretics, Metformin, ARBs, NSAIDs, SGLT2i)."
+    ],
+    sba: {
+      stem: "A 55-year-old woman with T2DM on metformin and empagliflozin presents with 24 hours of vomiting and abdominal pain. She has been following a strict low-carbohydrate diet. Capillary glucose 11.8 mmol/L. VBG: pH 7.17, HCO₃ 10, glucose 12, ketones 5.6 mmol/L, K⁺ 5.2.",
+      question: "What is the most appropriate management of her SGLT2 inhibitor?",
+      options: [
+        "Continue empagliflozin to help control glucose",
+        "Double the empagliflozin dose to address the acidosis",
+        "Hold empagliflozin until ketones clear AND she is eating and drinking normally",
+        "Switch empagliflozin to canagliflozin",
+        "Add a DPP-4 inhibitor alongside empagliflozin"
+      ],
+      answer: "C",
+      rationale: "SGLT2 inhibitors are a recognised precipitant of euglycaemic DKA. Hold during acute illness; resume only when ketones cleared, intake normalised, diabetes team review. SADMANS sick-day rules: Sulfonylureas, ACEi, Diuretics, Metformin, ARBs, NSAIDs, SGLT2 inhibitors.",
+      distract: [
+        "A, B — Continuing or up-titrating SGLT2i during DKA propagates ketogenesis.",
+        "D — All SGLT2i carry the same risk.",
+        "E — Adding therapy is not the priority; stopping the precipitant is."
+      ],
+      pearl: "Check ketones in every unwell diabetic, regardless of glucose. Euglycaemic DKA needs dextrose alongside saline so insulin can keep clearing the ketones."
+    },
+    crib: {
+      errors: [
+        { e: "Calls it gastroenteritis because the glucose is only 12.", r: "Have you checked ketones? Always. Look at the VBG — walk me through it." },
+        { e: "Continues empagliflozin while treating the ketosis.", r: "What's on the SADMANS list, and why? What does 'sick day' mean for her tablets?" },
+        { e: "Forgets dextrose when glucose falls during insulin infusion.", r: "Her glucose is 9. What runs alongside the saline now — and why?" }
+      ],
+      key: "Check ketones in every unwell diabetic. Insulin keeps running on dextrose until ketones clear."
+    }
+  },
+
+  {
+    n: 8,
+    title: "The quiet potassium",
+    tagline: "Hyperkalaemia in AKI — the triple whammy",
+    domain: "Renal",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Recognise hyperkalaemic ECG changes and their progression",
+      "Apply the stabilise / shift / remove treatment ladder",
+      "Identify the drug 'triple whammy' (ACEi + diuretic + NSAID) on CKD",
+      "Decide when to call renal for emergency dialysis"
+    ],
+    preBrief: "A 72-year-old with known CKD has been called in by his GP after a phoned potassium of 6.8. He looks reasonable — please review and admit if needed.",
+    patient: {
+      "Name / age": "Mr Frank H, 72",
+      "PMH": "CKD stage 3b (eGFR 35), hypertension, heart failure NYHA II, low back pain",
+      "Drugs": "Ramipril 10 mg, spironolactone 25 mg, bumetanide 1 mg, ibuprofen 400 mg TDS (self-purchased) for 1 week",
+      "GP letter": "&ldquo;Tired, off food, D&amp;V for 3 days. K⁺ 6.8 on phoned bloods. Please admit.&rdquo;",
+      "Triage obs": "HR 58 · BP 142/84 · RR 16 · SpO₂ 97% · T 36.5 → NEWS2 = 1"
+    },
+    script: [
+      "'I feel ok actually, just a bit washed out'",
+      "No chest pain, no palpitations",
+      "Mild generalised weakness; no focal neurology"
+    ],
+    triggers: [
+      ["T+90 s", "ECG handed over: peaked T waves, PR prolongation, broadening QRS. Repeat K⁺ 7.2, creatinine 320 (baseline 130), bicarb 16, urea 24"],
+      ["Recognises emergency / treats appropriately", "ECG normalises within 30 min; renal review; HD bed booked"],
+      ["Admits for 'fluids overnight' only", "Sine-wave ECG → VF arrest"]
+    ],
+    actions: [
+      "Stabilise the myocardium: IV calcium gluconate 10 mL 10% over 5 min — repeat if no ECG change in 5 min",
+      "Shift K⁺ into cells: 10 units short-acting insulin in 250 mL 10% dextrose IV over 30 min; salbutamol 10–20 mg nebs",
+      "Remove K⁺: stop offending drugs (ACEi, spiro, NSAID); diuresis if euvolaemic+; consider patiromer / SZC; refer for HD if refractory",
+      "Identify and treat AKI cause: drug review, fluid status, urinary indices",
+      "Repeat ECG and bloods at 30 min and 2 h",
+      "Renal/ICU referral if K⁺ remains ≥ 6.5 after treatment"
+    ],
+    analyse: [
+      "Walk me through the ECG progression of hyperkalaemia — peaked T → PR/QRS → loss of P → sine wave.",
+      "Why is calcium FIRST and not last? — it doesn't shift potassium, it just stops the myocardium from arresting while you work.",
+      "What's the 'triple whammy' and why did it happen here? — ACEi + diuretic + NSAID on background CKD + intercurrent illness."
+    ],
+    apply: [
+      "Calcium first → shift → remove. Always in that order.",
+      "Stop nephrotoxins by the bedside, before the labs come back.",
+      "K⁺ &gt;6.5 with ECG changes is a peri-arrest call, not a ward referral."
+    ],
+    sba: {
+      stem: "A 73-year-old man with CKD3 (eGFR 32) takes ramipril, spironolactone and bumetanide. He has been self-medicating with ibuprofen 400 mg TDS for back pain for a week, and now has diarrhoea and vomiting. Serum K⁺ 7.2 mmol/L. ECG: peaked T waves, broadened QRS, loss of P waves.",
+      question: "Which intervention should be administered FIRST?",
+      options: [
+        "10 units soluble insulin in 250 mL 10% dextrose IV over 30 min",
+        "Nebulised salbutamol 10 mg",
+        "10 mL 10% calcium gluconate IV over 5 min",
+        "50 mL 8.4% sodium bicarbonate IV",
+        "1 L 0.9% sodium chloride over 1 hour"
+      ],
+      answer: "C",
+      rationale: "Stabilise the myocardium first — IV calcium acts within minutes to antagonise the membrane effect of hyperkalaemia (does not lower K⁺). Then SHIFT (insulin/dextrose, salbutamol), then REMOVE (stop precipitants, diuresis, dialysis).",
+      distract: [
+        "A — Effective for shifting K⁺ but takes 30 min; the myocardium needs protection now.",
+        "B — Adjunctive shifting strategy; not first if ECG changes present.",
+        "D — Reserved for severe metabolic acidosis or specific situations (TCA overdose).",
+        "E — Fluid alone has minimal effect; may even worsen K⁺ transiently."
+      ],
+      pearl: "Calcium → shift → remove. Always that order. And by the bedside: stop the ACE-inhibitor, the spironolactone, the NSAID."
+    },
+    crib: {
+      errors: [
+        { e: "Gives insulin-dextrose first while the ECG is changing.", r: "The QRS is broadening. Insulin works in 30 minutes — calcium works in 3. Which goes first?" },
+        { e: "Treats the K⁺ but leaves the offending drugs running on the chart.", r: "Three drugs on his list contributed. Which three, and what should already have been stopped?" },
+        { e: "Rechecks K⁺ before the treatment is complete.", r: "Stabilise, shift, remove — then check. Treat the ECG, not the number." }
+      ],
+      key: "Calcium first. Then shift. Then remove. And the prescription chart needs cleaning, by hand, now."
+    }
+  },
+
+  {
+    n: 9,
+    title: "&ldquo;Worst headache of my life&rdquo;",
+    tagline: "Subarachnoid haemorrhage hiding behind 'just a migraine'",
+    domain: "Neurology",
+    target: "SHO / IMT1–2 / ED SHO",
+    objectives: [
+      "Recognise the thunderclap headache and apply the Ottawa SAH rule",
+      "Understand the time-dependence of CT sensitivity for SAH",
+      "Decide when lumbar puncture is needed for xanthochromia",
+      "Avoid premature diagnostic closure in a patient with prior migraines"
+    ],
+    preBrief: "A 48-year-old woman is referred with a migraine. She's had migraines before, and sumatriptan hasn't worked today. Please prescribe IV antiemetic and pain relief.",
+    patient: {
+      "Name / age": "Mrs Sarah W, 48",
+      "PMH": "Migraine with aura since teens, ~3/month; hypertension",
+      "Drugs": "Sumatriptan PRN, amlodipine, COCP (recently restarted), occasional smoker",
+      "GP letter": "&ldquo;Migraine 14 h. Sumatriptan ineffective. Please IV ondansetron + pain relief.&rdquo;",
+      "Triage obs": "HR 92 · BP 168/96 · SpO₂ 98% · RR 14 · T 36.8 → NEWS2 = 1"
+    },
+    script: [
+      "'It hit me in the back of the head like a baseball bat' — peak intensity in seconds",
+      "Photophobic, nauseated, vomited twice",
+      "Family member: 'she was a bit confused for a few minutes at the start — never had that with a migraine'"
+    ],
+    triggers: [
+      ["T+90 s", "On focused exam: mild neck stiffness, subtle left ptosis (developing third nerve palsy), Kernig's sign equivocal"],
+      ["Requests urgent CT (within 6 h)", "CT head: blood in basal cisterns and right sylvian fissure"],
+      ["CT presentation &gt;6 h", "Plan LP at 12 h post-ictus for xanthochromia"],
+      ["Treats as migraine / discharges", "Returns 4 h later — GCS 6, fixed dilated right pupil"]
+    ],
+    actions: [
+      "Take a thunderclap history seriously: sudden onset, peak in &lt;1 min, 'worst ever', different from usual",
+      "Apply the Ottawa SAH rule (age ≥ 40, neck pain/stiffness, witnessed LOC, exertional onset, thunderclap, limited neck flexion on exam)",
+      "Urgent non-contrast CT head — sensitivity ~100% if within 6 h",
+      "If CT negative and &gt;6 h: LP at ≥ 12 h post-onset for xanthochromia (spectrophotometry)",
+      "Manage BP: aim sBP &lt;160; nimodipine if confirmed",
+      "Neurosurgery referral; CT angiogram for aneurysm localisation"
+    ],
+    analyse: [
+      "What distinguished today's headache from her usual migraine? — onset speed, severity, prodromal/peri-ictal confusion, autonomic features.",
+      "Why does CT sensitivity drop after 6 hours? — haemoglobin breaks down; CT becomes unreliable; LP is needed.",
+      "How do you counsel patients with prior migraines about red-flag features? — 'thunderclap, worst ever, different' always warrants imaging."
+    ],
+    apply: [
+      "Thunderclap = imaging. Always. Regardless of migraine history.",
+      "Within 6 h: CT alone may suffice. After 6 h: CT + LP at 12 h.",
+      "Patients with prior headaches are at risk of being underinvestigated — make a habit of asking 'is this different?'"
+    ],
+    sba: {
+      stem: "A 47-year-old woman with a long history of migraine describes a headache that is 'different' from her usual. It began 5 hours ago, reached peak intensity within seconds, and is 'the worst of my life'. She vomited twice. Examination: photophobic, mild neck stiffness, normal limb neurology. BP 168/96.",
+      question: "Which is the most appropriate next step?",
+      options: [
+        "Treat as migraine with subcutaneous sumatriptan and IV ondansetron",
+        "Arrange CT head as a routine investigation",
+        "Perform an immediate lumbar puncture",
+        "Arrange urgent (within 1 hour) non-contrast CT head",
+        "Discharge with strong analgesia and outpatient neurology follow-up"
+      ],
+      answer: "D",
+      rationale: "Thunderclap headache (peak &lt;1 min) with 'worst ever / different' quality is SAH until proven otherwise. CT head within 6 hours of onset is essentially 100% sensitive. If &gt;6 hours or CT negative, LP at ≥ 12 hours post-ictus for xanthochromia.",
+      distract: [
+        "A — Treating as migraine without imaging risks catastrophic rebleed.",
+        "B — Routine is too slow; this is time-critical.",
+        "C — LP before CT risks coning if mass lesion present; sequence matters.",
+        "E — Discharge on this story = mortality."
+      ],
+      pearl: "Thunderclap → imaging. Always. Migraine history does not protect against SAH. Ask: 'Is this different from usual?'"
+    },
+    crib: {
+      errors: [
+        { e: "Accepts 'migraine' because she has a migraine history.", r: "Read me her exact words back. 'Worst ever, peaked in seconds, different from usual.'" },
+        { e: "Plans LP before imaging.", r: "Within 6 hours of onset, what does CT do for you — and what risk does an LP carry without it?" },
+        { e: "After negative CT &gt;6 hours, discharges without LP plan.", r: "What time was onset, what time is it now — and what test is owed at hour 12?" }
+      ],
+      key: "Thunderclap deserves imaging. Migraine history does not protect against bleeding."
+    }
+  },
+
+  {
+    n: 10,
+    title: "&ldquo;It's just my iron tablets&rdquo;",
+    tagline: "Variceal upper GI bleed in chronic liver disease",
+    domain: "Gastroenterology",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Distinguish iron-stained stool from true melaena",
+      "Recognise the stigmata of chronic liver disease and predict variceal bleeding",
+      "Activate the major haemorrhage protocol and target balanced resuscitation",
+      "Initiate variceal-specific therapy: terlipressin + IV ceftriaxone"
+    ],
+    preBrief: "A 62-year-old man has been referred with 'black stools and fatigue'. His GP wonders if he just needs a transfusion. Please clerk him.",
+    patient: {
+      "Name / age": "Mr Colin R, 62",
+      "PMH": "Heavy alcohol misuse; told he has 'a bit of a fatty liver'; depression",
+      "Drugs": "Citalopram, ferrous sulphate (recently started by GP for low Hb)",
+      "GP letter": "&ldquo;Fatigued, black stools since starting iron 5 days ago. Please admit for transfusion, Hb expected low.&rdquo;",
+      "Triage obs": "HR 102 · BP 118/72 · RR 18 · SpO₂ 97% · T 36.7 → NEWS2 = 2"
+    },
+    script: [
+      "Pale, slightly anxious",
+      "Caput medusae, spider naevi on chest, palmar erythema, mildly icteric sclerae",
+      "Abdomen soft, shifting dullness suggesting small-volume ascites"
+    ],
+    triggers: [
+      ["T+90 s", "Passes frank melaena — tarry, foul-smelling — in cubicle. Repeat obs: HR 124, BP 92/60. Looks pale and clammy."],
+      ["Activates major haemorrhage", "Hb 64, urea 22 (creat 90), platelets 88, INR 1.8, albumin 28, bilirubin 42"],
+      ["Gives terlipressin + IV ceftriaxone + endoscopy plan", "Reasonable stabilisation; ICU bed booked; endoscopy within 12 h"],
+      ["'IV omeprazole + transfuse + wait'", "Re-bleeds — haemodynamic collapse"]
+    ],
+    actions: [
+      "Recognise melaena (tarry, sticky, offensive odour) — not the same as iron stool",
+      "Glasgow-Blatchford score / risk stratification",
+      "Activate major haemorrhage protocol if shocked; aim Hb 70–80 g/L (not higher in cirrhotics)",
+      "Crossmatch 4 units, FFP, platelets; correct coagulopathy as guided",
+      "IV terlipressin 2 mg QDS; IV ceftriaxone 1 g daily (prophylactic abx in variceal bleed reduce mortality)",
+      "Urgent endoscopy within 24 h (within 12 h if unstable)",
+      "Consider Sengstaken-Blakemore / Linton tube as bridge if exsanguinating",
+      "Discuss with ITU and HPB / gastro on-call"
+    ],
+    analyse: [
+      "What told you this wasn't iron-stained stool? — true melaena is sticky, tarry, smells. Urea:creatinine ratio raised. Stigmata of chronic liver disease.",
+      "Why give antibiotics in a bleed? — variceal bleeders have a 20% incidence of bacterial infection; prophylactic ceftriaxone reduces mortality.",
+      "Why is the target Hb lower in a cirrhotic bleed? — over-transfusion increases portal pressures and rebleeding."
+    ],
+    apply: [
+      "Iron makes stool dark, not melaena. Melaena has a smell you remember.",
+      "Variceal bleed = terlipressin + ceftriaxone + scope. Three components, all important.",
+      "Cirrhotic transfusion target is 70–80 g/L — don't over-fill."
+    ],
+    sba: {
+      stem: "A 60-year-old man with chronic alcohol use is referred with 'black stools and fatigue' after starting iron tablets 5 days ago. He has caput medusae and spider naevi. Observations: HR 122, BP 92/60. Hb 64, urea 22, creatinine 90, platelets 86, INR 1.8. He passes frank melaena PR during clerking.",
+      question: "Which single intervention has been shown to reduce MORTALITY in this clinical setting?",
+      options: [
+        "IV omeprazole 80 mg bolus",
+        "IV ceftriaxone 1 g daily",
+        "Tranexamic acid IV",
+        "IV vitamin K 10 mg",
+        "Platelet transfusion to >50"
+      ],
+      answer: "B",
+      rationale: "Prophylactic IV ceftriaxone in suspected variceal bleeding reduces mortality, rebleeding and bacterial infection (Baveno VII; Cochrane). Terlipressin also reduces mortality. PPI improves endoscopic findings in ulcer bleeds but has no mortality benefit in variceal bleeding.",
+      distract: [
+        "A — No mortality benefit in variceal bleeding (does in non-variceal high-risk ulcers).",
+        "C — HALT-IT trial: no mortality benefit and possible harm in upper GI bleeding.",
+        "D — Reasonable to correct INR but not the principal mortality-reducing intervention.",
+        "E — Supportive but not mortality-reducing."
+      ],
+      pearl: "Variceal bleed bundle: terlipressin + ceftriaxone + endoscopy within 12 hours. Cirrhotic transfusion target Hb 70–80 g/L."
+    },
+    crib: {
+      errors: [
+        { e: "Misses the stigmata of chronic liver disease on examination.", r: "Spider naevi, palmar erythema, caput, ascites — what are they collectively telling you?" },
+        { e: "Treats with IV PPI as the principal therapy.", r: "What's the evidence base for PPI in variceal bleeding? And for terlipressin? And for ceftriaxone?" },
+        { e: "Forgets prophylactic antibiotics in the variceal bundle.", r: "Which intervention here reduces mortality and is most often forgotten? Single dose, IV." }
+      ],
+      key: "Terlipressin + ceftriaxone + endoscopy. Cirrhotic transfusion target is 70–80 — don't over-fill."
+    }
+  },
+
+  {
+    n: 11,
+    title: "The drowsy diabetic",
+    tagline: "Hyperosmolar hyperglycaemic state in an older T2DM",
+    domain: "Endocrine",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Distinguish HHS from DKA in presentation, biochemistry and treatment",
+      "Prioritise fluid resuscitation over insulin in initial management of HHS",
+      "Recognise the high VTE risk and prescribe LMWH prophylaxis",
+      "Avoid cerebral oedema from too-rapid osmolar shifts"
+    ],
+    preBrief: "An 78-year-old man with T2DM has been referred for confusion. His GP has called it possible UTI and noted his glucose was 38 on the home meter.",
+    patient: {
+      "Name / age": "Mr Bert N, 78",
+      "PMH": "T2DM (diagnosed 6 months ago), hypertension, BPH, mild cognitive impairment",
+      "Drugs": "Gliclazide 80 mg BD, ramipril, tamsulosin",
+      "GP letter": "&ldquo;Confusion 2 days, family say he's drinking constantly. ?UTI. Glucose 38. Please admit.&rdquo;",
+      "Triage obs": "HR 110 · BP 104/68 · RR 18 · SpO₂ 96% · T 37.2 → NEWS2 = 3"
+    },
+    script: [
+      "Drowsy, GCS 13 (E3 V4 M6); answering simple questions slowly",
+      "Dry mucous membranes, sunken eyes, skin tenting",
+      "Subtle left-sided weakness — looks like a stroke but may be osmolar"
+    ],
+    triggers: [
+      ["T+90 s", "Bloods: glucose 48 mmol/L, Na 158, K 5.0, urea 22, creat 180, ketones 1.0, pH 7.36, HCO₃ 22, calculated osmolality 348 mOsm/kg"],
+      ["Recognises HHS / cautious fluids first", "Improves slowly over 24 h; insulin started carefully once fluid running; cognition normalises"],
+      ["Rapid 2 L saline bolus + IV insulin immediately", "Glucose crashes; serum Na rises further as glucose falls without water; cerebral oedema risk"]
+    ],
+    actions: [
+      "Diagnose HHS: hypovolaemia + marked hyperglycaemia (≥ 30) + hyperosmolality (≥ 320) + minimal ketones (&lt;3) + pH ≥ 7.30",
+      "Estimate fluid deficit (typically 100–220 mL/kg, ≈ 10 L in this patient)",
+      "IV 0.9% NaCl — first litre over 1 h, then 1 L every 2–4 h based on response. Slower than DKA.",
+      "Delay insulin until fluid resuscitation underway; start at 0.05 U/kg/h ONLY if glucose stops falling with fluids alone, OR ketones &gt;1.0",
+      "Aim glucose fall of 4–6 mmol/L/h — no faster",
+      "Replace potassium as for DKA",
+      "PROPHYLACTIC LMWH for all — HHS carries very high VTE risk",
+      "Look for and treat the precipitant (sepsis, MI, stroke, drugs)"
+    ],
+    analyse: [
+      "How does HHS differ biochemically from DKA, and how does treatment differ? — slower, gentler fluids, delayed insulin, watch sodium.",
+      "Why is the focal neurology not necessarily a stroke? — osmotic shifts in HHS can cause focal deficits that resolve with treatment.",
+      "Why is VTE prophylaxis non-negotiable? — hyperosmolality + immobility + dehydration = mortality from PE adds 10–20% on top of HHS itself."
+    ],
+    apply: [
+      "Fluid before insulin in HHS — not the other way round.",
+      "Cap the rate of glucose fall: 4–6 mmol/L/h, not as fast as possible.",
+      "Every HHS gets LMWH unless there's an absolute contraindication."
+    ],
+    sba: {
+      stem: "A 79-year-old man with T2DM (gliclazide-treated) presents with 2 days of progressive confusion and lethargy. He is drowsy (GCS 13), with dry mucous membranes and reduced skin turgor. Glucose 49 mmol/L, Na 158, K 5.0, urea 22, creatinine 180, ketones 0.8, pH 7.36, HCO₃ 22, calculated osmolality 348 mOsm/kg.",
+      question: "Which is the most appropriate initial intravenous fluid prescription?",
+      options: [
+        "0.9% sodium chloride 1 L over 1 hour",
+        "0.9% sodium chloride 2 L stat",
+        "5% dextrose 1 L over 4 hours",
+        "0.45% sodium chloride 1 L over 1 hour",
+        "Hartmann's solution 1 L over 30 minutes with concomitant insulin"
+      ],
+      answer: "A",
+      rationale: "HHS management: fluids before insulin. 0.9% NaCl at moderate pace (first L over 1 h, then 1 L every 2–4 h). Rapid bolus drops glucose too quickly, raises plasma sodium relative to glucose, and risks cerebral oedema. 0.45% saline reserved if osmolality not falling with 0.9%.",
+      distract: [
+        "B — Too fast; risk of osmolar shifts and cardiac decompensation.",
+        "C — Hypotonic dextrose worsens hyperglycaemia.",
+        "D — Reserved for inadequate osmolar fall after 0.9%.",
+        "E — Insulin first is wrong in HHS; aim glucose fall 4–6 mmol/L/h."
+      ],
+      pearl: "Fluids before insulin in HHS. Cap glucose fall at 4–6 mmol/L/h. Every HHS gets prophylactic LMWH — very high VTE risk."
+    },
+    crib: {
+      errors: [
+        { e: "Starts fixed-rate insulin immediately, DKA-style.", r: "What happens to serum sodium when you drop glucose fast in HHS? Show me the maths." },
+        { e: "Reaches for 0.45% saline as the first fluid.", r: "Why 0.9% first? When does 0.45% come in — and what are you watching to decide?" },
+        { e: "Forgets prophylactic LMWH.", r: "Dehydrated, hypertonic, immobile, elderly. What's his VTE risk — and what do all HHS patients get?" }
+      ],
+      key: "Fluids before insulin. Cap glucose fall 4–6 mmol/L/h. LMWH is non-negotiable."
+    }
+  },
+
+  {
+    n: 12,
+    title: "&ldquo;Off legs again&rdquo;",
+    tagline: "Malignant spinal cord compression behind 'just back pain'",
+    domain: "Oncology",
+    target: "SHO / IMT1–2",
+    objectives: [
+      "Recognise the red flags for malignant spinal cord compression (MSCC)",
+      "Initiate immediate high-dose dexamethasone in suspected MSCC",
+      "Arrange whole-spine MRI within 24 h (sooner if rapidly progressive)",
+      "Coordinate acute oncology and spinal/neurosurgical referrals"
+    ],
+    preBrief: "A 68-year-old lady has been sent in for stronger analgesia for back pain. She's had breast cancer in the past and is otherwise 'cancer-free'. Please prescribe and discharge if able.",
+    patient: {
+      "Name / age": "Mrs Pauline G, 68",
+      "PMH": "Right-sided breast cancer (T2N1) 4 years ago — WLE, axillary clearance, chemo, radiotherapy, letrozole. 'All clear' at last scan.",
+      "Drugs": "Letrozole, alendronate, paracetamol, co-codamol 30/500 BD",
+      "GP letter": "&ldquo;Worsening back pain 3 weeks, not responding to co-codamol. Please prescribe stronger analgesia, ?MRI as outpatient.&rdquo;",
+      "Triage obs": "HR 78 · BP 138/82 · RR 14 · SpO₂ 98% · T 36.7 → NEWS2 = 0"
+    },
+    script: [
+      "Mid-thoracic back pain, worse at night and lying flat",
+      "Mild bilateral leg weakness she blames on 'getting old'",
+      "On focused exam: power 4/5 bilateral hip flexion, brisk knee/ankle reflexes, upgoing plantars, reduced sensation to a T8 level, mild saddle paraesthesia, episodes of urinary urgency this morning"
+    ],
+    triggers: [
+      ["T+90 s", "On further questioning: pain wakes her from sleep; cannot lie flat; bowel sluggish last 48 h. Subtle perianal sensory loss on examination."],
+      ["Suspects MSCC", "MRI whole spine: T6 and T9 metastatic deposits with cord compression at T6"],
+      ["Discharges with morphine + outpatient MRI", "Returns 36 h later — paraplegic and incontinent"]
+    ],
+    actions: [
+      "Recognise MSCC red flags: known malignancy, progressive back pain, nocturnal/recumbent worsening, neurological signs, bladder/bowel disturbance, saddle anaesthesia",
+      "Lie flat with neutral spine until imaging excludes instability",
+      "IV dexamethasone 16 mg STAT (with PPI cover) — every hour of delay matters",
+      "MRI whole spine within 24 h (sooner if rapidly progressing)",
+      "Refer to acute oncology + spinal surgery / clinical oncology for radiotherapy planning",
+      "Catheterise if any urinary retention",
+      "Analgesia: do NOT under-treat — opioids + adjuvants",
+      "Counsel patient and family about urgency"
+    ],
+    analyse: [
+      "Which features changed this from 'back pain' to a spinal emergency? — known malignancy, nocturnal pain, neurology, bladder/bowel.",
+      "Why dexamethasone before MRI? — to reduce cord oedema and preserve function; the window for recovery is hours, not days.",
+      "What does 'outpatient MRI in a fortnight' cost this patient? — paraplegia. Once she's paraplegic, recovery is unlikely."
+    ],
+    apply: [
+      "Known cancer + back pain + neurology = MSCC until proven otherwise.",
+      "Dex first, MRI same day, oncology / spinal team this shift.",
+      "If she can walk in, she should walk out — but only if you act in hours, not days."
+    ],
+    sba: {
+      stem: "A 68-year-old woman with previous early-stage breast cancer (4 years ago, declared 'cured') reports 3 weeks of progressive thoracic back pain, worse at night and on lying flat. She has been taking co-codamol 30/500 BD without benefit. On examination: bilateral hip flexion 4/5, brisk knee and ankle reflexes, upgoing plantars, a sensory level at T8, and subtle perianal sensory loss. She has had two episodes of urinary urgency this morning.",
+      question: "Which is the most appropriate immediate management?",
+      options: [
+        "Outpatient MRI within 2 weeks; oramorph PRN; review by GP",
+        "IV dexamethasone 16 mg and urgent (within 24 h) MRI of the whole spine",
+        "Non-contrast CT of the thoracolumbar spine and outpatient neurology referral",
+        "Plain radiographs of thoracic and lumbar spine, then decide",
+        "Lumbar puncture to exclude an infective cause"
+      ],
+      answer: "B",
+      rationale: "Suspected malignant spinal cord compression (NICE NG119): known malignancy + progressive back pain (nocturnal/recumbent) + neurology + sphincter disturbance. Give 16 mg IV dexamethasone immediately, lie flat, MRI whole spine within 24 h, refer acute oncology + spinal surgery same shift.",
+      distract: [
+        "A — Outpatient MRI = paraplegia; recovery is unlikely once cord function is lost.",
+        "C — CT is inadequate for cord assessment; MRI is the imaging of choice.",
+        "D — Plain films miss cord compression and most cancellous bone deposits.",
+        "E — LP is contraindicated and irrelevant in this picture."
+      ],
+      pearl: "Time is cord. Dexamethasone first, MRI same shift, acute oncology + spinal team — in hours, not weeks."
+    },
+    crib: {
+      errors: [
+        { e: "Plans MRI as outpatient because pain seems 'manageable'.", r: "Read her neurological examination out loud, then read me the timeline. Outpatient — by when?" },
+        { e: "Forgets immediate IV dexamethasone.", r: "Before the MRI is booked, what should already be running through her cannula?" },
+        { e: "Doesn't enquire about bladder / bowel / saddle.", r: "Ask her when she last passed urine, and feel her abdomen. Then check perianal sensation." }
+      ],
+      key: "Dex now, MRI today, oncology + spinal this shift. If she can walk in, she should walk out."
+    }
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════
+// STATE + ROUTER
+// ═══════════════════════════════════════════════════════════════
+
+const app = document.getElementById('app');
+let facultyMode = false;
+let activeTab = 'sim';
+
+function getRoute() {
+  const hash = window.location.hash.replace(/^#\/?/, '').trim();
+  if (!hash) return { view: 'home' };
+  const parts = hash.split('/');
+  const n = parseInt(parts[0], 10);
+  if (isNaN(n) || n < 1 || n > 12) return { view: 'home' };
+  const tab = parts[1] || 'sim';
+  return { view: 'scenario', n, tab };
+}
+
+function navigate(hash) {
+  window.location.hash = hash;
+}
+
+function render() {
+  const route = getRoute();
+  if (route.view === 'home') {
+    renderHome();
+    document.getElementById('timer-toggle').classList.remove('visible');
+  } else {
+    renderScenario(route.n, route.tab);
+    document.getElementById('timer-toggle').classList.add('visible');
+  }
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HOME VIEW
+// ═══════════════════════════════════════════════════════════════
+
+function renderHome() {
+  const cardsHTML = SIMS.map(s => `
+    <article class="sc-card" data-n="${s.n}">
+      <div class="sc-meta">
+        <span class="sc-num">№ ${String(s.n).padStart(2, '0')}</span>
+        <span class="sc-domain">${s.domain}</span>
+      </div>
+      <h3 class="sc-title">${s.title}</h3>
+      <p class="sc-tagline">${s.tagline}</p>
+      <div class="sc-action">
+        <span>Open scenario</span>
+        <span class="arrow">→</span>
+      </div>
+    </article>
+  `).join('');
+
+  app.innerHTML = `
+    <section class="hero">
+      <div class="hero-left">
+        <span class="eyebrow">Twelve scenarios · ten minutes each</span>
+        <h1 class="hero-title">For the <em>unselected</em> medical take.</h1>
+        <p class="lede">A replicable simulation pack for the bedside in SDEC. Each scenario tests recognition of an unwell patient hiding behind a benign-looking referral — the core SDEC skill — and runs in one minute of pre-brief, five minutes of scenario, four minutes of diamond debrief.</p>
+      </div>
+      <div class="hero-right">
+        <div class="hero-figure">
+          <div class="figure-num">12</div>
+          <div class="figure-label">scenarios</div>
+          <div class="figure-divider"></div>
+          <div class="figure-stats">
+            <div class="figure-stat"><span class="num">10</span><div class="lbl">minutes each</div></div>
+            <div class="figure-stat"><span class="num">1+5+4</span><div class="lbl">brief / run / debrief</div></div>
+            <div class="figure-stat"><span class="num">12</span><div class="lbl">SBA reinforcements</div></div>
+            <div class="figure-stat"><span class="num">36</span><div class="lbl">faculty redirects</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="howto">
+      <div class="howto-step">
+        <div class="step-n">Step 01 · Brief</div>
+        <div class="step-t">One minute</div>
+        <div class="step-d">Hand the learner the GP letter and triage obs. Read the bedside prompt aloud. Start the timer.</div>
+      </div>
+      <div class="howto-step">
+        <div class="step-n">Step 02 · Run</div>
+        <div class="step-t">Five minutes</div>
+        <div class="step-d">Drip-feed the triggers in the table as the learner acts. Reveal information only when asked — silence is the teaching.</div>
+      </div>
+      <div class="howto-step">
+        <div class="step-n">Step 03 · Debrief</div>
+        <div class="step-t">Four minutes</div>
+        <div class="step-d">Describe (30 s) → Analyse (2 min) → Apply (90 s). Hand over the SBA stem afterwards to consolidate.</div>
+      </div>
+    </section>
+
+    <section class="scenarios">
+      <div class="section-title">
+        <span>The twelve scenarios</span>
+        <span class="roman">i — xii</span>
+      </div>
+      <div class="scenario-grid">${cardsHTML}</div>
+    </section>
+
+    <section class="about">
+      <div class="section-title">
+        <span>About this pack</span>
+        <span class="roman">colophon</span>
+      </div>
+      <p>Each scenario combines three layers. The <strong>sim card</strong> drives the 10-minute scenario at the bedside with a complete facilitator script — pre-brief, patient profile, triggers, expected actions, and a structured debrief. The <strong>SBA</strong> consolidates the same teaching point in MRCP-style written form, designed to be handed to the learner the moment the debrief ends. The <strong>faculty crib</strong> — gated behind the toggle in the header — captures the three commonest learner errors and the verbatim phrase that redirects each one.</p>
+      <p>The pack pairs with the printable A4 versions held in the Word documents. Print individual sim cards from the scenario pages using your browser&rsquo;s print dialogue.</p>
+      <p>No localStorage, no analytics, no tracking. Single-file HTML for easy hosting alongside the existing quiz platform.</p>
+    </section>
+  `;
+
+  // Wire up the cards
+  document.querySelectorAll('.sc-card').forEach(card => {
+    card.addEventListener('click', () => navigate(card.dataset.n));
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCENARIO VIEW
+// ═══════════════════════════════════════════════════════════════
+
+function renderScenario(n, tab) {
+  const s = SIMS[n - 1];
+  if (!s) { navigate(''); return; }
+  activeTab = tab === 'sba' || tab === 'crib' ? tab : 'sim';
+
+  const prev = n > 1 ? n - 1 : null;
+  const next = n < 12 ? n + 1 : null;
+
+  app.innerHTML = `
+    <button class="crumb" type="button" id="back-home">
+      <span class="arr">←</span>
+      <span>All scenarios</span>
+    </button>
+
+    <header class="scenario-head">
+      <div class="sh-meta">
+        <span class="sh-num">Scenario № ${String(n).padStart(2, '0')}</span>
+        <span class="sh-domain">${s.domain}</span>
+        <span class="sh-target">${s.target} · 10 min</span>
+      </div>
+      <h2>${s.title}</h2>
+      <p class="sh-tagline">${s.tagline}</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab ${activeTab === 'sim' ? 'active' : ''}" data-tab="sim">
+        <span>Sim card</span>
+        <span class="tab-icon">10 min</span>
+      </button>
+      <button class="tab ${activeTab === 'sba' ? 'active' : ''}" data-tab="sba">
+        <span>SBA reinforcement</span>
+        <span class="tab-icon">90 s</span>
+      </button>
+      <button class="tab ${activeTab === 'crib' ? 'active' : ''} ${facultyMode ? '' : 'locked'}" data-tab="crib">
+        <span>Faculty crib</span>
+        <span class="tab-icon">${facultyMode ? 'open' : 'locked'}</span>
+      </button>
+    </nav>
+
+    <div class="panel ${activeTab === 'sim' ? 'active' : ''}" id="panel-sim">
+      ${renderSimPanel(s)}
+    </div>
+
+    <div class="panel ${activeTab === 'sba' ? 'active' : ''}" id="panel-sba">
+      ${renderSBAPanel(s)}
+    </div>
+
+    <div class="panel ${activeTab === 'crib' ? 'active' : ''}" id="panel-crib">
+      ${facultyMode ? renderCribPanel(s) : renderLockedCrib()}
+    </div>
+
+    <div class="scenario-nav">
+      ${prev ? `<a data-n="${prev}" class="prev">
+        <span class="nav-lbl">← Previous · № ${String(prev).padStart(2, '0')}</span>
+        <span class="nav-t">${SIMS[prev - 1].title}</span>
+      </a>` : '<span></span>'}
+      ${next ? `<a data-n="${next}" class="next">
+        <span class="nav-lbl">Next · № ${String(next).padStart(2, '0')} →</span>
+        <span class="nav-t">${SIMS[next - 1].title}</span>
+      </a>` : '<span></span>'}
+    </div>
+  `;
+
+  // Wire up
+  document.getElementById('back-home').addEventListener('click', () => navigate(''));
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      const newTab = t.dataset.tab;
+      if (newTab === 'crib' && !facultyMode) {
+        // gentle prompt rather than blocking
+        navigate(`${n}/crib`);
+        return;
+      }
+      navigate(`${n}/${newTab}`);
+    });
+  });
+  document.querySelectorAll('.scenario-nav a').forEach(a => {
+    a.addEventListener('click', () => navigate(a.dataset.n));
+  });
+  wireSBA();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SIM PANEL
+// ═══════════════════════════════════════════════════════════════
+
+function renderSimPanel(s) {
+  const objHTML = s.objectives.map(o => `<li>${o}</li>`).join('');
+  const patientHTML = Object.entries(s.patient).map(([k, v]) => `
+    <tr><th>${k}</th><td>${v}</td></tr>
+  `).join('');
+  const scriptHTML = s.script.map(x => `<li>${x}</li>`).join('');
+  const triggerRowsHTML = s.triggers.map(([w, r]) => `
+    <tr><td class="when">${w}</td><td>${r}</td></tr>
+  `).join('');
+  const actionHTML = s.actions.map(a => `<li>${a}</li>`).join('');
+  const analyseHTML = s.analyse.map((q, i) => `<li>${q}</li>`).join('');
+  const applyHTML = s.apply.map(a => `<li>${a}</li>`).join('');
+
+  return `
+    <div class="section-h">Learning objectives</div>
+    <ul class="obj-list">${objHTML}</ul>
+
+    <div class="section-h">Pre-brief · 1 minute</div>
+    <p style="font-size:14.5px;color:var(--ink-muted);margin-bottom:6px;">Hand the learner the GP letter + initial obs card. Read aloud:</p>
+    <div class="brief-quote">${s.preBrief}</div>
+
+    <div class="section-h">Patient</div>
+    <table class="patient-table">${patientHTML}</table>
+
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin:24px 0 4px;">Sim patient script</div>
+    <ul class="script-list">${scriptHTML}</ul>
+
+    <div class="section-h">Triggers · facilitator drip-feed</div>
+    <table class="trigger-table">
+      <thead><tr><th>When</th><th>Reveal</th></tr></thead>
+      <tbody>${triggerRowsHTML}</tbody>
+    </table>
+
+    <div class="section-h">Expected actions · scoring sheet</div>
+    <ol class="actions-list">${actionHTML}</ol>
+
+    <div class="section-h">Debrief · diamond · 4 minutes</div>
+    <div class="debrief-grid">
+      <div class="debrief-block">
+        <span class="timing">30 seconds</span>
+        <h4>Describe</h4>
+        <p>"Walk me through what just happened." Let them narrate. Don&rsquo;t interrupt — silence draws the story out.</p>
+      </div>
+      <div class="debrief-block">
+        <span class="timing">2 minutes</span>
+        <h4>Analyse</h4>
+        <ol>${analyseHTML}</ol>
+      </div>
+      <div class="debrief-block">
+        <span class="timing">90 seconds</span>
+        <h4>Apply</h4>
+        <ul class="applies">${applyHTML}</ul>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;text-align:right;">
+      <button class="btn ghost small" onclick="window.print()">Print this card</button>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SBA PANEL
+// ═══════════════════════════════════════════════════════════════
+
+function renderSBAPanel(s) {
+  const sba = s.sba;
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const optsHTML = sba.options.map((opt, i) => `
+    <li class="sba-option" data-letter="${letters[i]}">
+      <span class="letter">${letters[i]}</span>
+      <span class="text">${opt}</span>
+    </li>
+  `).join('');
+  const distractHTML = sba.distract.map(d => `<li>${d}</li>`).join('');
+
+  return `
+    <p class="sba-intro">A written reinforcement of today&rsquo;s scenario. Pick the best answer, then reveal the explanation.</p>
+    <p class="sba-stem">${sba.stem}</p>
+    <p class="sba-question">${sba.question}</p>
+    <ul class="sba-options" id="sba-options">${optsHTML}</ul>
+
+    <div class="sba-reveal">
+      <button class="btn" id="sba-reveal-btn">Reveal answer &amp; explanation</button>
+      <button class="btn ghost" id="sba-reset-btn" style="display:none;">Reset</button>
+    </div>
+
+    <div class="sba-explain" id="sba-explain">
+      <div class="answer-stamp">
+        <span class="lbl">Correct answer</span>
+        <span class="val">${sba.answer}</span>
+      </div>
+      <h4>Why this is the answer</h4>
+      <p>${sba.rationale}</p>
+      <h4>Why not the others</h4>
+      <ul class="sba-distract">${distractHTML}</ul>
+      <div class="pearl"><span class="pearl-label">Pearl</span> ${sba.pearl}</div>
+    </div>
+  `;
+}
+
+function wireSBA() {
+  const optsEl = document.getElementById('sba-options');
+  const revealBtn = document.getElementById('sba-reveal-btn');
+  const resetBtn = document.getElementById('sba-reset-btn');
+  const explainEl = document.getElementById('sba-explain');
+  if (!optsEl || !revealBtn) return;
+
+  const route = getRoute();
+  const s = SIMS[route.n - 1];
+  if (!s) return;
+  const correct = s.sba.answer;
+  let picked = null;
+
+  optsEl.querySelectorAll('.sba-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (opt.classList.contains('revealed')) return;
+      optsEl.querySelectorAll('.sba-option').forEach(o => o.classList.remove('picked'));
+      opt.classList.add('picked');
+      picked = opt.dataset.letter;
+    });
+  });
+
+  revealBtn.addEventListener('click', () => {
+    optsEl.querySelectorAll('.sba-option').forEach(opt => {
+      opt.classList.add('revealed');
+      const l = opt.dataset.letter;
+      if (l === correct) opt.classList.add('correct');
+      else if (l === picked) opt.classList.add('wrong');
+    });
+    explainEl.classList.add('show');
+    revealBtn.style.display = 'none';
+    resetBtn.style.display = 'inline-flex';
+  });
+
+  resetBtn.addEventListener('click', () => {
+    optsEl.querySelectorAll('.sba-option').forEach(opt => {
+      opt.classList.remove('revealed', 'correct', 'wrong', 'picked');
+    });
+    explainEl.classList.remove('show');
+    revealBtn.style.display = 'inline-flex';
+    resetBtn.style.display = 'none';
+    picked = null;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CRIB PANEL
+// ═══════════════════════════════════════════════════════════════
+
+function renderCribPanel(s) {
+  const rowsHTML = s.crib.errors.map((er, i) => `
+    <tr>
+      <td><span class="err-n">${i + 1}.</span> <span class="err-text">${er.e}</span></td>
+      <td><div class="move">${er.r}</div></td>
+    </tr>
+  `).join('');
+
+  return `
+    <div class="crib-warning">
+      <strong>Faculty only.</strong> Do not display this panel to the learner. These are the three commonest errors and the phrase that redirects each one. Match the phrase to the moment and let the silence do the work afterwards.
+    </div>
+    <table class="crib-table">
+      <thead>
+        <tr><th>What you&rsquo;ll see go wrong</th><th>Your move</th></tr>
+      </thead>
+      <tbody>${rowsHTML}</tbody>
+    </table>
+    <div class="crib-key">
+      <span class="lbl">Key teaching point</span> ${s.crib.key}
+    </div>
+  `;
+}
+
+function renderLockedCrib() {
+  return `
+    <div class="locked-panel">
+      <div class="lp-icon">✦</div>
+      <h3>Faculty crib is hidden</h3>
+      <p>Enable <em>Faculty mode</em> in the header to view the three commonest learner errors and the redirect phrases for this scenario.</p>
+      <button class="btn" id="enable-faculty">Enable faculty mode</button>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FACULTY MODE TOGGLE
+// ═══════════════════════════════════════════════════════════════
+
+const facultyToggle = document.getElementById('faculty-toggle');
+facultyToggle.addEventListener('click', () => {
+  facultyMode = !facultyMode;
+  facultyToggle.classList.toggle('on', facultyMode);
+  facultyToggle.querySelector('.lbl').textContent = facultyMode ? 'Faculty mode on' : 'Faculty mode';
+  render();
+});
+
+// Brand home link
+document.getElementById('brand-home').addEventListener('click', () => navigate(''));
+
+// Delegated handler for "Enable faculty mode" button in locked crib panel
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.id === 'enable-faculty') {
+    facultyMode = true;
+    facultyToggle.classList.add('on');
+    facultyToggle.querySelector('.lbl').textContent = 'Faculty mode on';
+    render();
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// 10-MIN TIMER
+// ═══════════════════════════════════════════════════════════════
+
+const TIMER_TOTAL = 600; // 10 minutes in seconds
+const PHASES = [
+  { name: 'Pre-brief', start: 0,  end: 60 },
+  { name: 'Run',        start: 60, end: 360 },
+  { name: 'Debrief',    start: 360, end: 600 }
+];
+
+const timerToggle = document.getElementById('timer-toggle');
+const timerPanel = document.getElementById('timer-panel');
+const timerClose = document.getElementById('timer-close');
+const timerValueEl = document.getElementById('timer-value');
+const timerPhaseEl = document.getElementById('timer-phase');
+const timerTTVal = document.getElementById('timer-tt-val');
+const timerStartBtn = document.getElementById('timer-start');
+const timerResetBtn = document.getElementById('timer-reset');
+const timerBar = document.getElementById('timer-bar');
+
+let timerState = { running: false, elapsed: 0, lastTick: 0, raf: null };
+
+timerToggle.addEventListener('click', () => {
+  timerPanel.classList.toggle('open');
+});
+timerClose.addEventListener('click', () => timerPanel.classList.remove('open'));
+
+timerStartBtn.addEventListener('click', () => {
+  if (timerState.running) {
+    pauseTimer();
+  } else {
+    startTimer();
+  }
+});
+timerResetBtn.addEventListener('click', resetTimer);
+
+function startTimer() {
+  if (timerState.elapsed >= TIMER_TOTAL) timerState.elapsed = 0;
+  timerState.running = true;
+  timerState.lastTick = performance.now();
+  timerStartBtn.textContent = 'Pause';
+  tick();
+}
+function pauseTimer() {
+  timerState.running = false;
+  if (timerState.raf) cancelAnimationFrame(timerState.raf);
+  timerStartBtn.textContent = timerState.elapsed >= TIMER_TOTAL ? 'Done' : 'Resume';
+}
+function resetTimer() {
+  timerState.running = false;
+  if (timerState.raf) cancelAnimationFrame(timerState.raf);
+  timerState.elapsed = 0;
+  timerStartBtn.textContent = 'Start';
+  updateTimerDisplay();
+}
+function tick() {
+  if (!timerState.running) return;
+  const now = performance.now();
+  const dt = (now - timerState.lastTick) / 1000;
+  timerState.lastTick = now;
+  timerState.elapsed = Math.min(TIMER_TOTAL, timerState.elapsed + dt);
+  updateTimerDisplay();
+  if (timerState.elapsed >= TIMER_TOTAL) {
+    timerState.running = false;
+    timerStartBtn.textContent = 'Done';
+    return;
+  }
+  timerState.raf = requestAnimationFrame(tick);
+}
+function updateTimerDisplay() {
+  const remaining = Math.max(0, TIMER_TOTAL - timerState.elapsed);
+  const mm = Math.floor(remaining / 60);
+  const ss = Math.floor(remaining % 60);
+  const txt = `${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+  timerValueEl.textContent = txt;
+  timerTTVal.textContent = txt;
+
+  // Phase
+  const e = timerState.elapsed;
+  const phase = PHASES.find(p => e >= p.start && e < p.end) || PHASES[PHASES.length - 1];
+  timerPhaseEl.textContent = e >= TIMER_TOTAL ? 'Complete' : phase.name;
+
+  // Segments
+  const segs = timerBar.querySelectorAll('.timer-segment');
+  PHASES.forEach((p, i) => {
+    const seg = segs[i];
+    seg.classList.remove('complete', 'active');
+    if (e >= p.end) {
+      seg.classList.add('complete');
+    } else if (e >= p.start) {
+      seg.classList.add('active');
+      const pct = Math.min(100, ((e - p.start) / (p.end - p.start)) * 100);
+      seg.style.setProperty('--p', `${pct}%`);
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// BOOTSTRAP
+// ═══════════════════════════════════════════════════════════════
+
+window.addEventListener('hashchange', render);
+render();
+updateTimerDisplay();
+</script>
+</body>
+</html>

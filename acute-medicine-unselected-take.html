@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Acute Medicine Unselected Take Simulation — 12 clinical scenarios, 12 human factors variants, and a faculty development pack for the time-critical presentations to the AMU.">
+<title>Acute Medicine · Unselected Take Simulation</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --paper: #F7F3EA;
+  --paper-warm: #EFE9DA;
+  --paper-deep: #E8E2D0;
+  --ink: #0F1F2E;
+  --ink-soft: #2C3E50;
+  --ink-muted: #5A6B7E;
+  --ink-quiet: #8A95A3;
+  --rule: #D6CFBF;
+  --rule-soft: #E5DFCF;
+  --accent: #4A6E5D;
+  --accent-deep: #2F4A3D;
+  --accent-soft: #E8E4D6;
+  --warm: #B45309;
+  --warm-soft: #FAEBC8;
+  --crit: #8B2C2C;
+  --crit-soft: #F2DEDE;
+  --highlight: #FAEBC8;
+  --shadow: 0 1px 2px rgba(15, 31, 46, 0.04), 0 8px 24px rgba(15, 31, 46, 0.06);
+  --shadow-lift: 0 4px 12px rgba(15, 31, 46, 0.08), 0 16px 40px rgba(15, 31, 46, 0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(74, 110, 93, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(180, 83, 9, 0.04) 0%, transparent 50%);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.45 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; padding: 48px 32px 96px; }
+
+/* ─── Header ─── */
+header.top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 28px; border-bottom: 1px solid var(--rule); margin-bottom: 56px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.08em; color: var(--ink-muted); text-transform: uppercase;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--ink); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; color: var(--ink);
+}
+.meta-info { display: flex; gap: 24px; }
+.meta-info span:before {
+  content: ''; display: inline-block; width: 4px; height: 4px;
+  border-radius: 50%; background: var(--accent); margin-right: 8px; vertical-align: middle;
+}
+
+/* ─── Hero ─── */
+.hero {
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 64px; align-items: end; margin-bottom: 88px;
+}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.18em; color: var(--accent-deep); text-transform: uppercase;
+  margin-bottom: 24px; display: inline-flex; align-items: center; gap: 12px;
+}
+.eyebrow:before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+
+h1 {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: clamp(40px, 6vw, 72px); line-height: 0.98;
+  letter-spacing: -0.025em; color: var(--ink); margin-bottom: 24px;
+}
+h1 em {
+  font-style: italic; font-variation-settings: 'opsz' 144, 'SOFT' 100;
+  color: var(--accent-deep);
+}
+.lede {
+  font-size: 18px; line-height: 1.55; color: var(--ink-soft);
+  max-width: 540px; margin-bottom: 40px; font-weight: 400;
+}
+.cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 16px 28px; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500; letter-spacing: 0.01em;
+  text-decoration: none; border-radius: 4px; border: 1.5px solid transparent;
+  cursor: pointer; transition: all 0.2s ease; background: transparent;
+}
+.btn-primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn-primary:hover {
+  background: var(--accent-deep); border-color: var(--accent-deep);
+  transform: translateY(-2px); box-shadow: var(--shadow-lift);
+}
+.btn-secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+.btn-arrow { display: inline-block; transition: transform 0.2s ease; }
+.btn:hover .btn-arrow { transform: translateX(3px); }
+
+/* Hero figure */
+.hero-figure {
+  background: var(--paper-warm); border: 1px solid var(--rule);
+  padding: 36px 32px; position: relative; box-shadow: var(--shadow);
+  font-family: 'Fraunces', serif;
+}
+.hero-figure::before {
+  content: ''; position: absolute; top: 16px; right: 16px;
+  width: 24px; height: 24px;
+  border-top: 1.5px solid var(--accent); border-right: 1.5px solid var(--accent);
+}
+.figure-number {
+  font-size: 84px; line-height: 0.85; font-weight: 500; color: var(--ink);
+  font-variation-settings: 'opsz' 144; margin-bottom: 8px; letter-spacing: -0.04em;
+}
+.figure-label {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  letter-spacing: 0.04em; color: var(--ink-muted); text-transform: uppercase; margin-bottom: 24px;
+}
+.figure-divider { height: 1px; background: var(--rule); margin: 24px 0; }
+.figure-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;
+  font-family: 'DM Sans', sans-serif;
+}
+.figure-stat .num {
+  font-family: 'Fraunces', serif; font-size: 26px; font-weight: 500;
+  color: var(--ink); line-height: 1; display: block;
+}
+.figure-stat .lbl {
+  font-size: 11px; color: var(--ink-muted);
+  letter-spacing: 0.04em; text-transform: uppercase; margin-top: 6px;
+}
+
+/* ─── Section title ─── */
+.section-title {
+  font-family: 'Fraunces', serif; font-size: 13px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-muted);
+  margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.section-title .roman {
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+  font-size: 12px; color: var(--accent); letter-spacing: 0.04em; text-transform: none;
+}
+section { margin-bottom: 96px; scroll-margin-top: 32px; }
+
+
+/* ─── Quick nav cards ─── */
+.nav-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+}
+.nav-card {
+  background: var(--paper); padding: 28px 26px;
+  display: flex; flex-direction: column; text-decoration: none;
+  color: inherit; transition: background 0.25s ease; cursor: pointer;
+  min-height: 160px;
+}
+.nav-card:hover { background: var(--paper-warm); }
+.nav-card-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.08em; color: var(--ink-muted); margin-bottom: 16px;
+}
+.nav-card-title {
+  font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
+  line-height: 1.15; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.01em;
+}
+.nav-card-desc { font-size: 13px; line-height: 1.5; color: var(--ink-muted); margin-bottom: auto; }
+.nav-card-action {
+  font-size: 12px; font-weight: 500; color: var(--ink);
+  display: flex; align-items: center; gap: 6px; margin-top: 20px;
+  padding-top: 12px; border-top: 1px solid var(--rule);
+}
+.nav-card-action .arrow { transition: transform 0.2s ease; }
+.nav-card:hover .nav-card-action .arrow { transform: translateX(4px); }
+
+/* ─── Body prose ─── */
+.prose { max-width: 760px; }
+.prose h2 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 32px;
+  line-height: 1.15; letter-spacing: -0.015em; color: var(--ink);
+  margin: 48px 0 20px;
+}
+.prose h2:first-child { margin-top: 0; }
+.prose h3 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px;
+  color: var(--ink); margin: 32px 0 12px;
+}
+.prose p { margin-bottom: 16px; color: var(--ink-soft); }
+.prose ul, .prose ol { margin: 12px 0 20px 24px; }
+.prose ul li, .prose ol li { margin-bottom: 8px; color: var(--ink-soft); }
+.prose strong { color: var(--ink); font-weight: 600; }
+
+.toolkit {
+  background: var(--paper-warm); border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 28px 32px; margin: 24px 0;
+}
+.toolkit h3 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500; margin-bottom: 12px; }
+.toolkit ul { margin: 8px 0 0 20px; }
+.toolkit li { font-size: 14px; margin-bottom: 8px; color: var(--ink-soft); }
+.toolkit li strong { color: var(--ink); }
+
+/* ─── Filter bar ─── */
+.filter-row {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;
+  align-items: center;
+}
+.filter-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.12em; color: var(--ink-muted); text-transform: uppercase;
+  margin-right: 8px;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border: 1px solid var(--rule); border-radius: 999px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink-soft);
+  background: var(--paper); cursor: pointer; transition: all 0.15s ease;
+}
+.chip:hover { border-color: var(--ink-muted); }
+.chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip-count {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--ink-quiet); margin-left: 4px;
+}
+.chip.active .chip-count { color: var(--paper-warm); }
+
+/* ─── Scenario / variant cards ─── */
+.cards-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+}
+.cards-grid.variants { background: var(--rule); }
+.scen-card {
+  background: var(--paper); padding: 28px 28px 24px; cursor: pointer;
+  display: flex; flex-direction: column; transition: background 0.2s ease;
+  min-height: 220px; position: relative;
+}
+.scen-card:hover { background: var(--paper-warm); }
+.scen-card.hidden { display: none; }
+.scen-card-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.scen-card-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.1em; color: var(--ink-muted);
+}
+.scen-card-domain {
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-deep);
+  background: var(--accent-soft); padding: 3px 8px; border-radius: 3px;
+}
+.scen-card-title {
+  font-family: 'Fraunces', serif; font-size: 21px; font-weight: 500;
+  line-height: 1.2; color: var(--ink); margin-bottom: 14px; letter-spacing: -0.01em;
+}
+.scen-card-summary {
+  font-size: 13px; line-height: 1.5; color: var(--ink-muted);
+  margin-bottom: auto; padding-bottom: 16px;
+}
+.scen-card-meta {
+  display: flex; gap: 16px; padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.06em; color: var(--ink-quiet); text-transform: uppercase;
+}
+.scen-card-meta b {
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  color: var(--ink-soft); text-transform: none; font-size: 12px;
+  letter-spacing: 0; margin-left: 4px;
+}
+
+/* Variant cards use a slightly different visual identity */
+.variant-card .scen-card-domain { background: var(--warm-soft); color: var(--warm); }
+
+/* ─── Drawer / detail panel ─── */
+.drawer-overlay {
+  position: fixed; inset: 0; background: rgba(15, 31, 46, 0.4);
+  z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: auto; }
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(880px, 100%);
+  background: var(--paper); z-index: 101; transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex; flex-direction: column; box-shadow: var(--shadow-lift);
+}
+.drawer.open { transform: translateX(0); }
+.drawer-head {
+  padding: 24px 36px; border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--paper-warm);
+}
+.drawer-head .label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.1em; color: var(--ink-muted); text-transform: uppercase;
+}
+.drawer-actions { display: flex; gap: 8px; }
+.icon-btn {
+  border: 1px solid var(--rule); background: var(--paper);
+  padding: 8px 12px; border-radius: 4px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink);
+  display: flex; align-items: center; gap: 6px; transition: all 0.15s ease;
+}
+.icon-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.drawer-body { flex: 1; overflow-y: auto; padding: 40px 48px 80px; }
+.drawer-body h2 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 32px;
+  line-height: 1.15; letter-spacing: -0.015em; color: var(--ink);
+  margin-bottom: 24px;
+}
+.drawer-body h3 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px;
+  color: var(--ink); margin: 32px 0 12px; padding-bottom: 4px;
+}
+.drawer-body h4 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 15px;
+  color: var(--accent-deep); text-transform: uppercase; letter-spacing: 0.08em;
+  margin: 24px 0 8px;
+}
+.drawer-body p { color: var(--ink-soft); margin-bottom: 14px; }
+.drawer-body ul, .drawer-body ol { margin: 8px 0 16px 20px; }
+.drawer-body li { color: var(--ink-soft); margin-bottom: 6px; }
+.drawer-body strong { color: var(--ink); font-weight: 600; }
+
+/* Info table inside drawer */
+.info-table {
+  width: 100%; border-collapse: collapse; margin: 20px 0;
+  border: 1px solid var(--rule); background: var(--paper);
+}
+.info-table tr { border-bottom: 1px solid var(--rule-soft); }
+.info-table tr:last-child { border-bottom: none; }
+.info-table td {
+  padding: 10px 14px; font-size: 13px; vertical-align: top;
+  line-height: 1.5;
+}
+.info-table td:first-child {
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  color: var(--ink); background: var(--paper-warm); width: 30%;
+}
+.info-table td:last-child { color: var(--ink-soft); }
+
+/* Quote (candidate brief / confederate brief) */
+.brief-quote {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft); padding: 16px 22px;
+  margin: 14px 0; font-family: 'Fraunces', serif;
+  font-style: italic; font-size: 14.5px; line-height: 1.6;
+  color: var(--ink-soft);
+}
+.brief-quote::before { content: '"'; opacity: 0.4; margin-right: 4px; }
+.brief-quote::after { content: '"'; opacity: 0.4; margin-left: 4px; }
+
+/* Phase blocks for scenario flow */
+.phase {
+  border-left: 2px solid var(--accent); padding: 6px 0 6px 20px; margin: 16px 0;
+}
+.phase-time {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.08em; color: var(--accent-deep); text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.phase-title {
+  font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500;
+  color: var(--ink); margin-bottom: 8px;
+}
+.phase ul { margin: 4px 0 0 18px; }
+.phase li { font-size: 13.5px; margin-bottom: 4px; }
+
+/* ─── Faculty pack sections ─── */
+.fp-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--rule); border: 1px solid var(--rule);
+}
+.fp-card {
+  background: var(--paper); padding: 32px 32px;
+  display: flex; flex-direction: column; cursor: pointer;
+  transition: background 0.2s ease;
+}
+.fp-card:hover { background: var(--paper-warm); }
+.fp-card-num {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 14px; color: var(--accent); margin-bottom: 8px;
+}
+.fp-card-title {
+  font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
+  color: var(--ink); margin-bottom: 12px; letter-spacing: -0.01em;
+}
+.fp-card-desc { font-size: 13px; line-height: 1.55; color: var(--ink-muted); }
+
+/* ─── Schedule table ─── */
+.schedule-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+}
+.schedule-table tr { border-bottom: 1px solid var(--rule); }
+.schedule-table tr:hover { background: var(--paper-warm); }
+.schedule-table td { padding: 14px 0; vertical-align: top; }
+.sch-month {
+  font-family: 'JetBrains Mono', monospace; color: var(--ink-muted);
+  font-size: 11px; letter-spacing: 0.08em;
+  width: 80px; padding-top: 17px !important; text-transform: uppercase;
+}
+.sch-scen {
+  font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500;
+  color: var(--ink); width: 42%;
+}
+.sch-var { font-size: 13.5px; color: var(--ink-soft); }
+.sch-domain {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
+  text-align: right; width: 140px; padding-top: 18px !important;
+}
+
+/* ─── Footer ─── */
+footer {
+  border-top: 1px solid var(--rule); padding-top: 32px; margin-top: 32px;
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.08em; color: var(--ink-muted); text-transform: uppercase;
+}
+footer .colophon {
+  font-family: 'Fraunces', serif; font-style: italic; font-size: 12px;
+  letter-spacing: 0; text-transform: none; color: var(--ink-muted);
+}
+
+/* ─── Animations ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero, .section-title, .cards-grid, .nav-grid { animation: fadeUp 0.6s ease backwards; }
+.section-title { animation-delay: 0.1s; }
+.cards-grid, .nav-grid { animation-delay: 0.2s; }
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .wrap { padding: 32px 20px 80px; }
+  .hero { grid-template-columns: 1fr; gap: 40px; margin-bottom: 64px; }
+  header.top { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .cards-grid, .fp-grid, .nav-grid { grid-template-columns: 1fr; }
+  .drawer-body { padding: 28px 24px 60px; }
+  .drawer-head { padding: 16px 24px; }
+}
+@media (max-width: 480px) {
+  .cta-row { flex-direction: column; }
+  .btn { width: 100%; justify-content: center; }
+  .figure-number { font-size: 64px; }
+  footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+}
+
+/* ─── Print ─── */
+@media print {
+  body { background: white; color: black; }
+  body::before, .cta-row, header.top, .filter-row, .drawer-overlay, .drawer-head .drawer-actions, footer { display: none !important; }
+  .drawer {
+    position: static; transform: none; box-shadow: none; width: 100%;
+  }
+  .drawer-overlay.open ~ .drawer .drawer-body { padding: 0; }
+  .hero { grid-template-columns: 1fr; gap: 24px; }
+  .section-title, .cards-grid, .nav-grid { animation: none; }
+  .nav-grid, .cards-grid, .fp-grid { background: none; border: 1px solid #ccc; }
+  .scen-card, .nav-card, .fp-card { break-inside: avoid; }
+  .brief-quote { background: #f6f6f6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ─────────── HEADER ─────────── -->
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark">A</div>
+    <span>Acute Medicine Education</span>
+  </div>
+  <div class="meta-info">
+    <span>In-situ simulation</span>
+    <span>UK guidelines</span>
+    <span>Faculty pack included</span>
+  </div>
+</header>
+
+<!-- ─────────── HERO ─────────── -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Acute medicine · teaching estate</div>
+    <h1>The <em>unselected</em><br>take</h1>
+    <p class="lede">In-situ simulation for the acute medicine team. Twelve clinical scenarios covering the time-critical presentations to the AMU. Twelve matched human factors variants for senior learners. A full faculty development pack — setup, confederate briefs, advocacy-with-inquiry debrief, common pitfalls. Designed to be lifted off the shelf and used on the unit.</p>
+    <div class="cta-row">
+      <a href="#scenarios" class="btn btn-primary">Browse scenarios <span class="btn-arrow">→</span></a>
+      <a href="#variants" class="btn btn-secondary">Human factors variants <span class="btn-arrow">→</span></a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-figure">
+      <div class="figure-number">12</div>
+      <div class="figure-label">Clinical scenarios</div>
+      <div class="figure-divider"></div>
+      <div class="figure-stats">
+        <div class="figure-stat"><span class="num">12</span><span class="lbl">HF variants</span></div>
+        <div class="figure-stat"><span class="num">7</span><span class="lbl">FD sections</span></div>
+        <div class="figure-stat"><span class="num">5</span><span class="lbl">Templates</span></div>
+        <div class="figure-stat"><span class="num">45m</span><span class="lbl">Per session</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── QUICK NAV ─────────── -->
+<section>
+  <div class="section-title"><span>Contents</span><span class="roman">i.</span></div>
+  <div class="nav-grid">
+    <a class="nav-card" href="#framework">
+      <div class="nav-card-num">01</div>
+      <div class="nav-card-title">Framework</div>
+      <div class="nav-card-desc">Why in-situ sim, why human factors, the layering principle, the HF toolkit and the debrief framework.</div>
+      <div class="nav-card-action">Open <span class="arrow">→</span></div>
+    </a>
+    <a class="nav-card" href="#scenarios">
+      <div class="nav-card-num">02 · 12 entries</div>
+      <div class="nav-card-title">Clinical scenarios</div>
+      <div class="nav-card-desc">Ten-minute in-situ sims covering the time-critical presentations to the AMU. Brief, flow, debrief.</div>
+      <div class="nav-card-action">Browse <span class="arrow">→</span></div>
+    </a>
+    <a class="nav-card" href="#variants">
+      <div class="nav-card-num">03 · 12 entries</div>
+      <div class="nav-card-title">Human factors variants</div>
+      <div class="nav-card-desc">Each clinical scenario re-engineered to test a single non-technical skill. Confederate scripts included.</div>
+      <div class="nav-card-action">Browse <span class="arrow">→</span></div>
+    </a>
+    <a class="nav-card" href="#faculty">
+      <div class="nav-card-num">04 · 7 sections</div>
+      <div class="nav-card-title">Faculty development</div>
+      <div class="nav-card-desc">Setup, confederate briefing, running the scenario, debrief structures, pitfalls and templates.</div>
+      <div class="nav-card-action">Open <span class="arrow">→</span></div>
+    </a>
+    <a class="nav-card" href="#appendices">
+      <div class="nav-card-num">05 · 5 templates</div>
+      <div class="nav-card-title">Appendices</div>
+      <div class="nav-card-desc">Confederate brief template, observer notes, learner self-assessment, debrief crib card, LO matrix.</div>
+      <div class="nav-card-action">Open <span class="arrow">→</span></div>
+    </a>
+    <a class="nav-card" href="#schedule">
+      <div class="nav-card-num">06</div>
+      <div class="nav-card-title">Annual schedule</div>
+      <div class="nav-card-desc">A monthly cadence that delivers the full curriculum across the year. Adapt to local rotations.</div>
+      <div class="nav-card-action">Open <span class="arrow">→</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- ─────────── FRAMEWORK ─────────── -->
+<section id="framework">
+  <div class="section-title"><span>Part one · framework</span><span class="roman">ii.</span></div>
+  <div class="prose">
+    <h2>Why in-situ simulation</h2>
+    <p>In-situ simulation happens in the real clinical environment with real staff, on the unit where the care will actually be delivered. It is more powerful than centre-based simulation because the whole system gets stress-tested alongside the team. Missing equipment, broken pumps, unclear sightlines, ward culture, the bleep that no one answers — all are revealed in-situ in a way they never are in a purpose-built sim suite.</p>
+    <p>In-situ work is also more demanding to deliver. Real patients are nearby and faculty must protect them. The unit is busy and faculty time is contested. The environment cannot be controlled. These constraints are real and the faculty pack provides specific guidance for managing them.</p>
+    <p>The published evidence supports the approach. Walker and colleagues demonstrated a long-term reduction in mortality after multidisciplinary in-situ simulation training in a teaching hospital. The HSSIB and its predecessor have repeatedly named non-technical failures as contributors to preventable harm; in-situ work is uniquely placed to address them because it exposes the system as well as the team.</p>
+
+    <h2>Why human factors</h2>
+    <p>Clinical simulation tends to select for technical knowledge. Once a team has algorithm fluency, the next bottleneck is the soft tissue around the algorithm — leadership, communication, situational awareness, decision-making, task management and personal resource management. These are the domains identified across the <strong>ANTS, NOTSS and Medical NTS</strong> frameworks and within the Resuscitation Council UK crisis management curriculum.</p>
+    <p>They are also the domains repeatedly named in coroners' Regulation 28 reports. They cannot be reliably learned at the bedside because the cases are rare, the feedback is delayed, and the moments are often unrecognised at the time. Simulation is the only deliberate-practice route for these skills.</p>
+
+    <h2>The layering principle</h2>
+    <p>Each human factors variant uses an existing clinical scenario as its substrate. The clinical pathway is deliberately straightforward for the level of learner — the challenge is exclusively non-technical. If learners are stretched clinically <em>and</em> non-technically at the same time, the debrief becomes muddled and the HF lessons are lost in the clinical noise. Three rules govern the design:</p>
+    <ol>
+      <li><strong>One human factors challenge per scenario.</strong> Stacking challenges produces chaos, not learning.</li>
+      <li><strong>Confederates work to a script.</strong> Improvisation makes debriefs incomparable across teams.</li>
+      <li><strong>Debrief the behaviour, not the bedside.</strong> The clinical decisions are a lens; the substrate is how the team made them.</li>
+    </ol>
+
+    <div class="toolkit">
+      <h3>The human factors toolkit</h3>
+      <p>Plug-in challenges that can be applied to any clinical scenario. Twelve variants in Part Three demonstrate them in worked form.</p>
+      <ul>
+        <li><strong>Authority gradient</strong> — a senior is wrong and is reachable only by phone.</li>
+        <li><strong>Assertiveness</strong> — a junior team member has information the leader needs and is reluctant to volunteer it.</li>
+        <li><strong>Fixation error</strong> — the team locks onto a plausible but wrong diagnosis and a key feature is missed.</li>
+        <li><strong>Cognitive load and parallel demands</strong> — interruptions, competing patients, bleeps, phones.</li>
+        <li><strong>Equipment or resource failure</strong> — missing drug, broken kit, no porter, no bed.</li>
+        <li><strong>Handover failure</strong> — the leader inherits a deteriorating patient mid-stream with poor information.</li>
+        <li><strong>Family conflict</strong> — distressed or angry family present during active resuscitation.</li>
+        <li><strong>Team conflict</strong> — a colleague openly disagrees with the plan in front of the patient.</li>
+        <li><strong>Personal resource management</strong> — fatigue, hunger, a previous bad outcome that day.</li>
+        <li><strong>System resource scarcity</strong> — the system cannot deliver what the patient needs in the available time.</li>
+      </ul>
+    </div>
+
+    <h2>The debrief framework</h2>
+    <p>Debrief is where the learning happens. The scenario is the substrate. Plan twenty to twenty-five minutes; never run over thirty. Use two structures in sequence:</p>
+    <ol>
+      <li><strong>Plus / Delta</strong> — five minutes. Surface-level reflection. What went well, what would you do differently. Vents the emotional load.</li>
+      <li><strong>Advocacy with inquiry</strong> — fifteen to twenty minutes. Focused on two or three specific moments. This is the deep work.</li>
+    </ol>
+    <p>The advocacy-with-inquiry technique was developed at the Centre for Medical Simulation in Boston and codified by Rudolph and colleagues. The structure: state your observation, share your frame, inquire into the learner's frame, listen, respond. A worked example from the Speaking-Up variant:</p>
+    <div class="brief-quote">I noticed that when the nurse mentioned the glucose at the start, you continued giving the second dose of lorazepam without acknowledging her. I'm wondering if you heard her, and if you did, what was going through your head at that moment?</div>
+    <p>The temptation is to skip to the answer. Resist. Behaviour change requires understanding the learner's mental model first; unless you understand it, your correction will not stick.</p>
+  </div>
+</section>
+
+
+<!-- ─────────── SCENARIOS ─────────── -->
+<section id="scenarios">
+  <div class="section-title"><span>Part two · clinical scenarios</span><span class="roman">iii.</span></div>
+  <div class="filter-row" id="scen-filters">
+    <span class="filter-label">Filter by domain</span>
+    <button class="chip active" data-domain="all">All<span class="chip-count">12</span></button>
+    <button class="chip" data-domain="cardio">Cardiovascular</button>
+    <button class="chip" data-domain="resp">Respiratory</button>
+    <button class="chip" data-domain="neuro">Neurological</button>
+    <button class="chip" data-domain="endo">Endocrine</button>
+    <button class="chip" data-domain="gi">GI</button>
+    <button class="chip" data-domain="infection">Infection</button>
+    <button class="chip" data-domain="tox">Toxicology</button>
+  </div>
+  <div class="cards-grid" id="scen-grid"></div>
+</section>
+
+<!-- ─────────── VARIANTS ─────────── -->
+<section id="variants">
+  <div class="section-title"><span>Part three · human factors variants</span><span class="roman">iv.</span></div>
+  <div class="filter-row" id="var-filters">
+    <span class="filter-label">Filter by HF challenge</span>
+    <button class="chip active" data-hf="all">All<span class="chip-count">12</span></button>
+    <button class="chip" data-hf="communication">Communication</button>
+    <button class="chip" data-hf="leadership">Leadership</button>
+    <button class="chip" data-hf="awareness">Awareness</button>
+    <button class="chip" data-hf="team">Team working</button>
+    <button class="chip" data-hf="resource">Resource</button>
+    <button class="chip" data-hf="family">Patients/families</button>
+  </div>
+  <div class="cards-grid variants" id="var-grid"></div>
+</section>
+
+<!-- ─────────── FACULTY PACK ─────────── -->
+<section id="faculty">
+  <div class="section-title"><span>Part four · faculty development</span><span class="roman">v.</span></div>
+  <div class="fp-grid" id="fp-grid"></div>
+</section>
+
+<!-- ─────────── APPENDICES ─────────── -->
+<section id="appendices">
+  <div class="section-title"><span>Appendices · templates</span><span class="roman">vi.</span></div>
+  <div class="fp-grid" id="ap-grid"></div>
+</section>
+
+<!-- ─────────── ANNUAL SCHEDULE ─────────── -->
+<section id="schedule">
+  <div class="section-title"><span>Annual schedule · monthly cadence</span><span class="roman">vii.</span></div>
+  <div class="prose">
+    <p>Twelve months covers the full clinical estate and the full HF curriculum. A fortnightly cadence delivers the same programme in six months. Faculty teams running both modes are advised to alternate clinical and HF runs rather than running them consecutively, so that learners experience the HF challenge after they have already worked the clinical substrate.</p>
+  </div>
+  <table class="schedule-table" id="schedule-table"></table>
+</section>
+
+<!-- ─────────── FOOTER ─────────── -->
+<footer>
+  <span>Acute Medicine · Unselected take simulation</span>
+  <span class="colophon">Hand-authored. Aligned with NICE, BTS, JBDS-IP, Resus Council UK, ESC and ESO guidance.</span>
+</footer>
+
+</div><!-- /wrap -->
+
+<!-- ─────────── DRAWER ─────────── -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="label" id="drawer-label">—</span>
+    <div class="drawer-actions">
+      <button class="icon-btn" onclick="window.print()" title="Print this card">⎙ Print</button>
+      <button class="icon-btn" onclick="closeDrawer()">✕ Close</button>
+    </div>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+</aside>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+// SCENARIO DATA
+// ════════════════════════════════════════════════════════════════
+const scenarios = [
+  {
+    num: 1, id: 's1', domain: 'endo', domainLabel: 'Endocrine',
+    title: 'Acute severe hyperkalaemia with ECG changes',
+    summary: 'CKD 4, ramipril + spironolactone + recent trimethoprim. Drowsy, peaked T waves and broadening QRS. K+ 7.4. The cardioprotect–shift–remove sequence under pressure.',
+    learners: 'IMT1–ST4 + AMU nursing',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Recognise hyperkalaemic ECG changes promptly on the unselected take.',
+      'Initiate treatment in the correct sequence: cardioprotect → shift → remove.',
+      'Demonstrate closed-loop communication, task allocation and SBAR escalation.',
+      'Identify and stop contributing medications.',
+      'Communicate honestly under acute pressure with the patient and nurse.'
+    ],
+    setup: [
+      'Volunteer patient: drowsy, slow to respond, reports palpitations and feeling weak.',
+      'Volunteer AMU nurse: hands over obs and results when prompted, will follow instructions but does not pre-empt.',
+      'Pre-printed ECG strip: peaked T waves, prolonged PR, broadening QRS.',
+      'Pre-written U&E result card: K+ 7.4, Cr 380 (baseline 280), HCO3⁻ 16, eGFR 12.',
+      'Pre-written VBG card: pH 7.21, HCO3⁻ 15, lactate 1.8, K+ 7.3.',
+      'Faculty plays renal/ICU SpR on the phone if called.'
+    ],
+    brief: 'You are the medical registrar on the unselected take. The AMU nurse is calling you to bay 4. The patient is a 68-year-old man who came in from renal clinic earlier today with malaise and reduced urine output. He has CKD 4 (baseline creatinine 280), on ramipril, spironolactone and a recent course of trimethoprim. His U&Es are just back and the nurse says he doesn\'t look right. Please attend now.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition', items: [
+        'ABCDE; full obs (HR 52, BP 108/68, RR 22, SpO₂ 96%, GCS 14, CBG 6.1); IV access; 12-lead ECG; bloods including VBG.',
+        'Trigger if no ECG by 90s: nurse says "his pulse feels really slow and odd, do you want an ECG?"'
+      ]},
+      { time: '2–5 min', title: 'Cardioprotection and shift', items: [
+        '10 mL 10% calcium gluconate IV over 5–10 min, repeat ECG; 10 units Actrapid in 25 g glucose IV over 15 min; salbutamol 10–20 mg nebulised; continuous cardiac monitoring; stop ramipril, spironolactone, trimethoprim.',
+        'Trigger if calcium omitted: nurse reports "his QRS looks even wider on the monitor".'
+      ]},
+      { time: '5–8 min', title: 'Escalation and reassessment', items: [
+        'Faculty (on phone) plays renal SpR: expect concise SBAR, current K+, ECG findings, treatments given, response, request for dialysis review and bed.',
+        'Repeat VBG handed over: K+ 6.5 — improving.',
+        'Plan for repeat K+ at 1 h, glucose monitoring, location step-up (HDU/level 2 review), clear monitoring plan.'
+      ]},
+      { time: '8–10 min', title: 'Closure', items: [
+        'Nurse asks: "What do I tell the family if they ring?"',
+        'Expected: brief honest update, plan documented, handover to on-call team, named consultant informed.'
+      ]}
+    ],
+    debriefClinical: [
+      'Cardioprotect first — calcium does not lower K+ but buys time. Common error is jumping to insulin first.',
+      'Salbutamol and insulin are additive, not alternative.',
+      'Stop the offending drugs at the point of recognition — ACEi, MRA, trimethoprim, NSAIDs.',
+      'Repeat K+ at 1 h and again at 2–4 h; rebound hypokalaemia and hypoglycaemia are real.',
+      'Dialysis criteria: refractory K+, severe AKI, acidosis, fluid overload — escalate early in CKD 4/5.'
+    ],
+    debriefHF: [
+      'Shared mental model: did the team agree the diagnosis aloud?',
+      'Task allocation: who drew up, who monitored, who called?',
+      'Closed-loop communication on drug doses.',
+      'SBAR quality on the phone call.'
+    ],
+    refs: [
+      'UK Kidney Association — Clinical Practice Guideline: Treatment of Acute Hyperkalaemia in Adults (2023).',
+      'Resuscitation Council UK ALS — peri-arrest hyperkalaemia algorithm.',
+      'Local trust hyperkalaemia protocol.'
+    ]
+  },
+  {
+    num: 2, id: 's2', domain: 'resp', domainLabel: 'Respiratory · Resus',
+    title: 'Anaphylaxis to first dose IV antibiotic',
+    summary: 'Co-amoxiclav started 10 minutes ago for community pneumonia. Stridor, hypotension, urticaria. IM adrenaline first — not steroid, not antihistamine.',
+    learners: 'AMU nursing, IMT, ST3+',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Recognise anaphylaxis using clinical criteria — do not wait for hypotension.',
+      'Give IM adrenaline 500 mcg as the first drug, in the correct site, repeated at 5 min if needed.',
+      'Manage airway, fluids and the secondary drugs (steroid removed from current guidance, antihistamine demoted).',
+      'Take a refractory anaphylaxis pathway when appropriate.',
+      'Lead a team in a fast-moving, high-noise situation.'
+    ],
+    setup: [
+      'Volunteer patient: well at start, then becomes acutely breathless, scratching neck, throat tightening, voice changes.',
+      'Volunteer nurse: just started co-amoxiclav for community-acquired pneumonia.',
+      'Pre-written obs card in two stages — baseline (HR 92, BP 128/76, SpO₂ 97%), then deterioration (HR 134, BP 78/42, SpO₂ 88%, audible stridor).',
+      'Pre-printed rhythm strip: sinus tachycardia.'
+    ],
+    brief: 'You are the on-call medical reg. A nurse on AMU has called you urgently to bay 2. A 54-year-old woman admitted with community-acquired pneumonia started her first dose of IV co-amoxiclav around 10 minutes ago. She is now breathless and looks unwell. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition', items: [
+        'Stop infusion immediately; ABCDE; call for help (2222 or AMU emergency); position supine with legs raised if hypotensive, or sitting up if breathless.',
+        'Trigger if not recognised by 90 s: patient develops audible stridor and urticaria becomes visible.'
+      ]},
+      { time: '2–5 min', title: 'First-line treatment', items: [
+        'IM adrenaline 500 mcg (0.5 mL of 1:1000) into anterolateral mid-thigh; high-flow oxygen; large-bore IV access; IV crystalloid 500–1000 mL stat.',
+        'Trigger if IV adrenaline considered: nurse asks "are you sure?"',
+        'Repeat obs after 2 min: still hypotensive, BP 84/48.'
+      ]},
+      { time: '5–8 min', title: 'Second dose and escalation', items: [
+        'Second IM adrenaline at 5 min; further fluid bolus; consider nebulised adrenaline 5 mg for stridor; call anaesthetics/ICU; declare refractory if no response after two IM doses.',
+        'Faculty (phone) plays ICU SpR: expect SBAR and clear ask.'
+      ]},
+      { time: '8–10 min', title: 'Wrap', items: [
+        'Red-band the allergy, document in notes and on drug chart, mast cell tryptase requested (at presentation, 1–2 h, 24 h), referral to allergy clinic, patient and family communication, incident form.',
+        'Nurse asks: "Should I give the hydrocortisone and chlorphenamine now?" — expect candidate to know these are no longer routinely recommended.'
+      ]}
+    ],
+    debriefClinical: [
+      'IM not IV adrenaline as first line — IV adrenaline is for refractory cases with appropriate monitoring.',
+      'Site matters — anterolateral thigh, not deltoid.',
+      'Steroids and antihistamines are not first-line and should not delay adrenaline.',
+      'Biphasic reactions — observation period 2–6 h minimum, longer if severe or asthmatic.',
+      'Tryptase timing and documentation.',
+      'Allergy labelling — the red band, the drug chart, the GP letter, the discharge summary.'
+    ],
+    debriefHF: [
+      'Closed-loop communication on drug doses under noise.',
+      'Leader vs hands-on — registrar should step back if possible.',
+      'Calling for help early — the 2222 culture.'
+    ],
+    refs: [
+      'Resuscitation Council UK — Emergency treatment of anaphylactic reactions (2021).',
+      'NICE CG134 — anaphylaxis.',
+      'BSACI drug allergy guidelines.'
+    ]
+  },
+  {
+    num: 3, id: 's3', domain: 'cardio', domainLabel: 'Cardiovascular · Resus',
+    title: 'Massive PE with haemodynamic compromise',
+    summary: 'Post-op day 14 from a knee replacement. HR 124, BP 82/54, SpO₂ 88% on 15 L. The clinical diagnosis, the cautious fluid, and the thrombolysis decision.',
+    learners: 'IMT3–ST5+',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Recognise high-risk PE clinically before imaging.',
+      'Make a thrombolysis decision under pressure with incomplete information.',
+      'Escalate to ICU and the on-call consultant in parallel, not in sequence.',
+      'Use bedside echo findings (verbalised) to support the decision.',
+      'Communicate risk-benefit of thrombolysis to a patient who can still speak.'
+    ],
+    setup: [
+      'Volunteer patient: speaking in short sentences, clutching chest. Reports recent right calf swelling and a long-haul flight 5 days ago.',
+      'Volunteer nurse: hands over obs and pre-printed ECG.',
+      'Pre-written ECG: sinus tachycardia at 124, S1Q3T3, RBBB pattern, T-wave inversion V1–V4.',
+      'Pre-written ABG: pH 7.46, pO₂ 7.8 on 15 L, pCO₂ 3.4, lactate 3.2.',
+      'Faculty plays bedside echo report when requested: RV dilated, septal flattening, McConnell\'s sign, no pericardial effusion.'
+    ],
+    brief: 'You are called to AMU. A 71-year-old woman is acutely breathless. She is post-op day 14 from a right total knee replacement. Obs: HR 124, BP 82/54, RR 32, SpO₂ 88% on 15 L non-rebreather. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition', items: [
+        'ABCDE; pretest probability (Wells/PERC verbalised); high-flow oxygen; large-bore IV access; bloods including troponin and lactate; ECG; cardiac monitor.'
+      ]},
+      { time: '2–5 min', title: 'Working diagnosis and resuscitation', items: [
+        'Cautious fluid (250–500 mL) — recognise that aggressive fluid worsens RV failure; consider noradrenaline early; request urgent CTPA OR bedside echo if too unstable to scan.',
+        'Faculty trigger: BP drops to 72/40 if more than 1 L fluid given.'
+      ]},
+      { time: '5–8 min', title: 'The thrombolysis decision', items: [
+        'Clear verbalised decision-making — high-risk PE (hypotension), no absolute contraindications established, weigh alteplase 50 mg bolus or 100 mg over 2 h; involve ICU and consultant in parallel.',
+        'Faculty (phone) plays consultant: "What\'s your plan, registrar?" — looking for a structured pitch, not a question.',
+        'Patient asks: "Am I going to die?" — expect honest, calibrated, compassionate response.'
+      ]},
+      { time: '8–10 min', title: 'Delivery and disposition', items: [
+        'Thrombolysis given (or clear reason not), ICU bed requested, post-lysis monitoring plan, anticoagulation plan after lysis (heparin infusion when APTT acceptable), family contact.'
+      ]}
+    ],
+    debriefClinical: [
+      'High-risk PE is a clinical diagnosis with imaging confirmation when feasible — do not delay treatment for a scan in the dying patient.',
+      'Fluid is a double-edged sword in RV failure — small boluses, vasopressors early.',
+      'Thrombolysis in post-op patients — recent surgery is relative, life-threatening PE may justify it.',
+      'Communication under threat — short sentences, eye contact, naming the diagnosis.',
+      'Post-lysis anticoagulation — when, what, how monitored.'
+    ],
+    debriefHF: [
+      'The "What\'s your plan?" consultant call — pitch vs question.',
+      'Compassionate honesty under pressure.',
+      'Parallel escalation (ICU + consultant) vs sequential.'
+    ],
+    refs: [
+      'ESC 2019 Guidelines for the diagnosis and management of acute pulmonary embolism.',
+      'BTS guidance on PE.',
+      'Local thrombolysis protocol.'
+    ]
+  },
+  {
+    num: 4, id: 's4', domain: 'neuro', domainLabel: 'Neurological · Resus',
+    title: 'Status epilepticus on the AMU',
+    summary: 'Known epilepsy, missed levetiracetam, fitting for 5 minutes on arrival. Glucose 3.2. The clock has already started.',
+    learners: 'IMT1+, AMU nursing',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Recognise convulsive status epilepticus and start the clock.',
+      'Deliver benzodiazepines in the correct dose, route and interval.',
+      'Escalate to second-line and to anaesthetics in parallel.',
+      'Identify and treat reversible causes during the seizure, not after.',
+      'Lead a multi-person bedside response.'
+    ],
+    setup: [
+      'Volunteer patient: lying on bed, faculty narrates "generalised tonic-clonic seizure, ongoing for 5 minutes already when you arrive".',
+      'Volunteer nurse: knows patient — admitted overnight with confusion, known epilepsy, missed levetiracetam for 3 days.',
+      'Pre-printed CBG result: 3.2 mmol/L.',
+      'Pre-printed VBG: pH 7.18, lactate 6.8.'
+    ],
+    brief: 'You are the medical reg on take. You are called urgently to AMU. A 34-year-old woman with known epilepsy is fitting. The nurse says she has been seizing for at least 5 minutes. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition and first-line', items: [
+        'ABCDE simultaneously with treatment; airway positioning, suction, high-flow oxygen; IV access; check glucose immediately; IV lorazepam 4 mg OR buccal/IM midazolam 10 mg if no access.',
+        'Trigger: CBG 3.2 — expect IV glucose (e.g. 100 mL 20% glucose) alongside benzodiazepine.'
+      ]},
+      { time: '2–5 min', title: 'Second dose', items: [
+        'If still seizing at 10 min from onset (5 min into scenario): second dose of benzodiazepine, call anaesthetics, prepare second-line.',
+        'Call for senior help, anaesthetics, ICU bed request.'
+      ]},
+      { time: '5–8 min', title: 'Second-line agent', items: [
+        'Levetiracetam 60 mg/kg (max 4.5 g) IV OR sodium valproate 40 mg/kg (max 3 g) OR phenytoin 20 mg/kg with cardiac monitoring — verbalised, not prepared.',
+        'Faculty plays anaesthetic SpR by phone: expect handover, plan for RSI if no response.',
+        'Look for reversible causes: glucose (done), sodium, temperature, toxins, pregnancy, infection, missed AED levels.'
+      ]},
+      { time: '8–10 min', title: 'Refractory plan and disposition', items: [
+        'If still seizing: anaesthetic-led RSI with propofol/thiopentone, transfer to ICU.',
+        'If seizure terminates: post-ictal management, recovery position, repeat obs, neuro exam when rousable, urgent CT head if first seizure or focal features, LP if febrile, restart AEDs at appropriate dose, safeguarding for missed medication.'
+      ]}
+    ],
+    debriefClinical: [
+      'The clock starts at 5 minutes — that is convulsive status by current definition.',
+      'Glucose is the cheap, fast intervention that\'s easy to forget.',
+      'Two doses of benzodiazepine, then second-line — do not loop on benzodiazepines.',
+      'Phenytoin is being displaced by levetiracetam in many trusts — know your local protocol.',
+      'Team lead vs hands-on — registrar should step back and lead, not cannulate.',
+      'Drug levels, AED reconciliation, safeguarding the home medication issue.'
+    ],
+    debriefHF: [
+      'Closed-loop drug orders under physical chaos.',
+      'Recognising your own physiological state in a noisy emergency.',
+      'The leader who steps back gains the room; the leader who picks up the laryngoscope loses it.'
+    ],
+    refs: [
+      'NICE NG217 Epilepsies in adults (2022).',
+      'ILAE definition of status epilepticus.',
+      'ESETT trial (2019) — levetiracetam vs valproate vs fosphenytoin.',
+      'Local status protocol.'
+    ]
+  },
+  {
+    num: 5, id: 's5', domain: 'endo', domainLabel: 'Endocrine',
+    title: 'DKA in a newly diagnosed type 1',
+    summary: 'Eighteen, recently diagnosed, stopped insulin after two days of vomiting. Glucose 28, ketones 5.6, pH 7.08. JBDS sequence — fluid first, then insulin, then potassium.',
+    learners: 'IMT1+, AMU nursing',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Diagnose DKA on the triad (hyperglycaemia, ketosis, acidosis).',
+      'Follow JBDS-IP sequence: fluid → fixed-rate insulin → potassium.',
+      'Avoid the common errors — bolus insulin, stopping background long-acting insulin, missing potassium.',
+      'Identify and treat the precipitant.',
+      'Talk to a frightened young patient about why this happened.'
+    ],
+    setup: [
+      'Volunteer patient: 18-year-old, drowsy but rousable, breathing deeply, reports abdominal pain and vomiting.',
+      'Volunteer nurse: hands over obs, prior insulin chart, dipstick.',
+      'CBG card: 28.4 mmol/L. Blood ketones card: 5.6 mmol/L.',
+      'VBG card: pH 7.08, HCO3⁻ 8, K+ 5.4, Na+ 132, lactate 1.4.',
+      'Optional urinalysis: nitrites +, leucocytes +++, ketones ++++.'
+    ],
+    brief: 'AMU nurse calls you about an 18-year-old woman recently diagnosed with type 1 diabetes. She has had two days of vomiting and abdominal pain and stopped her insulin because she couldn\'t keep anything down. She looks unwell. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition', items: [
+        'ABCDE; CBG, blood ketones and VBG at bedside; large-bore IV access; bloods including FBC, U&E, blood cultures; urinalysis; ECG.',
+        'Verbalise diagnostic triad: glucose >11, ketones ≥3, pH <7.3 or HCO3⁻ <15.'
+      ]},
+      { time: '2–5 min', title: 'Fluid first', items: [
+        '0.9% saline 500 mL over 15 min if SBP <90; reassess; then 1 L over 1 h, 1 L over 2 h, 1 L over 2 h, 1 L over 4 h, 1 L over 4 h (JBDS schedule, titrated to haemodynamics and age).',
+        'Trigger if insulin given before fluid: nurse asks "shouldn\'t we get fluid up first?"'
+      ]},
+      { time: '5–8 min', title: 'Insulin and potassium', items: [
+        'Fixed-rate insulin infusion 0.1 units/kg/h — not a bolus.',
+        'Continue long-acting basal insulin if previously on it; if newly diagnosed, start when stable.',
+        'K+ replacement when serum K+ <5.5: 40 mmol/L in the second and subsequent bags.',
+        '10% glucose alongside saline once CBG <14 mmol/L.'
+      ]},
+      { time: '8–10 min', title: 'Precipitant and disposition', items: [
+        'UTI identified — start empirical antibiotics per local guideline.',
+        'Plan for hourly CBG and ketones, 2-hourly VBG, hourly U&Es initially.',
+        'Level 2 care or DKA-monitored bed; diabetes team referral; psychological support around insulin omission; safeguarding if relevant.'
+      ]}
+    ],
+    debriefClinical: [
+      'Fluid resuscitation precedes insulin — insulin without fluid worsens shock.',
+      'No insulin bolus in adults.',
+      'Do not stop long-acting basal insulin during DKA — common error.',
+      'Bicarbonate is not routine.',
+      'Resolution criteria: pH >7.3, ketones <0.6, HCO3⁻ >18 — then transition to subcutaneous insulin with overlap.',
+      'Cerebral oedema risk in younger patients — be cautious with fluid rate, watch for headache, GCS drop.'
+    ],
+    debriefHF: [
+      'Compassionate engagement with a frightened, newly diagnosed young person.',
+      'Explaining the diagnosis simply while still acutely unwell.',
+      'Safeguarding signals around insulin omission.'
+    ],
+    refs: [
+      'JBDS-IP — The Management of Diabetic Ketoacidosis in Adults (current edition).',
+      'NICE NG17.'
+    ]
+  },
+  {
+    num: 6, id: 's6', domain: 'gi', domainLabel: 'Gastrointestinal · Resus',
+    title: 'Variceal upper GI bleed',
+    summary: 'Known cirrhosis, previous banding, three large haematemeses in 20 minutes. Permissive hypotension, the variceal bundle, the airway decision.',
+    learners: 'IMT3+, ST3+',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Recognise haemorrhagic shock and resuscitate with permissive hypotension targets.',
+      'Activate the major haemorrhage protocol.',
+      'Initiate the variceal-specific bundle: terlipressin + antibiotics + endoscopy.',
+      'Make an early airway decision in the vomiting, drowsy patient.',
+      'Lead a parallel-process resuscitation with multiple simultaneous tasks.'
+    ],
+    setup: [
+      'Volunteer patient: pale, drowsy, faculty narrates fresh haematemesis, about half a kidney dish.',
+      'Volunteer nurse: hands over known alcohol-related cirrhosis, previous banding 6 weeks ago, on carvedilol.',
+      'Obs card: HR 132, BP 78/42, RR 24, SpO₂ 96% air, GCS 13, temp 37.2.',
+      'Bloods card: Hb 72, plt 84, INR 1.8, Cr 168, bilirubin 64, albumin 24, lactate 4.1.',
+      'Faculty plays blood bank, endoscopy SpR, ICU SpR on the phone.'
+    ],
+    brief: 'AMU bay 1. A 58-year-old man with known cirrhosis and previous variceal banding has had three large haematemeses in the last 20 minutes. Obs: HR 132, BP 78/42. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition and access', items: [
+        'ABCDE; two large-bore IV cannulae; bloods including group and save / crossmatch 4–6 units; activate major haemorrhage protocol.',
+        'Position with airway protection in mind; suction; high-flow O₂.'
+      ]},
+      { time: '2–5 min', title: 'Resuscitation', items: [
+        'Balanced resuscitation — blood products over crystalloid; aim permissive hypotension (SBP ~90) while bleeding active.',
+        'Faculty triggers ongoing haematemesis if more than 1 L crystalloid given.',
+        'TXA is not routinely indicated in upper GI bleed (HALT-IT) — debrief point.'
+      ]},
+      { time: '5–8 min', title: 'Variceal bundle', items: [
+        'Terlipressin 2 mg IV stat (then 1–2 mg 4–6 hourly).',
+        'IV antibiotics — ceftriaxone 1 g (or per local protocol).',
+        'Call endoscopy on-call for urgent OGD within 12 h (or sooner if unstable).',
+        'Call ICU — airway compromise risk pre-endoscopy.',
+        'Correct coagulopathy per major haemorrhage protocol.'
+      ]},
+      { time: '8–10 min', title: 'Disposition', items: [
+        'ICU for airway protection and ongoing resuscitation; endoscopy on table or in theatre; consider Sengstaken-Blakemore as a bridge if exsanguinating.',
+        'Family communication — honest, named consultant involved.'
+      ]}
+    ],
+    debriefClinical: [
+      'Major haemorrhage protocol — who calls, what comes, where.',
+      'Permissive hypotension targets and why over-resuscitation worsens outcomes.',
+      'Variceal bleed is a specific pathway — terlipressin and antibiotics are time-critical.',
+      'Airway protection in vomiting, encephalopathic patients — low threshold for intubation pre-endoscopy.',
+      'Glasgow-Blatchford and Rockall scores — when each is used.',
+      'HALT-IT trial — no role for routine TXA in upper GI bleed.'
+    ],
+    debriefHF: [
+      'Parallel task allocation under pressure — endoscopy, ICU, blood bank, theatre, all at once.',
+      'When to take the airway decision vs wait for anaesthetics.',
+      'Communication with a deteriorating, drowsy patient.'
+    ],
+    refs: [
+      'BSG — Acute Upper Gastrointestinal Bleeding (2015) and variceal management addendum.',
+      'NICE CG141.',
+      'HALT-IT (Lancet 2020).'
+    ]
+  },
+];
+</script>
+
+<script>
+scenarios.push(
+  {
+    num: 7, id: 's7', domain: 'resp', domainLabel: 'Respiratory',
+    title: 'Acute severe to life-threatening asthma',
+    summary: 'Young known asthmatic, 5-day URTI, no relief from home salbutamol. PEFR 28% predicted. The rising CO₂ as a red flag.',
+    learners: 'IMT2+, ST3+',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Categorise asthma severity using BTS criteria at the bedside.',
+      'Deliver back-to-back nebulisers, IV magnesium and systemic steroids in the right sequence.',
+      'Recognise the rising or normal CO₂ as a red flag for impending failure.',
+      'Make a structured intubation decision and call anaesthetics early.',
+      'Communicate clearly with a patient who can only speak in single words.'
+    ],
+    setup: [
+      'Volunteer patient: sat forward, hands on knees, speaking single words; faculty narrates audible wheeze.',
+      'Volunteer nurse: hands over ambulance pre-alert and prior medication.',
+      'Obs card 1 (initial): HR 128, RR 32, SpO₂ 89% air, PEFR 180 (28% predicted), two words at a time.',
+      'ABG card 1: pH 7.42, pO₂ 8.2 on air, pCO₂ 3.8, HCO3⁻ 22, lactate 1.6.',
+      'Obs card 2 (after 5 min): HR 124, RR 36, SpO₂ 91% on 15 L, single words, drowsy.',
+      'ABG card 2: pH 7.32, pCO₂ 5.6 — debrief trigger.'
+    ],
+    brief: 'Paramedics have just brought in a 28-year-old known asthmatic with a 5-day URTI. He has been using salbutamol every 15 minutes at home with no relief. He\'s in AMU bay 3, looks awful. Please assess.',
+    flow: [
+      { time: '0–2 min', title: 'Severity assessment', items: [
+        'ABCDE; high-flow oxygen titrated to SpO₂ 94–98%; verbalise BTS severity criteria; PEFR if able.',
+        'Identify acute severe vs life-threatening features.'
+      ]},
+      { time: '2–5 min', title: 'Back-to-back nebs and steroid', items: [
+        'Salbutamol 5 mg + ipratropium 500 mcg nebulised, oxygen-driven, back-to-back.',
+        'Hydrocortisone 100 mg IV or prednisolone 40–50 mg PO (PO preferred if tolerated).',
+        'IV access; bloods; portable CXR; ABG.'
+      ]},
+      { time: '5–8 min', title: 'Escalate', items: [
+        'Magnesium sulfate 2 g IV over 20 min.',
+        'Reassess — trigger: CO₂ now 5.6 — patient tiring.',
+        'Call anaesthetics and ICU; consider IV salbutamol (250 mcg over 10 min then infusion) or IV aminophylline per local protocol.',
+        'NIV is not generally recommended in asthma — debrief point.'
+      ]},
+      { time: '8–10 min', title: 'Intubation decision', items: [
+        'Verbalise indications: exhaustion, silent chest, rising CO₂, falling GCS, refractory hypoxia.',
+        'Anaesthetic-led RSI — ketamine preferred for bronchodilatation; ICU bed; brief, compassionate communication with patient before sedation.'
+      ]}
+    ],
+    debriefClinical: [
+      'A normal or rising pCO₂ in acute asthma indicates impending respiratory failure, not improvement.',
+      'The order of escalation: nebs → steroid → magnesium → IV bronchodilators → intubation.',
+      'Ketamine for induction; risk of dynamic hyperinflation and hypotension post-tube.',
+      'Why NIV is controversial / not first-line in asthma compared with COPD.',
+      'Discharge safety: PEFR ≥75% predicted, off nebs for 24 h, written action plan, oral steroids, follow-up arranged, inhaler technique checked.'
+    ],
+    debriefHF: [
+      'Calling anaesthetics early — when does the leader make the call?',
+      'Communication with a patient who can\'t speak in sentences.',
+      'Recognising the deteriorating gas as a soft sign of catastrophe.'
+    ],
+    refs: [
+      'BTS/SIGN — British guideline on the management of asthma (current edition).',
+      'NICE/BTS/SIGN 2024 joint update.',
+      'Local IV salbutamol/aminophylline protocols.'
+    ]
+  },
+  {
+    num: 8, id: 's8', domain: 'cardio', domainLabel: 'Cardiovascular',
+    title: 'Fast AF with haemodynamic compromise',
+    summary: 'Known paroxysmal AF on apixaban, in fast AF at 168, near-syncope, BP 78/52. The peri-arrest tachyarrhythmia algorithm in real time.',
+    learners: 'IMT3+, ST3+',
+    duration: '10 min', props: 'Defib/monitor (off)',
+    objectives: [
+      'Apply the peri-arrest tachyarrhythmia algorithm to a real patient.',
+      'Identify adverse features that mandate synchronised DC cardioversion.',
+      'Lead a sedation-and-cardioversion procedure with anaesthetic support.',
+      'Choose the correct sync mode and escalating energies.',
+      'Search for and treat the reversible cause once rhythm stabilises.'
+    ],
+    setup: [
+      'Volunteer patient: pale, sweaty, clutching chest, lightheaded.',
+      'Volunteer nurse: pulled the patient from a bay after a near-syncope.',
+      'ECG card: narrow-complex irregularly irregular tachycardia at ~168, no P waves.',
+      'Obs card: HR 168 irregular, BP 78/52, RR 22, SpO₂ 95% air, GCS 14, CBG 6.8.',
+      'Faculty plays anaesthetic SpR on the phone.'
+    ],
+    brief: 'Bay 4 on AMU. 72-year-old man with known paroxysmal AF on apixaban, admitted 2 hours ago with palpitations. The nurse pulled him back into bed after a near-faint. BP 78/52. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition', items: [
+        'ABCDE; 12-lead ECG; cardiac monitor; IV access; bloods including FBC, U&E, Mg, TFTs, troponin; identify rhythm.',
+        'Verbalise the algorithm: adverse features = shock, syncope, MI, heart failure → DC cardioversion.'
+      ]},
+      { time: '2–5 min', title: 'Prepare for cardioversion', items: [
+        'Call anaesthetics; nil by mouth declared; check apixaban timing for cardioversion safety; pads placed (AP often preferred for AF); defib in synchronised mode; energy selected (typically 120–150 J biphasic, escalating).',
+        'Brief patient — short, honest explanation if conscious.'
+      ]},
+      { time: '5–8 min', title: 'Cardioversion', items: [
+        'Sedation by anaesthetist — verbalise drug choice (e.g. propofol with fentanyl, or ketamine).',
+        'Synchronised shock at 120 J → reassess → repeat at 150 J → 200 J if needed.',
+        'If sinus restored: 12-lead ECG, repeat obs, continuous monitoring.',
+        'If failed: amiodarone 300 mg IV over 20 min via central or large peripheral, then 900 mg over 24 h.'
+      ]},
+      { time: '8–10 min', title: 'Cause and disposition', items: [
+        'Look for trigger: sepsis, MI, electrolyte derangement, thyrotoxicosis, alcohol, PE.',
+        'Anticoagulation status confirmed — already on apixaban, time of last dose.',
+        'HDU/CCU monitoring; cardiology referral; documentation of procedure and consent (verbal in emergency).'
+      ]}
+    ],
+    debriefClinical: [
+      'Synchronised vs unsynchronised — the consequence of getting it wrong is R-on-T and VF.',
+      'Pad position for AF cardioversion.',
+      'Sedation responsibility belongs with anaesthetics in most trusts — escalate, don\'t go alone.',
+      'Anticoagulation and cardioversion timing — DOAC compliance vs TOE-guided approach.',
+      'Always look for the why — fast AF is rarely idiopathic in an unwell patient.'
+    ],
+    debriefHF: [
+      'Interruption management — the procedure requires focus.',
+      'Closed-loop checks before delivering the shock.',
+      'Honest, short patient briefing under time pressure.'
+    ],
+    refs: [
+      'Resuscitation Council UK — Peri-arrest tachyarrhythmia algorithm.',
+      'ESC Guidelines for the management of atrial fibrillation (2024 update).',
+      'NICE NG196.'
+    ]
+  },
+  {
+    num: 9, id: 's9', domain: 'infection', domainLabel: 'Infection · Resus',
+    title: 'Meningococcal sepsis with non-blanching rash',
+    summary: 'Nineteen, six hours of headache and fever, now drowsy. Petechial rash spreading up the thighs. Antibiotics first, scan and LP later.',
+    learners: 'IMT1+, AMU nursing',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Recognise the meningococcal triad — fever, non-blanching rash, altered mental state — and act before confirmation.',
+      'Deliver time-zero antibiotics without waiting for imaging or LP.',
+      'Resuscitate septic shock with balanced fluids and early vasopressors.',
+      'Identify when LP is contraindicated and what to do instead.',
+      'Trigger the public health and contact-prophylaxis pathway.'
+    ],
+    setup: [
+      'Volunteer patient: 19-year-old, drowsy, photophobic, reports neck pain. Faculty narrates petechial rash on the shins spreading up the thighs, non-blanching to glass test.',
+      'Volunteer nurse: hands over recent obs and brief flatmate-witnessed history.',
+      'Obs card: HR 132, BP 82/48, RR 28, SpO₂ 94% air, temp 39.4, GCS 13, CRT 4 s.',
+      'Bloods card: WCC 22, CRP 198, lactate 4.4, plt 84, INR 1.6.'
+    ],
+    brief: 'AMU just admitted a 19-year-old student via ED. Six hours of headache, fever, vomiting, now drowsy. His flatmate noticed a rash in the ambulance. ED was busy and shifted him over without antibiotics yet. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition', items: [
+        'ABCDE; identify non-blanching rash with glass test; bloods including blood cultures and meningococcal PCR; two large-bore IV cannulae; high-flow oxygen.',
+        'Trigger if antibiotics delayed for cultures or imaging: nurse points out the rash is now spreading visibly.'
+      ]},
+      { time: '2–5 min', title: 'Time-zero antibiotics and fluid', items: [
+        'Ceftriaxone 2 g IV stat (do not wait for cultures, scan or LP).',
+        'Crystalloid bolus 500 mL, reassess; aim for sepsis-style resuscitation up to 30 mL/kg with vigilance for fluid overload.'
+      ]},
+      { time: '5–8 min', title: 'Escalation', items: [
+        'Persistent hypotension after 1 L crystalloid → call ICU; verbalise need for vasopressor (noradrenaline) via central access; consider peripheral noradrenaline as a bridge per local policy.',
+        'Assess for raised ICP signs: posturing, papilloedema, focal neurology, bradycardia with hypertension, falling GCS, seizures. If present → defer LP, CT head first, treat empirically.',
+        'Dexamethasone 10 mg IV — strongest evidence in pneumococcal meningitis, locally variable; give with or just before first dose of antibiotic if meningitis suspected, and review later if confirmed meningococcal.'
+      ]},
+      { time: '8–10 min', title: 'Public health and disposition', items: [
+        'Notify the local Health Protection Team — statutory notifiable disease (suspected meningococcal disease).',
+        'Identify close contacts (household, kissing) for ciprofloxacin 500 mg single dose prophylaxis.',
+        'ICU bed, named consultant informed, family contacted with honesty and care, safeguarding the patient\'s possessions and contacts list.'
+      ]}
+    ],
+    debriefClinical: [
+      'Antibiotics first, scan and LP later — sepsis bundles do not pause for imaging.',
+      'LP contraindications: raised ICP signs, focal neurology, shock, coagulopathy, GCS ≤12, after recent seizure.',
+      'Dexamethasone evidence and timing.',
+      'Notification is a legal duty, not a courtesy — and prophylaxis is consultant-in-communicable-disease-control led, not ours.',
+      'Communication with the flatmate as both a contact and a frightened witness.'
+    ],
+    debriefHF: [
+      'Speed under uncertainty — the diagnosis is clinical, not awaiting confirmation.',
+      'Communication with the flatmate while the patient is deteriorating.',
+      'The public health pathway as part of the clinical algorithm.'
+    ],
+    refs: [
+      'NICE NG240 — Meningitis (bacterial) and meningococcal disease (2024).',
+      'UK Health Security Agency — Guidance for public health management of meningococcal disease.',
+      'Surviving Sepsis Campaign bundles.'
+    ]
+  },
+  {
+    num: 10, id: 's10', domain: 'cardio', domainLabel: 'Cardiovascular · Resp',
+    title: 'Acute cardiogenic pulmonary oedema (flash APO)',
+    summary: 'Known HFrEF on top of community pneumonia, suddenly more breathless, SpO₂ 84%. GTN early, CPAP earlier, no opioid.',
+    learners: 'IMT2+, ST3+',
+    duration: '10 min', props: 'CPAP if available',
+    objectives: [
+      'Recognise APO at the bedside without waiting for imaging.',
+      'Initiate GTN, diuretic and oxygen in the right order and at the right dose.',
+      'Apply CPAP early rather than as a rescue.',
+      'Hunt the precipitant — APO is a symptom, not a diagnosis.',
+      'Avoid the harms — opioid, over-diuresis, fluid bolus from habit.'
+    ],
+    setup: [
+      'Volunteer patient: sat bolt upright, hands gripping the mattress, faculty narrates pink frothy sputum, gasping, can\'t lie flat.',
+      'Volunteer nurse: hands over recent furosemide compliance and missed diuretic doses.',
+      'Obs card: HR 124 sinus, BP 192/108, RR 36, SpO₂ 84% air, JVP raised, bibasal crackles to mid-zones.',
+      'ECG card: sinus tachycardia, LV strain pattern, no acute ST changes.',
+      'CXR card (verbalised): bilateral perihilar bat-wing oedema, Kerley B lines, upper-lobe diversion.'
+    ],
+    brief: 'Bed 6 on AMU. 76-year-old woman with known HFrEF (EF 28%) admitted for community-acquired pneumonia two days ago. Suddenly more breathless over the last 20 minutes. SpO₂ 84% on air. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition', items: [
+        'Sit upright; high-flow oxygen titrated; IV access; ECG; bloods including troponin, BNP, U&E; ABG.'
+      ]},
+      { time: '2–5 min', title: 'First-line treatment', items: [
+        'GTN infusion 1–2 mg/h IV, up-titrate as long as SBP >110 (or sublingual GTN 2 sprays while line set up).',
+        'IV furosemide 40–80 mg (or 2× usual oral dose if already on a loop diuretic).',
+        'Avoid routine opioid — register data shows worse outcomes.',
+        'No fluid bolus.'
+      ]},
+      { time: '5–8 min', title: 'CPAP', items: [
+        'Apply CPAP early — start at 5 cmH₂O, titrate to 10; expect rapid improvement.',
+        'Reassess obs and work of breathing; if no improvement, escalate to ICU for ?intubation.'
+      ]},
+      { time: '8–10 min', title: 'Hunt the precipitant', items: [
+        'Differential: missed diuretic, MI, arrhythmia, infection (community pneumonia already present here), anaemia, dietary salt/fluid load, AKI, new valve lesion, thyrotoxicosis.',
+        'Cardiology referral; HDU bed for ongoing GTN; daily weights, fluid balance, U&Es; medication reconciliation.'
+      ]}
+    ],
+    debriefClinical: [
+      'The classic LMNOP is outdated — morphine is harmful in APO and no longer routine.',
+      'GTN drops preload and afterload faster than furosemide takes effect.',
+      'CPAP is first-line non-invasive support, not a rescue — earlier is better.',
+      'Diuretic-resistance: IV bolus then infusion, combination diuretics, consider thiazide on top.',
+      'The discharge bundle: heart failure team review, BNP-guided titration, sick-day rules, MDT.'
+    ],
+    debriefHF: [
+      'The frightened, sat-bolt-upright patient — quiet competence over verbal explanation.',
+      'Family discussion about prognosis at the right moment.',
+      'Anti-default reasoning — recognising and resisting the LMNOP habit.'
+    ],
+    refs: [
+      'ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure (2021, 2023 focused update).',
+      'NICE NG106 — Chronic heart failure in adults.',
+      '3CPO trial (NIV in cardiogenic pulmonary oedema).'
+    ]
+  },
+  {
+    num: 11, id: 's11', domain: 'tox', domainLabel: 'Toxicology',
+    title: 'Staggered paracetamol overdose',
+    summary: 'Twenty-four, thirty tablets across hours about 36 hours ago, deferred treatment, now ALT 1840 and INR 3.2. The non-nomogram pathway.',
+    learners: 'IMT1+, ST3+',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Take a focused, non-judgmental overdose history.',
+      'Distinguish single time-point vs staggered ingestion — different rules apply.',
+      'Start NAC without waiting for a level if the situation demands it.',
+      'Recognise and manage an anaphylactoid reaction to NAC.',
+      'Apply King\'s College criteria and contact a liver unit early.'
+    ],
+    setup: [
+      'Volunteer patient: tearful, quiet, eye contact poor, RUQ tenderness on examination.',
+      'Volunteer nurse: hands over admission bloods, notes she was admitted by ED last night, NAC was deferred to AMU.',
+      'Bloods card: paracetamol 95 mg/L (time uncertain), ALT 1,840, INR 3.2, Cr 138, bilirubin 64, pH 7.31, lactate 4.6, glucose 3.4.',
+      'Mental health context: recent relationship breakdown, no prior self-harm; bag of empty paracetamol blister packs handed over by friend.'
+    ],
+    brief: 'AMU side room. 24-year-old woman, took about 30 paracetamol over a few hours roughly 36 hours ago. Initially declined treatment in ED, then changed her mind overnight. Bloods are back and look concerning. Please assess.',
+    flow: [
+      { time: '0–2 min', title: 'Assessment', items: [
+        'ABCDE; focused overdose history — total dose, timing, staggered or single, co-ingestants (alcohol, opioids, antihistamines), suicidal intent, current safety.',
+        'IV access; repeat U&E, LFT, INR, ABG/VBG, glucose, salicylate, ethanol, pregnancy test.'
+      ]},
+      { time: '2–5 min', title: 'Decision to treat', items: [
+        'Recognise staggered ingestion >24 h ago with abnormal LFTs and raised INR — treat regardless of paracetamol level or nomogram.',
+        'The Rumack-Matthew nomogram applies only to single time-point ingestion within 24 h.'
+      ]},
+      { time: '5–8 min', title: 'NAC infusion', items: [
+        'N-acetylcysteine 21-hour SNAP regimen (per local protocol): 100 mg/kg over 2 h, then 200 mg/kg over 10 h; or the older 3-bag regimen depending on trust.',
+        'Trigger: faculty announces patient develops flushing, urticaria, mild wheeze 15 min into infusion → anaphylactoid reaction.',
+        'Manage: slow or pause infusion, IV antihistamine, nebulised salbutamol if wheeze, restart at slower rate; full stop only if severe.'
+      ]},
+      { time: '8–10 min', title: 'Liver unit and mental health', items: [
+        'Apply King\'s College criteria: arterial pH <7.3 after resuscitation OR all of (INR >6.5, creatinine >300 μmol/L, grade III/IV encephalopathy).',
+        'Hyperlactataemia >3.5 post-resuscitation is a further transplant criterion.',
+        'Phone regional liver unit early — do not wait for criteria to be met.',
+        'Psychiatric liaison referral; safeguarding; named adult; suicide-safer environment; honest, compassionate communication.'
+      ]}
+    ],
+    debriefClinical: [
+      'Two different paracetamol pathways — nomogram for single ingestion, clinical and biochemical criteria for staggered or late.',
+      'NAC anaphylactoid reaction is a histamine release, not a true allergy — slow, don\'t stop.',
+      'King\'s College criteria are a referral prompt, not a transplant guarantee.',
+      'Mental health is part of the medical assessment, not an add-on.',
+      'Capacity assessment if the patient wishes to leave — document carefully.'
+    ],
+    debriefHF: [
+      'Non-judgmental questioning — language and posture matter.',
+      'Suicide-safer environment — what counts, what doesn\'t.',
+      'The team\'s emotional load after deliberate self-harm cases.'
+    ],
+    refs: [
+      'NPIS / TOXBASE — Paracetamol overdose guidance.',
+      'King\'s College Hospital criteria for transplantation.',
+      'NICE NG225 — Self-harm: assessment, management and preventing recurrence (2022).',
+      'SNAP trial (NAC regimen).'
+    ]
+  },
+  {
+    num: 12, id: 's12', domain: 'neuro', domainLabel: 'Neurological',
+    title: 'Subarachnoid haemorrhage / thunderclap headache',
+    summary: 'Worst headache of his life two hours ago while shovelling snow. BP 198/112. The window for CT, the question of LP, the BP target.',
+    learners: 'IMT2+, ST3+',
+    duration: '10 min', props: 'None',
+    objectives: [
+      'Recognise a thunderclap headache as SAH until proven otherwise.',
+      'Get the CT head within 6 hours of onset for maximal sensitivity.',
+      'Reason through the role of LP if CT is negative.',
+      'Manage BP, raised ICP and seizure risk in parallel.',
+      'Refer to neurosurgery and arrange transfer without delay.'
+    ],
+    setup: [
+      'Volunteer patient: lying still, hand on forehead, photophobic, neck stiff on examination, GCS 13.',
+      'Volunteer nurse: confirms onset time and circumstances.',
+      'Obs card: HR 86, BP 198/112, RR 18, SpO₂ 98% air, GCS 13, pupils equal and reactive.',
+      'CT head report (after appropriate request): Hyperdense material in basal cisterns, Sylvian fissures and interhemispheric fissure — appearances of acute subarachnoid haemorrhage.'
+    ],
+    brief: 'AMU just had a 48-year-old man wheeled in. Two hours ago he was shovelling snow, dropped to his knees with the worst headache of his life. He has vomited twice. BP 198/112. Please attend.',
+    flow: [
+      { time: '0–2 min', title: 'Recognition', items: [
+        'ABCDE; focused neurological assessment — GCS, pupils, cranial nerves, limb tone/power, neck stiffness, Kernig\'s; bloods including coagulation and group and save; IV access; analgesia and anti-emetic.',
+        'Verbalise differential and the phrase "thunderclap headache".'
+      ]},
+      { time: '2–5 min', title: 'Imaging', items: [
+        'Urgent CT head within 1 hour of arrival — sensitivity >98% if performed within 6 hours of symptom onset.',
+        'Anti-emetic (e.g. ondansetron); analgesia (paracetamol, opioid sparingly); raise the head of the bed 30°.',
+        'Avoid LP at this stage.'
+      ]},
+      { time: '5–8 min', title: 'Active treatment', items: [
+        'BP control — aim SBP <160 to reduce rebleed risk while preserving cerebral perfusion. IV labetalol or GTN infusion titrated.',
+        'Nimodipine 60 mg PO/NG every 4 hours for vasospasm prophylaxis.',
+        'Anticonvulsant prophylaxis is not routine but treat seizures if they occur.',
+        'Reverse anticoagulation if relevant (warfarin → PCC + vitamin K; DOAC → andexanet or idarucizumab per local).'
+      ]},
+      { time: '8–10 min', title: 'Neurosurgery and transfer', items: [
+        'CT report confirms SAH → phone neurosurgical on-call; arrange CT angiogram to identify aneurysm; transfer to regional centre for coiling or clipping.',
+        'HDU/ICU monitoring during transfer; family communication; consent for transfer; named consultant.'
+      ]}
+    ],
+    debriefClinical: [
+      'Worst headache of my life + sudden onset peaking within a minute = thunderclap until proven otherwise.',
+      'CT within 6 h is highly sensitive; beyond 6 h, LP becomes more useful — xanthochromia at ≥12 h from onset.',
+      'LP contraindications: raised ICP signs, focal neurology, coagulopathy, GCS drop.',
+      'BP target balances rebleed vs cerebral perfusion — avoid precipitous drops.',
+      'Nimodipine is for vasospasm prophylaxis, not BP control.',
+      'Why this patient should be in a centre with neurointervention by the end of today.'
+    ],
+    debriefHF: [
+      'The structured neurosurgical referral call.',
+      'Family communication when the patient deteriorates between scans.',
+      'Holding the patient safely while waiting for a bed elsewhere.'
+    ],
+    refs: [
+      'NICE NG228 — Stroke and transient ischaemic attack in over 16s.',
+      'European Stroke Organisation Guideline for the management of intracranial aneurysms and SAH.',
+      'Royal College of Physicians National Clinical Guideline for Stroke.'
+    ]
+  }
+);
+</script>
+<script>
+// ════════════════════════════════════════════════════════════════
+// VARIANT DATA
+// ════════════════════════════════════════════════════════════════
+const variants = [
+  {
+    letter: 'A', id: 'vA', hf: 'communication', hfLabel: 'Speaking up',
+    title: 'Speaking-up across a hierarchy',
+    substrate: 'Scenario 4 · Status epilepticus',
+    challenge: 'Assertiveness across a hierarchy gradient',
+    learners: 'IMT and AMU nursing',
+    summary: 'The nurse knows the glucose is 2.8 and tells the team. The team doesn\'t act. CUS, PACE, the two-challenge rule.',
+    objectives: [
+      'Use a graded assertiveness model (CUS or PACE) to escalate concern to a senior who is anchored on a wrong diagnosis.',
+      'Recognise the fixation error when key information is repeatedly offered and ignored.',
+      'As the team leader, demonstrate the behaviours that make speaking up safe — eye contact, naming nurses, explicit invitations for challenge.'
+    ],
+    briefs: [
+      { who: 'AMU nurse (band 6)', text: 'You did the patient\'s blood gas yourself five minutes before the registrar arrived and the glucose was 2.8. You tell the registrar this once, in a quiet voice, when they first walk in. If they do not act on it, you say nothing further until you are directly asked or until the patient has a second seizure. If asked at debrief, you will say you didn\'t want to interrupt.' },
+      { who: 'IMT1', text: 'You drew up the lorazepam dose and you think it should be 2 mg, not 4 mg. You say so quietly. If the registrar overrides you, you give the drug at the dose they instruct.' }
+    ],
+    modifications: [
+      'Clinical pathway as Scenario 4 — the glucose of 2.8 is the missed piece.',
+      'The seizure will not terminate with benzodiazepines alone; the team will loop unless someone insists on checking and correcting the glucose.',
+      'Confederates do not volunteer information after the first attempt — they wait to be asked.'
+    ],
+    debriefHF: [
+      'What did the nurse say in the first 30 seconds and who heard it? Replay if possible.',
+      'The CUS escalation: I\'m Concerned… I\'m Uncomfortable… this is a Safety issue.',
+      'The PACE escalation: Probe → Alert → Challenge → Emergency.',
+      'Leader behaviours that invite challenge: explicit "what am I missing?" pause at 2 and 5 minutes, naming team members, repeating back.',
+      'The two-challenge rule: a team member who has raised a concern twice should expect either action or an explicit acknowledgement.'
+    ]
+  },
+  {
+    letter: 'B', id: 'vB', hf: 'leadership', hfLabel: 'Hierarchy',
+    title: 'Disagreeing with a senior on the phone',
+    substrate: 'Scenario 3 · Massive PE',
+    challenge: 'Holding a position against a remote consultant',
+    learners: 'ST4+ AIM/GIM registrars',
+    summary: 'The consultant on the phone is anchored on COPD. The registrar must hold the diagnosis and escalate around the obstacle.',
+    objectives: [
+      'Construct a clinical case to a senior who is reaching the wrong conclusion remotely.',
+      'Hold a position under social pressure without becoming combative.',
+      'Document a disagreement and a parallel escalation route safely.'
+    ],
+    briefs: [
+      { who: 'Consultant on the phone', text: 'You are the medical consultant on call from home. You have just been woken. You have not seen the patient. The registrar phones you for advice. You believe this is decompensated COPD, not PE — you treated this patient eight months ago for a similar-sounding admission. You tell the registrar to give nebulisers, steroid and antibiotics and you will come in after breakfast. If the registrar pushes back, you become slightly irritated. You will agree to come in only if the registrar uses a clear three-point clinical argument and explicitly requests your attendance. If they offer to call ICU directly, you become more cooperative.' }
+    ],
+    modifications: [
+      'Clinical pathway is identical to Scenario 3, but the consultant is the obstacle, not the helper.',
+      'The registrar must escalate around the consultant if the consultant remains anchored — usually by phoning ICU directly and informing, not asking.',
+      'Faculty (as ICU SpR) becomes available on a second phone after 5 minutes.'
+    ],
+    debriefHF: [
+      'The script for "I think you may not have the full picture" — practise it.',
+      'Parallel escalation routes — when acceptable, what is documented, who is informed.',
+      'Avoiding the binary trap: "you\'re wrong" vs silence. The middle path is structured advocacy with explicit data.',
+      'What does the registrar do if the consultant refuses to come in and the patient dies? The duty of candour and the GMC framing.',
+      'The leader\'s responsibility for the psychological safety of their own team while disagreeing with a senior — juniors are watching.'
+    ]
+  },
+  {
+    letter: 'C', id: 'vC', hf: 'resource', hfLabel: 'Equipment failure',
+    title: 'Equipment and resource failure',
+    substrate: 'Scenario 2 · Anaphylaxis',
+    challenge: 'Improvisation under resource constraint',
+    learners: 'AMU nursing, IMT, ST3+',
+    summary: 'The adrenaline has been moved. The resus trolley has the wrong concentration. The patient is deteriorating. Plan B.',
+    objectives: [
+      'Lead a team through a kit failure without losing situational awareness.',
+      'Make explicit, time-bound delegation decisions when resources are scarce.',
+      'Recognise the threshold for declaring a system failure and pulling additional resource.'
+    ],
+    briefs: [
+      { who: 'AMU nurse', text: 'When the registrar asks for IM adrenaline, you check the AMU drug cupboard and discover the adrenaline ampoules have been moved to the locked controlled drugs trolley after a recent stock rotation, and the keys are with the band 7 who has gone on her break. You report this calmly within 60 seconds of being asked. You do not volunteer solutions; you await instruction. You will, if asked, fetch a 1 mg adrenaline 1:10,000 prefilled syringe from the resus trolley (the cardiac arrest concentration, not the IM concentration). You will not volunteer that this is the wrong concentration.' }
+    ],
+    modifications: [
+      'The clinical pathway is Scenario 2 but every step that requires adrenaline is delayed by the equipment problem.',
+      'The team must improvise — call resus 2222 for the arrest trolley, contact pharmacy, or recognise the concentration difference and dose accordingly with caution.',
+      'Patient continues to deteriorate during the search.'
+    ],
+    debriefHF: [
+      'Naming the problem out loud: "We have a drug supply problem. Plan B is…"',
+      'The cognitive cost of improvisation — what gets dropped while the team scrambles?',
+      'Closed-loop delegation with a deadline: "You — get adrenaline from resus. I expect you back in 90 seconds. If you can\'t find it, come back and tell me."',
+      'The incident report as a clinical act, not an administrative one.',
+      'Systems learning: where is the drug, who knows it has moved, what is the stock-rotation handover process on this unit?'
+    ]
+  },
+  {
+    letter: 'D', id: 'vD', hf: 'leadership', hfLabel: 'Cognitive load',
+    title: 'Distracted leader, parallel demands',
+    substrate: 'Scenario 8 · Fast AF',
+    challenge: 'Maintaining situational awareness under interruption',
+    learners: 'ST3+ AIM/GIM registrars on take',
+    summary: 'A second sick patient. A bleep. The pharmacy on the phone. The daughter wanting answers. All during the cardioversion prep.',
+    objectives: [
+      'Maintain situational awareness during a procedure while managing competing demands.',
+      'Use a leader-step-back posture rather than hands-on-tools leadership.',
+      'Triage interruptions in real time — accept, defer, decline.'
+    ],
+    briefs: [
+      { who: 'Nurse 1 (bay nurse)', text: 'Standard scenario role, supporting the cardioversion preparation.' },
+      { who: 'Nurse 2 (bay 7)', text: 'Enters at 3 minutes. "Doctor, the gentleman in bay 7 has gone really quiet, his sats are 86. Can you come?" If refused, returns at 6 minutes more insistently.' },
+      { who: 'Switchboard (phone)', text: 'Rings at 4 minutes — "Pharmacy on the line, urgent, about a TTO."' },
+      { who: 'Bleep holder', text: 'At 5 minutes, "There\'s a GP referral, query meningitis, on hold for you."' },
+      { who: 'Patient\'s daughter', text: 'Arrives at 7 minutes, asking what is going on.' }
+    ],
+    modifications: [
+      'Clinical pathway is Scenario 8 unchanged.',
+      'Interruptions arrive in waves and the registrar must allocate, defer or decline each without losing the cardioversion thread.'
+    ],
+    debriefHF: [
+      'The "hands-off lead" — leaders who pick up the laryngoscope lose the room.',
+      'A simple script for declining interruptions: "I cannot leave this patient. Please find the AMU SpR or call my consultant. I will see the other patient as soon as this is stable."',
+      'The bleep that you ignore is also a clinical decision — what gets documented?',
+      'Cognitive offloading — what tasks should be delegated immediately on arrival.',
+      'Reflect on how it felt — pulse, breath, attention. Recognising one\'s own physiological state is part of CRM.'
+    ]
+  },
+  {
+    letter: 'E', id: 'vE', hf: 'team', hfLabel: 'Handover',
+    title: 'Handover failure mid-resuscitation',
+    substrate: 'Scenario 6 · Variceal upper GI bleed',
+    challenge: 'Taking over an unstable patient with poor information',
+    learners: 'Registrars at the night-to-day shift change',
+    summary: 'The night reg is exhausted, defensive, leaves at 90 seconds with a fragmentary handover. The day reg must reconstruct as the patient bleeds.',
+    objectives: [
+      'Conduct a structured handover takeover of an unstable patient — pause, reset, recap.',
+      'Identify information gaps and address them explicitly rather than assuming continuity.',
+      'Re-establish team leadership without undermining the colleague handing over.'
+    ],
+    briefs: [
+      { who: 'Outgoing registrar', text: 'You have been on a night shift, this is your 11th hour. You started managing this patient 40 minutes ago. You have given 2 L of crystalloid, no blood yet, no terlipressin, no antibiotics. You are tired and slightly defensive. Your handover is rushed: GI bleed, cirrhotic, given fluid, waiting for blood, endoscopy aware. You leave for handover meeting at 90 seconds in. If pursued, you become apologetic but vague. You do not know the haemoglobin or the lactate.' }
+    ],
+    modifications: [
+      'The day registrar arrives mid-resuscitation with a deteriorating patient and a fragmentary handover.',
+      'Within 30 seconds the outgoing reg is gone.',
+      'The clinical pathway is Scenario 6, but the new lead must reconstruct the situation while the patient bleeds.'
+    ],
+    debriefHF: [
+      'The STOP pause: Stop, Think, Organise, Proceed — five seconds that buy two minutes.',
+      'A structured takeover script: "Right, everyone, I\'ve just arrived. I\'m the day registrar. Here\'s what I know, here\'s what I don\'t know. Nurse — can you tell me obs and what\'s been given. I\'ll see the patient in 20 seconds."',
+      'The duty to ask the colleague handing over the things they may not have offered — clinical detail, cognitive load, what they have not done.',
+      'Avoiding hindsight bias in debrief — what the night reg did is judged against what they knew at the time.',
+      'The structural problem: should a major haemorrhage have been handed over at all? Whose job is it to extend the night reg\'s shift?'
+    ]
+  },
+  {
+    letter: 'F', id: 'vF', hf: 'awareness', hfLabel: 'Fixation',
+    title: 'Fixation error and diagnostic anchoring',
+    substrate: 'Scenario 1 · Hyperkalaemia',
+    challenge: 'Diagnostic anchoring on ACS',
+    learners: 'IMT and ST3+',
+    summary: 'The IMT calls a STEMI from the ECG. Cath lab is activated. The U&E slip sits on the bench unread.',
+    objectives: [
+      'Recognise anchoring bias and the cost of premature closure.',
+      'Build the habit of asking "what else could this be?" as a discrete cognitive step.',
+      'Use systematic data review as a safeguard against fixation.'
+    ],
+    briefs: [
+      { who: 'IMT1', text: 'You saw the ECG first. You announce "this is a STEMI" on arrival and suggest activating the cath lab. You are confident. You defend the diagnosis if challenged. You have not looked at the U&Es.' },
+      { who: 'Nurse', text: 'The U&E slip arrived three minutes before the registrar. It is on the worktop. You will hand it over only if specifically asked for the U&Es or the potassium. If asked generally "what bloods are back?" you say "they\'re here somewhere" and continue with other tasks.' }
+    ],
+    modifications: [
+      'Clinical pathway as Scenario 1. The ECG (peaked T waves, broadening QRS) is now misread by the IMT as ischaemia.',
+      'Cath lab activation is a hard wrong turn. The result on the bench breaks the anchor — if anyone asks for it.'
+    ],
+    debriefHF: [
+      'The shape of anchoring — first plausible diagnosis sticks; subsequent data gets bent to fit.',
+      'The two-minute pause: a deliberate stop to ask "what else?" before committing to a pathway.',
+      'Standard data review as a system safeguard — every result, every time, regardless of the working diagnosis.',
+      'The role of the fresh eye — sometimes the most useful team member is the one who arrives at minute three.',
+      'Recovery after a wrong turn: name it, restart the algorithm, do not waste cognitive energy on blame.'
+    ]
+  },
+  {
+    letter: 'G', id: 'vG', hf: 'family', hfLabel: 'Family conflict',
+    title: 'Family conflict at the bedside',
+    substrate: 'Scenario 5 · DKA',
+    challenge: 'Distressed, interfering relative during active resuscitation',
+    learners: 'IMT and ST3+',
+    summary: 'The mother is angry, frightened and physically positions herself between the registrar and the patient. "Are you even a proper doctor?"',
+    objectives: [
+      'Hold clinical focus under emotional pressure from a relative.',
+      'Use specific communication techniques to de-escalate without dismissing.',
+      'Delegate family liaison as a deliberate team role, not an afterthought.'
+    ],
+    briefs: [
+      { who: 'Mother', text: 'You are the patient\'s mother. She was diagnosed type 1 a year ago. You believe the hospital has failed her before. You are frightened and angry. You interrupt the registrar\'s assessment. You demand transfer to a specialist hospital. You disagree with IV access — "she\'s terrified of needles, why don\'t you wait". At some point you say: "Are you even a proper doctor?" You will engage constructively only if a team member acknowledges your fear specifically and gives you a concrete plan.' }
+    ],
+    modifications: [
+      'Scenario 5 as written, with mother at bedside throughout.',
+      'She physically positions herself between the registrar and the patient at the moment of cannulation.'
+    ],
+    debriefHF: [
+      'Distressed relatives are not the enemy — they are evidence of love under threat.',
+      'Naming the emotion: "I can see how frightened you are." Said early, said meaningfully.',
+      'The relative safety briefing: "Here\'s what is going to happen in the next ten minutes."',
+      'Delegating family liaison to a senior nurse or second doctor — never the team leader.',
+      'Boundary-setting without dismissiveness: "I need to focus on her for the next five minutes. Then I will talk with you properly."',
+      'Documentation of the conversation; debrief the team afterwards.'
+    ]
+  },
+  {
+    letter: 'H', id: 'vH', hf: 'team', hfLabel: 'Team conflict',
+    title: 'Team conflict in front of the patient',
+    substrate: 'Scenario 7 · Severe asthma',
+    challenge: 'Colleague openly disagreeing during a crisis',
+    learners: 'ST3+ AIM/GIM registrars',
+    summary: 'The anaesthetic SpR thinks the patient should be intubated now and says so in front of everyone. "Look, I do this for a living, you\'re going to kill him."',
+    objectives: [
+      'Distinguish productive disagreement from destructive conflict and respond differently to each.',
+      'Move conflict away from the patient\'s hearing without dismissing the colleague.',
+      'Maintain team psychological safety while making and holding a decision.'
+    ],
+    briefs: [
+      { who: 'Anaesthetic SpR', text: 'You arrive at the magnesium-administration moment. You believe this patient should be intubated now. You say so in front of the patient, the nurses and the family member. You become more strident if engaged at the bedside — "look, I do this for a living, you\'re going to kill him". You are willing to have a structured conversation if invited to step aside. You are not a bully — you are genuinely worried and accustomed to being listened to.' }
+    ],
+    modifications: [
+      'Scenario 7 as written, with the anaesthetic SpR\'s arrival weaponised.',
+      'The clinical decision (continue medical therapy vs intubate now) is genuinely close — there is no clean right answer.'
+    ],
+    debriefHF: [
+      'Disagreement is information; conflict is noise. The leader\'s job is to convert one to the other.',
+      '"Step aside" — physically removing the conversation from the patient\'s hearing.',
+      '"Help me understand your concern" — acknowledging without yielding.',
+      'Patient awareness even when severely unwell; presume the patient hears everything.',
+      'Decision authority — when is it the team leader\'s alone, when is it shared, when does it escalate?',
+      'Repair after conflict: with the colleague, with the team, with the patient and family.'
+    ]
+  },
+  {
+    letter: 'I', id: 'vI', hf: 'family', hfLabel: 'Bereavement',
+    title: 'Bereavement communication during resuscitation',
+    substrate: 'Scenario 9 · Meningococcal sepsis',
+    challenge: 'Preparing family for likely death while the team works',
+    learners: 'ST3+ registrars',
+    summary: 'The patient does not stabilise. The flatmate is in the corridor and is asking the question. The warning shot, the calibrated update, the family-witnessed decision.',
+    objectives: [
+      'Deliver calibrated bad news while resuscitation is ongoing.',
+      'Use the "warning shot" structure to titrate the family\'s understanding.',
+      'Plan family-witnessed resuscitation deliberately, not by default.'
+    ],
+    briefs: [
+      { who: 'Flatmate', text: 'You came in with the patient in the ambulance. You are 21 and frightened. You are in the corridor. You ring his parents at minute 3 and put them on speaker. At minute 5 you ask: "Is he going to die?" At minute 8 you ask: "Can I come in and see him?" If brushed off, you become more distressed. If given an honest, calibrated update, you settle and become useful — you can give a contact history and identify close contacts for prophylaxis.' }
+    ],
+    modifications: [
+      'Scenario 9 as written, but the patient does not stabilise — they slide despite correct treatment.',
+      'By minute 9 the team has done everything reasonable and the outcome is genuinely uncertain.'
+    ],
+    debriefHF: [
+      'The honest, calibrated update: "He is very sick. The next hour is critical. We are doing everything we can." Avoid false reassurance; avoid premature foreclosure.',
+      'The warning shot: "I am worried that…" — three to four words that change everything that follows.',
+      'Delegating family contact — a senior nurse, a registrar from another team, a chaplain. Not the team leader.',
+      'Family-witnessed resuscitation — evidence is mixed but generally favourable when supported; never by default.',
+      'The hot debrief in the corridor afterwards, and the cold one the next day.',
+      'Looking after the flatmate — they may be the next patient if exposed.'
+    ]
+  },
+  {
+    letter: 'J', id: 'vJ', hf: 'family', hfLabel: 'Ceiling of treatment',
+    title: 'Ceiling of treatment conversation',
+    substrate: 'Scenario 10 · Acute pulmonary oedema',
+    challenge: 'Real-time ReSPECT-style conversation with a frail patient\'s family',
+    learners: 'ST3+ registrars',
+    summary: 'The daughter says "she wouldn\'t want to be on machines" but also wants her treated. The conversation, not the decision.',
+    objectives: [
+      'Hold a meaningful ceiling-of-treatment conversation under time pressure.',
+      'Avoid the false binary of "everything" vs "nothing".',
+      'Document and operationalise a plan that can be handed over.'
+    ],
+    briefs: [
+      { who: 'Daughter', text: 'You are the patient\'s daughter. Your mum is 89, has dementia, lives in a nursing home, has been admitted four times in six months. You arrived two minutes after the registrar. You say: "She wouldn\'t want to be on machines. We\'ve talked about this." But you also want her treated for this episode — she was "fine yesterday". You are not seeking a decision; you are seeking a doctor who will help you make sense of what is happening.' }
+    ],
+    modifications: [
+      'Scenario 10 as written, but with the daughter present and active.',
+      'No ReSPECT form is in place. The patient cannot consent.',
+      'Treatment escalation decisions need to be made in real time. CPAP is offered; ICU is requested by the ICU SpR if escalation is the plan.'
+    ],
+    debriefHF: [
+      'A conversation, not a decision — the family is being helped to understand, not asked to choose.',
+      'The false binary: it is not "everything" vs "nothing". Reasonable middle ground is reversible interventions and best supportive care, with ICU as a separate question.',
+      '"What would your mum say if she were sitting up and well right now?" — proxy decision-making language.',
+      'Documentation contemporaneously; ReSPECT form completed before the next deterioration.',
+      'This is a consultant-level conversation. The registrar\'s job is to start it well and hand it over, not to finish it alone.',
+      'The duty of candour about the limits of medicine — and the kindness in saying so.'
+    ]
+  },
+  {
+    letter: 'K', id: 'vK', hf: 'resource', hfLabel: 'Personal resource',
+    title: 'Personal resource management',
+    substrate: 'Scenario 11 · Paracetamol overdose',
+    challenge: 'Leading well in a diminished personal state',
+    learners: 'ST3+ registrars',
+    summary: 'Third overdose of the shift. The second was a 19-year-old who died last year on your watch. Ten hours in. Not eaten since 7 am.',
+    objectives: [
+      'Recognise one\'s own state and account for it in clinical decision-making.',
+      'Develop a habit of pre-task self-check and post-task self-care.',
+      'Build peer-check culture — colleagues who can ask "are you OK to lead this?"'
+    ],
+    briefs: [
+      { who: 'Faculty director (delivered 30 min before)', text: 'Today\'s scenario starts before you get to the bedside. You have already seen two overdoses this shift. The second was a 19-year-old who died last year on your watch despite your best efforts. You are ten hours into a thirteen-hour shift. You haven\'t eaten since 7am. You are about to be called to this patient.' },
+      { who: 'IMT1', text: 'You are working with the registrar today. You have noticed they look exhausted. You think they may be running on empty. You are worried but unsure how to raise it. You will raise it only if given an explicit opening — for example, if the registrar themselves names being tired.' }
+    ],
+    modifications: [
+      'Scenario 11 as written. The clinical decisions are unchanged.',
+      'The HF observation is on the registrar\'s state — pace, eating, sitting, asking for help, choices around the suicide-safety conversation.'
+    ],
+    debriefHF: [
+      'Personal resource management as a core CRM skill — equivalent to leadership and communication, not below them.',
+      'A self-check mnemonic before high-stakes work — IM SAFE / PADRAIG / your local equivalent.',
+      'Triggers to call for help that are not about the patient: tiredness, prior bad outcome anniversary, hunger, illness.',
+      'Peer-check culture — what would have to be true on this unit for the IMT to say "are you OK?"',
+      'The ghost of the prior patient — anchoring on a past bad outcome, recognising it, naming it, separating from it.',
+      'After-task self-care: eat, sit, hydrate. The fifteen-minute pause is a clinical intervention, not a luxury.'
+    ]
+  },
+  {
+    letter: 'L', id: 'vL', hf: 'resource', hfLabel: 'System scarcity',
+    title: 'System resource scarcity',
+    substrate: 'Scenario 12 · Subarachnoid haemorrhage',
+    challenge: 'Managing a time-critical patient when the system cannot deliver',
+    learners: 'ST3+ registrars and consultants',
+    summary: 'Neurosurgery has no bed for six to twelve hours. The bed manager has a side room on AMU only. Hold the patient. Escalate triply.',
+    objectives: [
+      'Escalate when the system fails the patient, in parallel through clinical, operational and regional routes.',
+      'Hold a time-critical patient safely outside the optimal environment.',
+      'Communicate honestly about delay without assigning blame.'
+    ],
+    briefs: [
+      { who: 'Neurosurgical SpR (phone)', text: 'You agree with the diagnosis. You have no bed. ITU has two transfers ahead. You will accept this patient but you cannot give a transfer time better than "sometime in the next six to twelve hours". You are sympathetic, not hostile. You will not be moved by argument.' },
+      { who: 'Site manager (phone)', text: 'There is no HDU bed. Critical care has a bed reserved for an inbound sepsis transfer. You can offer a monitored side room on AMU only. You have already escalated to the on-call director. The neighbouring trust is also full.' }
+    ],
+    modifications: [
+      'Scenario 12 as written through to neurosurgical referral.',
+      'From that point, the registrar must contain a deteriorating SAH patient on AMU for hours rather than transferring at minute ten.'
+    ],
+    debriefHF: [
+      'Triple escalation: clinical (consultant), operational (site manager and on-call director), regional (network / commissioner).',
+      'Documentation of system failure as a clinical act — Datix, contemporaneous notes, named consultant aware.',
+      'The minimum safe holding setup outside the optimal environment: monitoring, staffing ratio, drug availability, deterioration plan.',
+      'Communication with patient (if able) and family about the delay — honesty without blame on absent colleagues.',
+      'Moral injury — naming the feeling of being unable to deliver care the patient needs.',
+      'Senior responsibility — this is not a registrar-led conversation alone; the consultant should own it.'
+    ]
+  }
+];
+</script>
+<script>
+// ════════════════════════════════════════════════════════════════
+// FACULTY PACK & APPENDIX DATA
+// ════════════════════════════════════════════════════════════════
+const facultyPack = [
+  { num: '1', id: 'fp1', title: 'Setting up in-situ simulation',
+    desc: 'Pre-flight checklist, faculty roles, time budget, safety officer, consent and governance.',
+    sections: [
+      { h: 'Why in-situ', p: ['In-situ sim runs in the real clinical environment with real staff. It is more powerful than centre-based sim because the system stress-tests alongside the team — missing equipment, broken pumps, unclear sightlines, ward culture, hierarchy, the bleep that no one answers. It is also more dangerous, because real patients are nearby and faculty must protect them.'] },
+      { h: 'Pre-flight checklist', list: [
+        '24–48 hours\' notice to the ward manager and nurse-in-charge.',
+        'Day-of confirmation: acuity light enough; nurse-in-charge briefed; no critical staffing gaps.',
+        'Clear "Simulation in progress" signage on the entry to the bay or side room.',
+        'Sim equipment kept physically separated from clinical equipment (different trolley, different colour).',
+        'A nominated real-patient safety officer — a faculty member not in role, who will step in if a genuine clinical emergency emerges elsewhere on the unit.',
+        'A pre-agreed pause phrase, e.g. "Simulation pause — real-world clinical event in bay X. We will resume in fifteen minutes or cancel."'
+      ]},
+      { h: 'Faculty roles', list: [
+        'Scenario director — sets up, briefs confederates, calls time, runs the debrief.',
+        'Confederate(s) — briefed actors with scripts.',
+        'Observer — takes structured notes during the run, contributes in debrief.',
+        'Real-patient safety officer — not in role, owns the safety of the live unit.'
+      ]},
+      { h: 'Time budget per scenario', list: [
+        'Brief and walk-through: 5 minutes.',
+        'Scenario: 10 minutes.',
+        'Debrief: 20–25 minutes.',
+        'Reset and recover: 5–10 minutes.',
+        'Total: 45–50 minutes per run.'
+      ]},
+      { h: 'Consent and governance', p: [
+        'Sim participation is voluntary. Learners should be made aware in advance that an in-situ programme is running and should be able to opt out without penalty.',
+        'Records should be kept of dates, scenarios run, attendees and debrief themes. Faculty should not retain identifiable performance data on individuals without explicit consent.',
+        'If a sim surfaces a serious safety concern about an individual it should be escalated through the trust\'s standard professional support route, not through the simulation programme. Sim is for learning, not for revalidation or capability investigation.'
+      ]}
+    ]
+  },
+  { num: '2', id: 'fp2', title: 'Briefing confederates',
+    desc: 'Why scripts beat improvisation. The four elements: role, knowledge, triggers, limits. Rehearsal and confederate self-care.',
+    sections: [
+      { h: 'Scripts, not prompts', p: ['Confederate briefs are scripts, not improvisation prompts. The single most common faculty mistake in HF sim is allowing volunteers to invent behaviour in the moment. Improvisation introduces variability that makes debrief observations unreliable and unfair to learners.'] },
+      { h: 'The brief contains four elements', list: [
+        'Role — who you are, why you are present, what status you hold.',
+        'Knowledge — what you know that the team does not.',
+        'Triggers — what you do, when, on what cue.',
+        'Limits and recovery — what makes you become cooperative.'
+      ]},
+      { h: 'Worked example', p: ['From Variant A (Speaking Up): the nurse knows the glucose result; she volunteers it once at the start; she falls silent; she will only re-raise the concern if directly asked. The brief contains all four elements: a clear role, specific knowledge, defined triggers, and a recovery condition.'] },
+      { h: 'Rehearsal', p: [
+        'Rehearse new confederates briefly before each run. The first run with a new confederate is always the worst — pair experienced and novice confederates where possible.',
+        'If the same confederate is used across multiple runs, debrief them with the faculty team at the end of the day to refine the script.'
+      ]},
+      { h: 'Confederate self-care', p: ['Playing emotionally demanding roles — bereaved relative, dying patient, conflict colleague — is depleting. Plan rotation. Build a check-in into the post-scenario reset. Confederates may need their own debrief, particularly if a scenario surfaces something close to their own experience.'] }
+    ]
+  },
+  { num: '3', id: 'fp3', title: 'Running the scenario',
+    desc: 'Observation, not direction. Use of pause and freeze. Triggers in the curriculum are tools, not teaching opportunities. The hard stop.',
+    sections: [
+      { h: 'The director\'s posture', p: ['The director\'s task during the run is observation, not direction. The temptation to coach in real time is the largest single threat to scenario integrity.'] },
+      { h: 'Use of pause and freeze', list: [
+        'Sparingly — every pause breaks immersion.',
+        'Acceptable for real-world safety events or genuine ambiguity that prevents progression.',
+        'Never as a tool to correct learners. That is debrief work.'
+      ]},
+      { h: 'Triggers', p: ['Pre-scripted triggers in the curriculum are tools for the director — to advance the scenario when the team is stuck, or to apply pressure when the team is moving too fast. They are not for use to teach mid-run. If you find yourself wanting to use a trigger to make a point, save it for the debrief.'] },
+      { h: 'Documentation during the run', list: [
+        'Director: timing of triggers, key decision points, time-stamped.',
+        'Observer: behavioural moments, specific quotes, body language.',
+        'Avoid clinical judgment in notes; record what happened, not what should have happened.',
+        'Use the observer notes template (Appendix B) for structured capture.'
+      ]},
+      { h: 'The hard stop', p: ['Ten minutes is ten minutes. The director calls time and the scenario ends, even if the team has not reached the end-point. Running over corrodes the debrief and erodes faculty discipline. The unfinished scenario is often the most useful — "what would you have done next?" is a powerful debrief question.'] }
+    ]
+  },
+  { num: '4', id: 'fp4', title: 'Debriefing — structures and technique',
+    desc: 'Plus/Delta then advocacy-with-inquiry. The five steps, the script, the moments worth picking, the length.',
+    sections: [
+      { h: 'Two structures in sequence', list: [
+        'Plus / Delta — 5 minutes. Surface-level reflection. What went well? What would you do differently? This vents the emotional load and lets learners hear themselves think.',
+        'Advocacy with inquiry — 15–20 minutes. Focused on two or three specific moments. This is the deep work.'
+      ]},
+      { h: 'Advocacy with inquiry — the structure', list: [
+        'Observation — name a specific moment, briefly, without judgment. "I noticed that when the nurse mentioned the glucose result, the team continued with the second dose of lorazepam."',
+        'Advocacy — share your frame. "When I saw that, I wondered whether the information had been heard or whether it had been heard and set aside."',
+        'Inquiry — invite the learner\'s frame. "Can you walk me through what was going through your head at that moment?"',
+        'Listen — actually listen. Resist the urge to teach.',
+        'Respond — only after you understand the learner\'s mental model.'
+      ]},
+      { h: 'Choosing what to debrief', p: [
+        'Pick two or three moments. Not six. The over-keen faculty member who covers every observation degrades the debrief — learners stop tracking after the fourth point, and the most important learning is diluted by the trivial.',
+        'Selection criteria: moments where behaviour change would meaningfully change outcomes; moments where the team\'s mental model differed from the observer\'s; moments where a small adjustment in behaviour would have produced a substantially better result.'
+      ]},
+      { h: 'Length', p: ['Plan the debrief; cap it. Twenty-five minutes is a hard ceiling for most teams. Over-running degrades attention and creates resentment. Some of the most powerful debriefs are the briefest — fifteen minutes, two moments, one piece of learning each learner takes home.'] },
+      { h: 'Closing', p: ['Close with each learner naming one specific thing they will do differently next time. Concrete and behavioural — not "I\'ll communicate better" but "I\'ll ask the team for a sixty-second pause when I arrive". Write them down. Revisit at the next session.'] }
+    ]
+  },
+  { num: '5', id: 'fp5', title: 'Handling difficult moments',
+    desc: 'The upset learner, the conflict in debrief, the faculty disagreement, the disclosure, the genuine safety concern.',
+    sections: [
+      { h: 'When a learner becomes upset', list: [
+        'Pause the debrief.',
+        'Step out with the learner.',
+        'Reassure them that the simulation is the unit of analysis, not the person.',
+        'Offer a check-in later that day or the next.',
+        'If distress is significant, escalate via the trust\'s wellbeing route — Practitioner Health, OH, peer support.'
+      ]},
+      { h: 'When the team is in conflict during the debrief', list: [
+        'Name it: "I notice the team has split on this. Let\'s hear both sides."',
+        'Time-box: 5 minutes per perspective.',
+        'Avoid taking sides.',
+        'Return to behaviour, not personality.'
+      ]},
+      { h: 'When faculty disagree', list: [
+        'Never in front of learners.',
+        'Settle privately. Return aligned.',
+        'Document the disagreement as a faculty development point.'
+      ]},
+      { h: 'Disclosures', list: [
+        'If a learner discloses mental health concerns, escalate within governance.',
+        'Have Practitioner Health, OH and peer support contacts to hand.',
+        'Document only what is necessary.'
+      ]},
+      { h: 'When the scenario surfaces a real safety concern', p: [
+        'Occasionally a sim will reveal something genuinely concerning — for example, that a particular drug is consistently in the wrong place on the unit, or that the protocol for major haemorrhage activation is not understood by the team. This is a sim success, not a sim failure. Capture it explicitly, take it through the unit governance route (incident form, safety meeting, audit), and feed back to the team that their work surfaced it.',
+        'Conversely, if a sim reveals a serious concern about an individual\'s practice, the standard professional support route applies. This is not a sim governance matter; it is a real-world clinical governance matter and should be handled outside the sim programme.'
+      ]}
+    ]
+  },
+  { num: '6', id: 'fp6', title: 'Common pitfalls',
+    desc: 'The ten failure modes that degrade in-situ HF sim. Each comes with a remedy.',
+    sections: [
+      { h: 'Ten things to avoid', list: [
+        'Over-correcting clinical detail in an HF debrief — the team will follow you there because it is comfortable, and the HF lesson will be lost.',
+        'Letting confederates improvise — destroys comparability between runs and makes debriefs unfair.',
+        'The director coaches in-scenario — undermines learner agency and scenario integrity.',
+        'Debrief over-runs — the last 10 minutes are net negative; attention degrades and learners disengage.',
+        'One faculty member dominates — the observer\'s notes should drive at least a third of the conversation.',
+        'Praise sandwich debriefing — too soft to be useful; learners spot it and discount the whole debrief.',
+        'Picking six moments to debrief instead of two or three.',
+        'Confusing assertion with bullying — "I expected more from you" is not a debrief observation. The standard is specific, behavioural, kind.',
+        'Running sim during a genuine surge — the unit cannot safely absorb the cognitive load and the learning is degraded.',
+        'Failing to close the loop — what changed after the sim? If nothing changed, the team will not come again.'
+      ]}
+    ]
+  },
+  { num: '7', id: 'fp7', title: 'Templates and crib cards',
+    desc: 'What sits in the appendices — confederate briefs, observer notes, learner self-assessment, debrief crib card, LO matrix.',
+    sections: [
+      { h: 'Five templates', list: [
+        'A confederate brief template — to be filled in for any new scenario or variant.',
+        'An observer notes template — to be used by the non-director faculty member during the run.',
+        'A learner self-assessment form — completed by each participant after the debrief.',
+        'A quick-reference debrief crib card — laminated, A5, kept on the sim trolley.',
+        'A scenario-by-learning-objective matrix — to track curriculum coverage across the year.'
+      ]},
+      { h: 'Use', p: ['These can be reproduced locally and adapted to house style. The intent is that any faculty member can pick a scenario off the shelf and run it credibly with these tools.'] }
+    ]
+  }
+];
+
+const appendices = [
+  { num: 'A', id: 'apA', title: 'Confederate brief template',
+    desc: 'A one-page brief to fill in for any new role. Role, knowledge, triggers, limits, exact words.',
+    sections: [
+      { h: 'Scenario and role', list: [
+        'Scenario: ____________________________________________',
+        'Variant (if HF): _______________________________________',
+        'Date: _______________________________________________',
+        'Confederate name: ____________________________________',
+        'Role to play: _________________________________________'
+      ]},
+      { h: 'Role', p: ['Who are you, why are you present, what status do you hold? (One paragraph.)', '________________________________________________________________', '________________________________________________________________'] },
+      { h: 'Knowledge', p: ['What do you know that the team does not? (Bullet points, specific.)', '• ______________________________________________________________', '• ______________________________________________________________', '• ______________________________________________________________'] },
+      { h: 'Triggers', p: ['What do you do, when, and on what cue? (Time-stamped.)', '0 min: __________________________________________________________', '2 min: __________________________________________________________', '5 min: __________________________________________________________', '8 min: __________________________________________________________'] },
+      { h: 'Limits and recovery', p: ['What will you not do? What makes you become cooperative?', '________________________________________________________________', '________________________________________________________________'] },
+      { h: 'Words you will use', p: ['Specific phrases — the actual words you will say. (Important for HF variants.)', '________________________________________________________________', '________________________________________________________________'] }
+    ]
+  },
+  { num: 'B', id: 'apB', title: 'Observer notes template',
+    desc: 'For the non-director faculty member. Timeline, NTS domains, the two or three moments worth debriefing.',
+    sections: [
+      { h: 'Scenario information', list: [
+        'Scenario: ____________________________________________',
+        'Date / time: __________________________________________',
+        'Team composition: _____________________________________',
+        'Observer name: ________________________________________'
+      ]},
+      { h: 'Timeline of key events', p: [
+        'Time (min:sec) | Event | Who | What was said or done',
+        '____ | _______________________ | __________ | ________________________',
+        '____ | _______________________ | __________ | ________________________',
+        '____ | _______________________ | __________ | ________________________',
+        '____ | _______________________ | __________ | ________________________'
+      ]},
+      { h: 'Non-technical skills observed', list: [
+        'Leadership — direction, decision-making, team coordination',
+        'Communication — closed loops, SBAR, naming team members',
+        'Situational awareness — recognising deterioration, scanning for missed information',
+        'Task management — prioritisation, delegation, time-keeping',
+        'Team working — followership, conflict, support',
+        'Decision-making — option generation, balancing, reviewing'
+      ]},
+      { h: 'Two or three moments worth debriefing', p: ['1. ____________________________________________________________', '2. ____________________________________________________________', '3. ____________________________________________________________'] },
+      { h: 'Notable quotes (verbatim)', p: ['________________________________________________________________', '________________________________________________________________'] }
+    ]
+  },
+  { num: 'C', id: 'apC', title: 'Learner self-assessment',
+    desc: 'Completed by each participant immediately after debrief. Three reflections, confidence rating, faculty feedback.',
+    sections: [
+      { h: 'About this scenario', list: [
+        'Scenario: ____________________________________________',
+        'Date: _______________________________________________',
+        'Your role in the team: __________________________________'
+      ]},
+      { h: 'Three reflections', list: [
+        'What went well — name one specific behaviour you observed in yourself or the team.',
+        'What would you do differently next time — be specific and behavioural.',
+        'One thing you have taken from this scenario that you will use in real practice.'
+      ]},
+      { h: 'Confidence rating', p: [
+        'Before this scenario, how confident were you in managing this clinical presentation? (1 = not at all, 5 = very confident)',
+        '1   2   3   4   5',
+        'After this scenario, how confident are you?',
+        '1   2   3   4   5'
+      ]},
+      { h: 'Feedback for faculty', list: [
+        'Was the scenario pitched at the right level? ☐ Too easy ☐ Right ☐ Too hard',
+        'Was the debrief useful? ☐ Not very ☐ Somewhat ☐ Very',
+        'One thing the faculty could improve.'
+      ]}
+    ]
+  },
+  { num: 'D', id: 'apD', title: 'Quick-reference debrief crib card',
+    desc: 'A5, laminated, on the sim trolley. The five steps, the advocacy-with-inquiry script, things to avoid.',
+    sections: [
+      { h: 'Before you start', list: [
+        'Set up the room: chairs in a circle, no desks, drinks available.',
+        'Set the ground rules: confidentiality, focus on behaviour not person, one voice at a time.',
+        'Acknowledge the emotional load: "That was intense. Let\'s take a minute."'
+      ]},
+      { h: 'Five steps', list: [
+        'Reactions (3 min) — "How was that?" Let everyone speak once.',
+        'Description (5 min) — "What happened?" Team agrees the facts before you analyse.',
+        'Analysis (10–12 min) — Two or three moments, advocacy-with-inquiry on each.',
+        'Application (3 min) — "What will you do differently next time?" One specific behaviour per learner.',
+        'Summary (2 min) — Name the learning out loud. Close the loop.'
+      ]},
+      { h: 'Advocacy-with-inquiry script', list: [
+        '"I noticed [specific observation]."',
+        '"When I saw that, I was thinking [your frame]."',
+        '"Can you walk me through what was going through your head?"',
+        '[Listen. Resist correcting until you understand the frame.]',
+        '[Respond — share clinical or HF point if needed.]'
+      ]},
+      { h: 'Things to avoid', list: [
+        'Asking "why did you…?" — sounds accusatory. Use "what was your thinking?" instead.',
+        'Filling silence too quickly — learners often need 10 seconds to think.',
+        'Generalising — "the team didn\'t communicate well" is unhelpful. Name the moment.',
+        'Saving the harshest point for last — known as the "poison pill" — it overwrites the rest of the debrief.'
+      ]}
+    ]
+  },
+  { num: 'E', id: 'apE', title: 'Scenario-by-learning-objective matrix',
+    desc: 'Maps the twelve scenarios and twelve variants against curriculum domains. Plan and verify coverage.',
+    sections: [
+      { h: 'Clinical curriculum domains', list: [
+        'Resuscitation and shock — Scenarios 2, 3, 6, 9, 10',
+        'Arrhythmia and peri-arrest — Scenario 8',
+        'Neurological emergencies — Scenarios 4, 12',
+        'Endocrine and metabolic emergencies — Scenarios 1, 5',
+        'Respiratory emergencies — Scenarios 3, 7, 10',
+        'Toxicology — Scenario 11',
+        'Infection and sepsis — Scenario 9',
+        'Gastrointestinal emergencies — Scenario 6'
+      ]},
+      { h: 'Human factors domains', list: [
+        'Communication and assertiveness — Variants A, B, H',
+        'Leadership under load — Variants D, K',
+        'Situational awareness and decision-making — Variants F, J',
+        'Team working and handover — Variants E, H',
+        'Resource and resilience — Variants C, K, L',
+        'Communication with patients and families — Variants G, I, J'
+      ]}
+    ]
+  }
+];
+
+const schedule = [
+  ['Month 1', 'Hyperkalaemia', '—', 'Endocrine'],
+  ['Month 2', 'Status epilepticus', 'Variant A · Speaking-up', 'Neuro'],
+  ['Month 3', 'Anaphylaxis', '—', 'Resus'],
+  ['Month 4', 'Massive PE', 'Variant B · Hierarchy', 'Cardio'],
+  ['Month 5', 'DKA', 'Variant G · Family conflict', 'Endocrine'],
+  ['Month 6', 'Variceal upper GI bleed', 'Variant E · Handover failure', 'GI'],
+  ['Month 7', 'Severe asthma', 'Variant H · Team conflict', 'Resp'],
+  ['Month 8', 'Fast AF', 'Variant D · Distracted leader', 'Cardio'],
+  ['Month 9', 'Meningococcal sepsis', 'Variant I · Bereavement', 'Infection'],
+  ['Month 10', 'Acute pulmonary oedema', 'Variant J · Ceiling of treatment', 'Cardio'],
+  ['Month 11', 'Paracetamol overdose', 'Variant K · Personal resource', 'Toxicology'],
+  ['Month 12', 'Subarachnoid haemorrhage', 'Variant L · System scarcity', 'Neuro']
+];
+</script>
+<script>
+// ════════════════════════════════════════════════════════════════
+// RENDER & BEHAVIOUR
+// ════════════════════════════════════════════════════════════════
+
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+}[c]));
+
+// ─── Scenario cards ───
+function renderScenarios() {
+  const grid = document.getElementById('scen-grid');
+  grid.innerHTML = scenarios.map(s => `
+    <div class="scen-card" data-domain="${s.domain}" data-id="${s.id}" tabindex="0">
+      <div class="scen-card-head">
+        <span class="scen-card-num">Scenario ${String(s.num).padStart(2, '0')}</span>
+        <span class="scen-card-domain">${esc(s.domainLabel)}</span>
+      </div>
+      <div class="scen-card-title">${esc(s.title)}</div>
+      <div class="scen-card-summary">${esc(s.summary)}</div>
+      <div class="scen-card-meta">
+        <span><b>${esc(s.duration)}</b></span>
+        <span><b>${esc(s.learners)}</b></span>
+      </div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.scen-card').forEach(card => {
+    const id = card.dataset.id;
+    card.addEventListener('click', () => openDrawer(id, 'scenario'));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrawer(id, 'scenario'); }
+    });
+  });
+}
+
+// ─── Variant cards ───
+function renderVariants() {
+  const grid = document.getElementById('var-grid');
+  grid.innerHTML = variants.map(v => `
+    <div class="scen-card variant-card" data-hf="${v.hf}" data-id="${v.id}" tabindex="0">
+      <div class="scen-card-head">
+        <span class="scen-card-num">Variant ${v.letter}</span>
+        <span class="scen-card-domain">${esc(v.hfLabel)}</span>
+      </div>
+      <div class="scen-card-title">${esc(v.title)}</div>
+      <div class="scen-card-summary">${esc(v.summary)}</div>
+      <div class="scen-card-meta">
+        <span><b>${esc(v.substrate)}</b></span>
+      </div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.scen-card').forEach(card => {
+    const id = card.dataset.id;
+    card.addEventListener('click', () => openDrawer(id, 'variant'));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrawer(id, 'variant'); }
+    });
+  });
+}
+
+// ─── Faculty pack cards ───
+function renderFacultyPack() {
+  const grid = document.getElementById('fp-grid');
+  grid.innerHTML = facultyPack.map(f => `
+    <div class="fp-card" data-id="${f.id}" tabindex="0">
+      <div class="fp-card-num">Section ${f.num}</div>
+      <div class="fp-card-title">${esc(f.title)}</div>
+      <div class="fp-card-desc">${esc(f.desc)}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.fp-card').forEach(card => {
+    const id = card.dataset.id;
+    card.addEventListener('click', () => openDrawer(id, 'fp'));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrawer(id, 'fp'); }
+    });
+  });
+}
+
+// ─── Appendices ───
+function renderAppendices() {
+  const grid = document.getElementById('ap-grid');
+  grid.innerHTML = appendices.map(a => `
+    <div class="fp-card" data-id="${a.id}" tabindex="0">
+      <div class="fp-card-num">Appendix ${a.num}</div>
+      <div class="fp-card-title">${esc(a.title)}</div>
+      <div class="fp-card-desc">${esc(a.desc)}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.fp-card').forEach(card => {
+    const id = card.dataset.id;
+    card.addEventListener('click', () => openDrawer(id, 'appendix'));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrawer(id, 'appendix'); }
+    });
+  });
+}
+
+// ─── Schedule table ───
+function renderSchedule() {
+  const tbl = document.getElementById('schedule-table');
+  tbl.innerHTML = schedule.map(row => `
+    <tr>
+      <td class="sch-month">${esc(row[0])}</td>
+      <td class="sch-scen">${esc(row[1])}</td>
+      <td class="sch-var">${esc(row[2])}</td>
+      <td class="sch-domain">${esc(row[3])}</td>
+    </tr>
+  `).join('');
+}
+
+// ─── Drawer rendering ───
+function renderScenarioDetail(s) {
+  const objs = s.objectives.map(o => `<li>${esc(o)}</li>`).join('');
+  const setup = s.setup.map(o => `<li>${esc(o)}</li>`).join('');
+  const flow = s.flow.map(ph => `
+    <div class="phase">
+      <div class="phase-time">${esc(ph.time)}</div>
+      <div class="phase-title">${esc(ph.title)}</div>
+      <ul>${ph.items.map(i => `<li>${esc(i)}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+  const debC = s.debriefClinical.map(o => `<li>${esc(o)}</li>`).join('');
+  const debHF = s.debriefHF.map(o => `<li>${esc(o)}</li>`).join('');
+  const refs = s.refs.map(o => `<li>${esc(o)}</li>`).join('');
+
+  return `
+    <h2>Scenario ${s.num} — ${esc(s.title)}</h2>
+    <table class="info-table">
+      <tr><td>Setting</td><td>AMU bay or side room, in situ</td></tr>
+      <tr><td>Duration</td><td>${esc(s.duration)} scenario · 20–25 min debrief</td></tr>
+      <tr><td>Props</td><td>${esc(s.props)}</td></tr>
+      <tr><td>Target learners</td><td>${esc(s.learners)}</td></tr>
+      <tr><td>Clinical domain</td><td>${esc(s.domainLabel)}</td></tr>
+    </table>
+
+    <h3>Learning objectives</h3>
+    <ol>${objs}</ol>
+
+    <h3>Faculty setup</h3>
+    <ul>${setup}</ul>
+
+    <h3>Candidate brief</h3>
+    <div class="brief-quote">${esc(s.brief)}</div>
+
+    <h3>Scenario flow</h3>
+    ${flow}
+
+    <h3>Debrief — clinical</h3>
+    <ul>${debC}</ul>
+
+    <h3>Debrief — human factors</h3>
+    <ul>${debHF}</ul>
+
+    <h3>References</h3>
+    <ul>${refs}</ul>
+  `;
+}
+
+function renderVariantDetail(v) {
+  const objs = v.objectives.map(o => `<li>${esc(o)}</li>`).join('');
+  const briefs = v.briefs.map(b => `
+    <h4>Confederate — ${esc(b.who)}</h4>
+    <div class="brief-quote">${esc(b.text)}</div>
+  `).join('');
+  const mods = v.modifications.map(o => `<li>${esc(o)}</li>`).join('');
+  const debHF = v.debriefHF.map(o => `<li>${esc(o)}</li>`).join('');
+
+  return `
+    <h2>Variant ${v.letter} — ${esc(v.title)}</h2>
+    <table class="info-table">
+      <tr><td>Substrate</td><td>${esc(v.substrate)}</td></tr>
+      <tr><td>HF challenge</td><td>${esc(v.challenge)}</td></tr>
+      <tr><td>Target learners</td><td>${esc(v.learners)}</td></tr>
+    </table>
+
+    <h3>HF learning objectives</h3>
+    <ol>${objs}</ol>
+
+    <h3>Confederate scripts</h3>
+    ${briefs}
+
+    <h3>Scenario flow modifications</h3>
+    <ul>${mods}</ul>
+
+    <h3>HF debrief points</h3>
+    <ul>${debHF}</ul>
+  `;
+}
+
+function renderFPDetail(f) {
+  const body = f.sections.map(sec => {
+    let html = `<h3>${esc(sec.h)}</h3>`;
+    if (sec.p) sec.p.forEach(par => { html += `<p>${esc(par)}</p>`; });
+    if (sec.list) html += `<ul>${sec.list.map(li => `<li>${esc(li)}</li>`).join('')}</ul>`;
+    return html;
+  }).join('');
+  return `<h2>${esc(f.title)}</h2>${body}`;
+}
+
+// ─── Drawer control ───
+function openDrawer(id, kind) {
+  let item, label, html;
+  if (kind === 'scenario') {
+    item = scenarios.find(s => s.id === id);
+    if (!item) return;
+    label = `Clinical scenario · ${String(item.num).padStart(2, '0')}`;
+    html = renderScenarioDetail(item);
+  } else if (kind === 'variant') {
+    item = variants.find(v => v.id === id);
+    if (!item) return;
+    label = `Human factors variant · ${item.letter}`;
+    html = renderVariantDetail(item);
+  } else if (kind === 'fp') {
+    item = facultyPack.find(f => f.id === id);
+    if (!item) return;
+    label = `Faculty development · section ${item.num}`;
+    html = renderFPDetail(item);
+  } else if (kind === 'appendix') {
+    item = appendices.find(a => a.id === id);
+    if (!item) return;
+    label = `Appendix ${item.num}`;
+    html = renderFPDetail(item);
+  } else { return; }
+
+  document.getElementById('drawer-label').textContent = label;
+  document.getElementById('drawer-body').innerHTML = html;
+  document.getElementById('drawer-body').scrollTop = 0;
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.getElementById('drawer').setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  // Update hash without scroll
+  history.replaceState(null, '', '#' + id);
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.getElementById('drawer').setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  // Strip the detail hash but keep section anchors if present
+  const h = location.hash.replace('#', '');
+  const isDetail = scenarios.some(s => s.id === h)
+                || variants.some(v => v.id === h)
+                || facultyPack.some(f => f.id === h)
+                || appendices.some(a => a.id === h);
+  if (isDetail) history.replaceState(null, '', location.pathname + location.search);
+}
+
+// ─── Filters ───
+function wireFilters() {
+  document.querySelectorAll('#scen-filters .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#scen-filters .chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const d = chip.dataset.domain;
+      document.querySelectorAll('#scen-grid .scen-card').forEach(card => {
+        card.classList.toggle('hidden', d !== 'all' && card.dataset.domain !== d);
+      });
+    });
+  });
+  document.querySelectorAll('#var-filters .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#var-filters .chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const h = chip.dataset.hf;
+      document.querySelectorAll('#var-grid .scen-card').forEach(card => {
+        card.classList.toggle('hidden', h !== 'all' && card.dataset.hf !== h);
+      });
+    });
+  });
+}
+
+// ─── Hash routing ───
+function handleHash() {
+  const h = location.hash.replace('#', '');
+  if (!h) return;
+  const s = scenarios.find(x => x.id === h);
+  if (s) { openDrawer(s.id, 'scenario'); return; }
+  const v = variants.find(x => x.id === h);
+  if (v) { openDrawer(v.id, 'variant'); return; }
+  const f = facultyPack.find(x => x.id === h);
+  if (f) { openDrawer(f.id, 'fp'); return; }
+  const a = appendices.find(x => x.id === h);
+  if (a) { openDrawer(a.id, 'appendix'); return; }
+}
+
+// ─── Init ───
+document.addEventListener('DOMContentLoaded', () => {
+  renderScenarios();
+  renderVariants();
+  renderFacultyPack();
+  renderAppendices();
+  renderSchedule();
+  wireFilters();
+  document.getElementById('drawer-overlay').addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('drawer').classList.contains('open')) {
+      closeDrawer();
+    }
+  });
+  window.addEventListener('hashchange', handleHash);
+  // Defer to allow render to complete
+  setTimeout(handleHash, 50);
+});
+</script>
+
+</body>
+</html>

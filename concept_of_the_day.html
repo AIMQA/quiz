@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept of the Day · A trainee companion</title>
+<meta name="description" content="A non-clinical concept every day, for medical trainees.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F2E9; --paper-soft: #EFE9DD; --rule: #DCD3C2;
+    --ink: #1A1612; --ink-soft: #5A5048; --ink-mute: #8B8278;
+    --accent: #8B4513; --accent-soft: #F3EADC;
+    --grain: rgba(26,22,18,.025);
+    --display: 'Fraunces','Newsreader',Georgia,serif;
+    --serif: 'Newsreader','Fraunces',Georgia,serif;
+    --mono: 'JetBrains Mono','SFMono-Regular',ui-monospace,monospace;
+    --max-w: 720px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--serif);
+    font-size: 18px; line-height: 1.6; min-height: 100vh;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    background-image: radial-gradient(at 80% 10%, var(--grain) 0%, transparent 50%), radial-gradient(at 10% 90%, var(--grain) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+  .shell { max-width: var(--max-w); margin: 0 auto; padding: 56px 28px 96px; }
+  header.mast {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); margin-bottom: 56px;
+  }
+  .mast-title {
+    font-family: var(--display); font-variation-settings: 'opsz' 144,'SOFT' 30,'WONK' 0;
+    font-weight: 500; font-size: 19px; letter-spacing: -0.01em; color: var(--ink);
+  }
+  .mast-title em {
+    font-style: italic; font-variation-settings: 'opsz' 144,'SOFT' 100,'WONK' 1;
+    color: var(--ink-soft); font-weight: 400;
+  }
+  .mast-meta {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-mute);
+  }
+  .day-block {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 28px; gap: 24px;
+  }
+  .day-num {
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em;
+    color: var(--accent); font-weight: 500;
+  }
+  .day-num .big {
+    font-family: var(--display); font-variation-settings: 'opsz' 144,'SOFT' 30,'WONK' 0;
+    font-size: 56px; font-weight: 300; color: var(--ink);
+    display: block; line-height: 1; margin-top: 6px; letter-spacing: -0.02em;
+  }
+  .date-line {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute); text-align: right; line-height: 1.7;
+  }
+  .date-line .today-flag { color: var(--accent); font-weight: 500; }
+  .category {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 24px;
+  }
+  .category::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
+  article.concept { animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  h1.title {
+    font-family: var(--display); font-variation-settings: 'opsz' 144,'SOFT' 30,'WONK' 0;
+    font-weight: 400; font-size: clamp(34px, 5.4vw, 52px); line-height: 1.05;
+    letter-spacing: -0.025em; margin: 0 0 28px; color: var(--ink);
+  }
+  .lead {
+    font-family: var(--serif); font-size: 19px; line-height: 1.5;
+    color: var(--ink-soft); font-style: italic; font-variation-settings: 'opsz' 24;
+    margin: 0 0 32px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); max-width: 38em;
+  }
+  .body {
+    font-family: var(--serif); font-size: 19px; line-height: 1.65;
+    color: var(--ink); margin: 0 0 40px; font-weight: 400; max-width: 38em;
+  }
+  .scenario {
+    background: var(--accent-soft); border-left: 2px solid var(--accent);
+    padding: 22px 26px; margin: 0 0 48px; border-radius: 0 6px 6px 0;
+  }
+  .scenario-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px; font-weight: 500;
+  }
+  .scenario-body {
+    font-family: var(--serif); font-size: 17px; line-height: 1.6; color: var(--ink); margin: 0;
+  }
+  nav.controls {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding-top: 28px; border-top: 1px solid var(--rule); margin-bottom: 40px;
+  }
+  nav.controls button {
+    background: none; border: none; padding: 8px 0;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-soft); cursor: pointer;
+    transition: color 0.2s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  nav.controls button:hover { color: var(--accent); }
+  nav.controls .today-btn { padding: 8px 16px; border: 1px solid var(--rule); border-radius: 999px; transition: all 0.2s; }
+  nav.controls .today-btn:hover { border-color: var(--accent); background: var(--accent-soft); }
+  nav.controls .today-btn.is-today { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .progress { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 32px; }
+  .progress .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--rule); transition: all 0.2s; cursor: pointer; flex-shrink: 0; }
+  .progress .dot.passed { background: var(--ink-mute); }
+  .progress .dot.current { background: var(--accent); width: 20px; border-radius: 3px; }
+  .progress .dot:hover { transform: scale(1.4); }
+  .actions {
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-mute); gap: 12px; flex-wrap: wrap;
+  }
+  .actions a { color: var(--ink-mute); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 1px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+  .actions a:hover { color: var(--accent); border-color: var(--accent); }
+  .help-key { font-family: var(--mono); background: var(--paper-soft); border: 1px solid var(--rule); border-radius: 3px; padding: 1px 5px; font-size: 10px; color: var(--ink-soft); margin: 0 2px; }
+  .index-overlay { position: fixed; inset: 0; background: rgba(26,22,18,0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 10; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .index-overlay.open { opacity: 1; pointer-events: auto; }
+  .index-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(520px, 100vw); background: var(--paper); border-left: 1px solid var(--rule); z-index: 11; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; padding: 40px 28px 80px; box-shadow: -20px 0 60px rgba(26,22,18,0.08); }
+  .index-panel.open { transform: translateX(0); }
+  .index-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+  .index-head h2 { font-family: var(--display); font-variation-settings: 'opsz' 144,'SOFT' 30,'WONK' 0; font-weight: 400; font-size: 26px; margin: 0; letter-spacing: -0.02em; }
+  .index-close { background: none; border: 1px solid var(--rule); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 16px; color: var(--ink-soft); transition: all 0.2s; display: flex; align-items: center; justify-content: center; padding: 0; }
+  .index-close:hover { border-color: var(--ink); color: var(--ink); }
+  .index-search { width: 100%; background: var(--paper-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 14px; font-family: var(--serif); font-size: 15px; color: var(--ink); margin-bottom: 24px; }
+  .index-search:focus { outline: none; border-color: var(--ink-mute); background: var(--paper); }
+  .theme-group { margin-bottom: 28px; }
+  .theme-group-h { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--theme-color, var(--ink-mute)); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .theme-group-h::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .index-item { display: flex; align-items: baseline; gap: 14px; padding: 9px 4px; cursor: pointer; border-radius: 4px; transition: background 0.15s; }
+  .index-item:hover { background: var(--paper-soft); }
+  .index-item.is-today { background: var(--accent-soft); }
+  .index-item .num { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); width: 26px; flex-shrink: 0; }
+  .index-item .ti { font-family: var(--serif); font-size: 15px; color: var(--ink); line-height: 1.3; }
+  ::selection { background: var(--accent); color: var(--paper); }
+  @media (max-width: 540px) {
+    .shell { padding: 32px 22px 80px; }
+    header.mast { margin-bottom: 36px; }
+    .day-num .big { font-size: 44px; }
+    .body, .lead { font-size: 17px; }
+    .scenario-body { font-size: 16px; }
+    .scenario { padding: 18px 20px; }
+    nav.controls button span.label { display: none; }
+    .actions { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="mast">
+    <div class="mast-title">Concept <em>of the day</em></div>
+    <div class="mast-meta">A trainee companion</div>
+  </header>
+  <article class="concept" id="concept" aria-live="polite">
+    <div class="day-block">
+      <div class="day-num"><span>No.</span><span class="big" id="dayBig">01</span></div>
+      <div class="date-line" id="dateLine">—</div>
+    </div>
+    <div class="category" id="category">Category</div>
+    <h1 class="title" id="title">Title</h1>
+    <p class="lead" id="lead">Lead</p>
+    <div class="body" id="body">Body</div>
+    <div class="scenario">
+      <div class="scenario-label">In practice</div>
+      <p class="scenario-body" id="scenario">Scenario</p>
+    </div>
+  </article>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <nav class="controls" aria-label="Navigation">
+    <button id="prev" aria-label="Previous concept">← <span class="label">Previous</span></button>
+    <button id="todayBtn" class="today-btn" aria-label="Today">Today</button>
+    <button id="next" aria-label="Next concept"><span class="label">Next</span> →</button>
+  </nav>
+  <div class="actions">
+    <div><a id="indexLink">All 100 concepts</a></div>
+    <div>Use <span class="help-key">←</span> <span class="help-key">→</span> to navigate</div>
+  </div>
+</div>
+<div class="index-overlay" id="indexOverlay"></div>
+<aside class="index-panel" id="indexPanel" aria-label="All concepts">
+  <div class="index-head">
+    <h2>All 100 concepts</h2>
+    <button class="index-close" id="indexClose" aria-label="Close">×</button>
+  </div>
+  <input class="index-search" id="indexSearch" type="search" placeholder="Search by title or word…" autocomplete="off">
+  <div id="indexList"></div>
+</aside>
+<script>
+const THEMES = [
+  { name: "Quality Improvement & Patient Safety",    color: "#B25940" },
+  { name: "Leadership & Followership",               color: "#A88341" },
+  { name: "Teamwork & Human Factors",                color: "#6B7C3F" },
+  { name: "Communication & Difficult Conversations", color: "#4F7A6A" },
+  { name: "Education & Teaching",                    color: "#4A7782" },
+  { name: "Coaching, Mentoring & Feedback",          color: "#6F5E84" },
+  { name: "Wellbeing & Resilience",                  color: "#A8675B" },
+  { name: "Professionalism, Ethics & Law",           color: "#7E4250" },
+  { name: "Career & Training",                       color: "#4D5C75" },
+  { name: "Research, Audit & Evidence",              color: "#947040" },
+  { name: "NHS & Health Systems",                    color: "#4B6840" },
+  { name: "Equality, Diversity & Inclusion",         color: "#82506E" },
+];
+const CONCEPTS = [
+{t:0,h:"PDSA cycles",b:"Plan a small change, Do it on a small scale, Study what happened, Act on the learning.",x:"PDSA cycles work because they assume your first guess is wrong. Each cycle is a small experiment — a single ward, a single shift, a single doctor — and the point is to learn quickly and cheaply. Most projects fail because they skip Study (no measurement) or skip Act (no adjustment after the first attempt). Three weak cycles often beat one heroic implementation.",s:"You want every acute medical admission to have a VTE assessment within 14 hours. Rather than mandating it across the unit, you try it for two days with three SHOs, look at how many got done and what got in the way, tweak the prompt on the clerking sheet, and run it again next week."},
+{t:0,h:"Driver diagrams",b:"Visual map from aim to primary drivers to secondary drivers to specific change ideas.",x:"Drawing a driver diagram forces you to make your theory of change explicit. The primary drivers are the few big things that must change for the aim to be met; secondary drivers are the specific levers under them; change ideas are the things you'll actually test. If you can't draw it on one sheet, the project isn't focused yet.",s:"Aim: reduce 30-day readmissions for COPD. Primary drivers might be discharge readiness, community follow-up, and patient self-management. Under discharge readiness you list specific levers — inhaler technique check, rescue pack, smoking cessation referral. Each lever becomes a possible PDSA."},
+{t:0,h:"SMART aims",b:"Specific, Measurable, Achievable, Relevant, Time-bound. Without one, your QI project is a wish.",x:"\"Improve sepsis care\" is not an aim — it's a wish. A SMART version names who, what, by when, and by how much. The discipline forces clarity about measurement, scope, and timeline before any work begins. Most QI projects that go nowhere had no SMART aim, or had one but quietly abandoned it.",s:"Instead of \"improve sepsis screening\", set: \"By April, 95% of acute medical admissions with NEWS ≥5 will have a sepsis screen completed within one hour, measured weekly via case-note review on the post-take ward round.\""},
+{t:0,h:"Statistical Process Control",b:"Charts that distinguish common-cause from special-cause variation over time.",x:"SPC charts plot data over time against control limits derived from the data itself. They tell you whether the change you're seeing is real (special cause) or just the normal noise of the system (common cause). A bar chart of \"last month vs this month\" almost always misleads; an SPC chart almost always clarifies.",s:"The SHO night handover length has crept up. A bar chart shows last Monday was 38 minutes, this Monday 52 — looks worse. An SPC chart of the last six months shows handover times bouncing between 30 and 55 throughout; this Monday is unusual but not signal. Save the intervention."},
+{t:0,h:"Common vs special cause variation",b:"Inherent variation of a stable system versus something genuinely new.",x:"A system varying within its own limits is producing common-cause variation — it's stable, and tampering with it usually makes things worse. Special-cause variation means something has actually shifted (new staff, new policy, broken equipment) and is worth investigating. Confusing the two is one of the costliest errors in QI and management.",s:"Length of stay on the AMU jumps for one week. A common-cause response: shrug, look at the four-week trend. A special-cause response: ask what changed — and discover the discharge lounge was closed for refurbishment. One demands action; the other demands patience."},
+{t:0,h:"Provost & Murray rules",b:"Four simple rules on a run chart that detect non-random patterns without statistical software.",x:"Before reaching for full control charts, four rules on a run chart reliably detect non-random patterns: a shift of six points on one side of the median, a trend of five points up or down, fewer or more runs than expected, and any astronomically extreme point. They let trainees spot signals from a clipboard and a pen.",s:"A trainee tracking the proportion of medication reconciliations done within 24 hours sees seven consecutive weeks above the median after a teaching session. That's a shift — a real change, not noise — and worth holding the gains for, not declaring victory and moving on."},
+{t:0,h:"SQUIRE 2.0",b:"Reporting standards for QI work — the CONSORT of improvement papers.",x:"SQUIRE 2.0 (Standards for QUality Improvement Reporting Excellence) is to QI papers what CONSORT is to RCTs. It prompts you to describe the local context, the rationale, the intervention, the measurement plan, and what you actually learned — including what didn't work. Using the framework before you write makes the project tighter.",s:"A trainee wants to publish a project on early-warning-score escalation. Skimming SQUIRE 2.0 early on, they realise they've collected post-intervention data but no proper baseline. They go back, get the baseline, and end up with a publishable paper rather than a quietly buried poster."},
+{t:0,h:"Just culture",b:"Distinguishing human error, at-risk behaviour, and reckless behaviour — and responding differently.",x:"Just culture distinguishes three kinds of behaviour: simple human error (console), at-risk behaviour where the risk wasn't perceived (coach), and reckless behaviour where the risk was knowingly disregarded (sanction). The same outcome — a missed dose, a wrong drug — can sit in any of these categories. Punishing error and excusing recklessness both corrode the system.",s:"An F1 misses a heparin dose because the e-prescribing system buried it under \"completed\". Punishing the F1 fixes nothing; a just-culture response examines the system (why was it buried?) and coaches the F1 on the cross-check that would have caught it."},
+{t:0,h:"Swiss cheese model",b:"Harm reaches the patient only when holes in successive defensive layers line up.",x:"James Reason's model pictures every defensive layer in a system — checklists, double-checks, training, supervision — as a slice of Swiss cheese. Each has holes (latent and active). Harm reaches the patient only when the holes line up. The implication is that no single layer is enough, and that fixing one hole still leaves the others.",s:"A wrong-side chest drain involved a misread CT, an unchecked patient identifier, a missing pause-before-procedure, and a junior afraid to challenge the consultant. Each was a hole; all four had to align. Fixing only the CT reporting wouldn't have prevented it."},
+{t:0,h:"Human factors",b:"Designing work so the easiest thing to do is the right thing.",x:"Human factors is the discipline of designing tasks, equipment, and environments around human cognitive and physical capabilities. It accepts that humans tire, distract, misread, and forget — and engineers around it rather than scolding it. The opposite is the \"blame and shame, train and exhort\" cycle that keeps producing the same errors.",s:"Two ampoules on the resus trolley look almost identical but contain very different drugs. A human-factors response separates them, colour-codes them, and changes the storage. A non-human-factors response sends an email reminding everyone to read the label."},
+{t:0,h:"Never events",b:"A defined NHS list of serious, largely preventable incidents — each triggers mandatory investigation.",x:"Never events are a defined NHS list of serious, largely preventable safety incidents — wrong-site surgery, wrong-route drug administration, retained foreign objects, and around a dozen others. Each carries mandatory investigation and external reporting. The name is aspirational rather than literal: they still happen, but they should not.",s:"A vincristine is prescribed intravenously and almost given intrathecally. Even though it's caught, the case meets the threshold for a never event and is escalated. The investigation looks not at the individual but at the chain of barriers that did and did not hold."},
+{t:0,h:"Root cause analysis",b:"Structured retrospective method to find contributory factors after an incident.",x:"RCA is a structured retrospective method for finding contributory factors after an incident, traditionally producing a timeline and a list of recommendations. It has been criticised for over-promising single \"root\" causes and producing recommendations no one implements. PSIRF is the NHS's evolution toward more proportionate and learning-focused investigation.",s:"After a sepsis-related death, an old-style RCA might produce 22 recommendations including \"remind staff to escalate\". A modern, learning-focused investigation studies how decisions actually got made under load, and proposes two changes the team can plausibly sustain."},
+{t:0,h:"PSIRF",b:"The Patient Safety Incident Response Framework — proportionate, learning-focused, replacing the SI Framework.",x:"The Patient Safety Incident Response Framework, rolled out across the NHS from 2022, replaces the old Serious Incident Framework. Instead of investigating every incident with the same heavy machinery, trusts now choose responses — after-action review, swarm, MDT review, thematic — proportionate to the learning likely to be gained. Crucially, it puts patients and families at the centre.",s:"A medication error reaches a patient but causes no harm. Under the old framework this might still trigger a heavy SI process. Under PSIRF, the trust runs a 45-minute after-action review with the team involved, captures three learning points, and closes it — releasing investigator capacity for cases where deeper inquiry would help more."},
+{t:0,h:"Fishbone (Ishikawa) diagram",b:"Structured brainstorm that maps causes by category — people, process, equipment, environment.",x:"A fishbone diagram is a structured brainstorm: the problem is the head, and ribs branch off for categories of contributing cause — typically people, process, equipment, environment, materials, management. It's most useful early in a project, when the team is still arguing about what the problem is, and it makes hidden assumptions visible.",s:"The AMU is missing its four-hour target. A fishbone with the team surfaces a mix of causes — clerking variability (people), no clear priority list (process), delays getting ED bloods through (equipment), bed pressure upstream (environment). The project then focuses on the one or two with the highest yield."},
+{t:0,h:"Pareto principle",b:"Roughly 80% of effects come from 20% of causes — focus there first.",x:"The Pareto principle holds that roughly 80% of effects come from 20% of causes. In QI, this means most variation, most delay, or most error usually traces to a small number of recurring drivers. A Pareto chart — a sorted bar chart with a cumulative line — visualises this and tells you where to focus first.",s:"Of 200 discharge-letter delays in a month, a Pareto analysis shows that three doctors and one specific ward account for over half. The fix isn't to retrain the whole department; it's to understand what's making it harder for those four."},
+{t:1,h:"Medical Leadership Competency Framework",b:"Five domains of leadership behaviour expected of every doctor.",x:"The MLCF describes five domains of leadership behaviour expected of all doctors: demonstrating personal qualities, working with others, managing services, improving services, and setting direction. It was developed by the NHS and the Academy of Medical Royal Colleges and is embedded in postgraduate curricula. It is useful as a self-assessment grid as much as a teaching tool.",s:"A trainee asked at ARCP about their leadership development maps activities to MLCF domains: chairing the audit meeting (improving services), mentoring an F2 (working with others), leading a guideline revision (setting direction). It turns ad-hoc activity into a coherent narrative."},
+{t:1,h:"Compassionate leadership",b:"Michael West's four behaviours: attending, understanding, empathising, helping.",x:"Michael West's framework defines compassionate leadership as four sustained behaviours: attending (paying real attention), understanding (looking for meaning), empathising (feeling with), and helping (taking action). The evidence base in healthcare is strong — teams led this way report better wellbeing, lower turnover, and safer care. It is not \"nice\" leadership; it is rigorous.",s:"A consultant notices an SHO is unusually quiet on the ward round. Rather than ignoring it or scolding the slowness, they ask after the round, listen for two minutes, learn that a family member has been admitted overnight, and rearrange the on-call. Performance recovers within a shift."},
+{t:1,h:"Situational leadership",b:"Match directive and supportive behaviour to the readiness of this follower on this task.",x:"Hersey and Blanchard's model says the right leadership style depends on the readiness of the follower — their competence and confidence on this task. The leader varies along two dimensions, directive and supportive, producing four styles: directing, coaching, supporting, delegating. A leader who only does one style is mismatched with most of their team most of the time.",s:"A new F1 doing their first ascitic drain needs directing — explicit instruction, close supervision. The same F1 doing their fiftieth needs delegating — light touch, available if needed. Treating either situation like the other is unsafe in one direction and demoralising in the other."},
+{t:1,h:"Servant leadership",b:"The leader's job is to serve the team — remove obstacles, develop people, make their work possible.",x:"Robert Greenleaf's concept inverts the usual picture: the leader's job is to serve the team — to remove obstacles, develop people, and make their work possible. It is not soft; it requires sustained attention to what others need and the courage to push back upwards on their behalf. It fits clinical environments where authority is often distributed.",s:"The IT system blocks a workaround the team needs. A servant-leadership move is to spend the political capital on getting it fixed — even at personal cost — rather than telling the team to \"just deal with it.\" The team notices."},
+{t:1,h:"Transformational vs transactional",b:"Exchange rewards for performance, or engage purpose and meaning — the best leaders flex between both.",x:"Transactional leadership exchanges reward for performance — meet the target, get the bonus or the rota concession. Transformational leadership engages purpose, identity, and meaning — \"this is the kind of team we are.\" Most effective leaders do both: transactional clarity sets the floor; transformational engagement sets the ceiling.",s:"A consultant tells the SHOs \"if you finish jobs by 5 we'll release you on time\" — transactional. They also tell them \"we're the team that doesn't leave problems for the on-call to find\" — transformational. The first gets compliance; together, they shape culture."},
+{t:1,h:"Followership",b:"Active, thoughtful following is a skill, not a deficit.",x:"Robert Kelley's model defines followership along two axes: independent thinking and active engagement. The combinations produce sheep (passive, dependent), yes-people (active, dependent), alienated followers (independent, passive), and exemplary followers (independent, active). The same person leads and follows multiple times a day, and good following is its own skill.",s:"A registrar on the post-take round notices the consultant has misread a CT but is mid-flow. An exemplary follower says quietly, \"Could we just go back to slide 14 — I think there's a small effusion we should call.\" Not silence, not confrontation: thoughtful engagement."},
+{t:1,h:"Distributed leadership",b:"Leadership as a property of the team — whoever has the relevant expertise leads at the relevant moment.",x:"Distributed leadership treats leadership as a property of the team rather than the person at the top. Whoever has the most relevant expertise leads at the relevant moment — the pharmacist on dose adjustment, the band-7 nurse on flow, the trainee on the new e-portfolio. This requires explicit handover of authority, not just delegation of tasks.",s:"In a cardiac arrest, the most senior person is the consultant, but the airway is led by the anaesthetist, the chest compressions by whoever has rhythm, and the timing by the nurse. The consultant's job is to make space for that distribution, not to do it all."},
+{t:1,h:"Influence without authority",b:"The registrar predicament — responsible for outcomes you don't formally control.",x:"The registrar predicament: you're responsible for outcomes you don't formally control. Cohen and Bradford's framework talks about \"currencies\" — what each stakeholder values (recognition, information, support, a quieter life) — and the exchanges that build cooperation. Influence is mostly long-game: credit banked early, spent later.",s:"You want pharmacy to come to the post-take round at 11 instead of 2. You have no managerial authority. You build the case (better discharges, fewer queries), find what they want (a clearer list, earlier finish), and trade — and you do it in person, not by email."},
+{t:1,h:"Setting direction",b:"Make the goal, the boundaries, and the next step clear enough that others can act.",x:"A leader's primary job is to make the goal, the boundaries, and the next step clear enough that others can act. Without direction, teams default to whatever individuals were doing last week. Vision without operationalisation is decoration; operationalisation without vision is busywork.",s:"A new ward manager says, \"We're going to be the safest AMU in the trust by April\" (vision), \"starting with falls and pressure ulcers\" (boundaries), \"and the first thing is everyone reads the safety huddle template by Friday\" (next step). The team knows what to do on Monday."},
+{t:1,h:"Holding to account",b:"Clear expectations, visible standards, and fair consequences — avoiding the third corrodes the team.",x:"Accountability has three parts: clear expectations stated in advance, visible standards everyone can see, and fair consequences when behaviour drifts. Leaders who avoid the third to \"be nice\" are unfair to everyone who's keeping the standard. The conversation is harder if it's delayed, and harder still if it never happens.",s:"An SHO has been late to the post-take three times in a fortnight. Saying nothing trains the rest of the team that lateness is fine. A timely, brief, private conversation — \"I've noticed three lates; what's going on?\" — usually resolves it without escalation."},
+{t:2,h:"Tuckman's stages",b:"Forming, storming, norming, performing, adjourning — teams that skip storming usually haven't formed.",x:"Bruce Tuckman's model describes teams moving through forming (polite, uncertain), storming (conflict over roles and norms), norming (settling on ways of working), performing (productive), and adjourning (dissolving). Healthcare teams often re-form every shift, so they spend a lot of time in early stages. Skipping storming usually means the conflict is just hidden.",s:"A new on-call team — registrar, SHO, two F1s — meets at handover. The first hour is over-polite forming. Around midnight a disagreement about who clerks what surfaces (storming). Resolved openly, the next four hours run smoothly (norming, performing). Suppressed, it would have grumbled all night."},
+{t:2,h:"Belbin team roles",b:"Nine roles teams need to function — useful for seeing team gaps, not for labelling people.",x:"Meredith Belbin identified nine roles teams need: plant (ideas), shaper (drive), completer-finisher (detail), monitor-evaluator (judgement), specialist (expertise), resource-investigator (networks), coordinator (orchestrating), teamworker (cohesion), implementer (delivery). People typically have two or three natural roles. Belbin is more useful for understanding team gaps than for labelling individuals.",s:"A QI team has lots of ideas (plants) and lots of drive (shapers) but no completer-finisher. Three projects start; none finishes. Adding one detail-oriented member changes the outcome more than another visioning workshop would."},
+{t:2,h:"Psychological safety",b:"The shared belief that the team is safe for interpersonal risk-taking.",x:"Amy Edmondson defines psychological safety as the shared belief that the team is safe for interpersonal risk-taking — speaking up with a question, an idea, a concern, a mistake. It's not about comfort or niceness; it's about whether people are willing to be wrong in front of each other. It is the strongest predictor of team learning and patient safety.",s:"On a Monday morning huddle the consultant asks, \"What nearly went wrong this weekend?\" and openly shares one of their own near-misses first. Over months, the team starts surfacing problems early rather than waiting for harm. That is psychological safety being deliberately built."},
+{t:2,h:"Crew Resource Management",b:"Aviation safety principles imported into healthcare — briefings, structured communication, flattened gradients.",x:"CRM came out of aviation in the 1980s after a series of crashes attributed not to technical failure but to crew dynamics. It teaches briefings, structured communication, flattened authority gradients, and shared situational awareness. Healthcare has imported it heavily — in anaesthesia, surgery, resus, obstetrics — with measurable safety gains.",s:"Before a cardiac arrest call, the team-leader runs a 30-second brief: \"I'm leading, you're airway, you're compressions, you're scribe; we'll pause at five minutes for rhythm and review.\" That single sentence, borrowed from aviation, halves the chaos of the next ten minutes."},
+{t:2,h:"Authority gradient",b:"Steepness of perceived power differences — steep gradients silence concerns.",x:"Authority gradient is the perceived power difference between team members. A steep gradient — between an F1 and a consultant, or between a nurse and a doctor — discourages people from speaking up about concerns. Flattening it isn't about removing hierarchy; it's about making it safe to challenge across it.",s:"A consultant introduces themselves to the SHO on call by first name, asks them to \"please challenge me if anything I say doesn't add up,\" and then visibly thanks them when they do. The gradient is still there — but it's safe to climb."},
+{t:2,h:"Briefing and debriefing",b:"Short pre-task brief, short post-event debrief — cheap, evidence-based, almost never done.",x:"A briefing is a short pre-task conversation that aligns the team on plan, roles, and what to watch for. A debrief is a short post-task conversation that converts experience into learning. Both are cheap, evidence-based, and almost never done well. Five minutes at each end of a shift outperforms most other interventions on team performance.",s:"The on-call team meets at the start of the shift for two minutes: who's covering what, who's the lead, what the workload looks like. At the end they spend three minutes on what worked, what didn't, and one thing to carry forward. Cumulatively this changes how the next shift starts."},
+{t:2,h:"Shared mental model",b:"Everyone holding the same picture of what's happening, what's planned, and what to watch for.",x:"A shared mental model is the team holding a common picture of what's happening, what's planned, and what to watch for. It doesn't form by accident; it's built by saying things out loud — naming the diagnosis you're working with, the plan you've agreed, the trigger for re-thinking. Without it, each team member runs their own private film.",s:"A patient is deteriorating on the ward. The registrar says, \"Our working diagnosis is septic shock from a urinary source, plan is fluid resuscitation and antibiotics within the hour, escalate to ICU if MAP doesn't respond by 30 minutes.\" Everyone in the room now operates from the same script."},
+{t:2,h:"PACE / CUS / two-challenge",b:"Graduated escalation scripts that give juniors words to use under pressure.",x:"PACE: Probe (\"are you aware…\"), Alert (\"I think we should…\"), Challenge (\"we need to…\"), Emergency (\"stop\"). CUS: \"I'm Concerned… I'm Uncomfortable… this is a Safety issue.\" Two-challenge: if your concern is dismissed, voice it again, and if still dismissed, escalate above. Their value is in giving juniors words to use under pressure.",s:"An F1 thinks the consultant is about to give a contraindicated drug. They have a script ready: \"I'm concerned about the eGFR — could we just check it before we give that?\" Pre-rehearsed phrasing is what turns a private worry into a spoken challenge."},
+{t:3,h:"SBAR",b:"Situation, Background, Assessment, Recommendation — structure your message before opening your mouth.",x:"SBAR was developed by the US Navy and ported into healthcare by Kaiser Permanente. Its value isn't in the letters; it's in forcing the speaker to do the cognitive work of structuring before opening their mouth. The receiver gets oriented quickly; the speaker gets to a clearer ask. Most failed escalations failed at the R.",s:"An F1 phones the registrar: \"Hi, I'm worried about Mr Patel in bay 3, post-op day 2 from a hemicolectomy. He's tachycardic at 130, BP 95/60, NEWS 8 — I think he may have a leak. Could you come and review in the next 15 minutes?\" Compare that with the same call without SBAR."},
+{t:3,h:"Calgary–Cambridge guide",b:"The UK standard for teaching clinical consultation skills.",x:"The Calgary–Cambridge model is the standard UK framework for teaching clinical communication. It maps five stages — initiating, gathering information, building the relationship, explanation and planning, closing — with explicit micro-skills under each. It underpins OSCE communication stations and most consultation-skills teaching.",s:"An SHO who consistently runs over in clinic maps their consultations against Calgary–Cambridge and realises they jump from initiation straight to explanation, missing \"gathering.\" They start asking, \"What's worrying you most about this?\" — and the consultations finish faster, not slower."},
+{t:3,h:"SPIKES",b:"Setting, Perception, Invitation, Knowledge, Empathy, Strategy — for breaking bad news.",x:"SPIKES is Buckman and Baile's six-step framework for breaking bad news. Each step is small and named, which is the point: under emotional load, having a sequence to fall back on is what stops the conversation from collapsing. The empathy step is the hardest and most often skipped.",s:"You need to tell a patient her CT shows metastatic disease. Setting: a quiet room, no bleep. Perception: \"What have you been told so far?\" Invitation: \"Would it be helpful to talk about the results now?\" Knowledge: a warning shot, then the news, then a pause. Empathy: silence, then acknowledgement. Strategy: next steps, written down."},
+{t:3,h:"Active listening",b:"Attention, paraphrase, reflect feeling, summarise, open questions — mostly resisting the urge to talk.",x:"Active listening is more than not interrupting. It involves attention (visible and undivided), paraphrase (reflecting content), reflection of feeling (naming what you're hearing emotionally), summary (consolidating), and open questions (inviting more). It is genuinely hard work, and most of it is about resisting the urge to talk.",s:"A struggling junior tells you they're considering leaving training. The non-listening response: \"Have you spoken to occ health? I'm sure it'll pass.\" The listening response: a quiet \"That sounds like a big thing to be carrying. What's been the hardest part?\" — and then waiting."},
+{t:3,h:"Closed-loop communication",b:"Sender gives message, receiver reads back, sender confirms — three turns where one would do.",x:"Sender gives a message, receiver reads it back, sender confirms — three turns where one would do. Borrowed from aviation and now standard in resus and theatre, it adds a second of friction that catches a striking number of medication and instruction errors. Without it, \"give 10mg\" can become 10mL of the wrong concentration.",s:"Team leader: \"1mg of adrenaline IV.\" Team member: \"1mg of adrenaline IV, going in now.\" Team leader: \"Yes.\" The pause feels redundant until the day the team member would have heard \"10mg.\" Then it doesn't feel redundant at all."},
+{t:3,h:"Crucial conversations",b:"High-stakes, emotional, divergent-opinion talks — create safety, share facts before story, ask for theirs.",x:"Patterson and colleagues describe crucial conversations as ones where stakes are high, opinions diverge, and emotions are strong. Their model includes creating safety first (\"I want to talk about this because I care about us working well together\"), separating facts from the story you're telling about them, and asking for the other person's perspective before sharing yours.",s:"A colleague has repeatedly cherry-picked easy patients. Avoiding the conversation breeds resentment; ambushing them sparks defensiveness. The crucial-conversations approach is to set the stage (\"I'd like to talk about how we're sharing workload — is now okay?\"), share the facts, and listen before pushing."},
+{t:3,h:"Non-violent communication",b:"Observation, feeling, need, request — disagreement without escalation.",x:"Marshall Rosenberg's framework moves a difficult message through four steps: observation (just the facts), feeling (your emotional response), need (the underlying need), request (something specific and doable). The form sounds clinical until you try it under pressure — and then it sounds like the difference between a fight and a conversation.",s:"Instead of \"you're always late to handover,\" try: \"I've noticed handover started 10 minutes late three times this week (observation). I feel frustrated (feeling) because I need to leave on time to collect my child (need). Could we agree to start at 8 sharp from Monday? (request).\""},
+{t:3,h:"De-escalation",b:"Lower stimulation, voice, body. Give space. Name the feeling. Offer a choice.",x:"De-escalation is a deliberate sequence: lower the environmental stimulation (noise, crowd), lower your own voice, lower your body position (sit if possible), give space, name what you see (\"you seem really upset\"), and offer a choice — even a small one. Done early it prevents the use of force; done late, it doesn't work.",s:"A delirious post-op patient is shouting in a six-bedded bay. The default response is to crowd around and physically restrain. The de-escalation response is to clear the bay, sit at eye level, lower the lighting, and offer two simple choices (\"would you like the curtain open or closed?\"). It buys time without medication."},
+{t:4,h:"Bloom's taxonomy",b:"Six cognitive levels from remember to create — useful for pitching teaching and writing outcomes.",x:"Bloom and colleagues classified educational objectives into six cognitive levels: remember, understand, apply, analyse, evaluate, create. The 2001 revision flipped \"create\" to the top. It's most useful when writing learning outcomes and designing assessments — and noticing when teaching is stuck at the lowest level.",s:"A teaching session on heart failure can sit at \"remember\" (list the NYHA classes), \"apply\" (classify this patient), or \"evaluate\" (which guideline do you weight when they conflict?). Mapping the session against Bloom reveals when \"teaching\" is really just \"quoting.\""},
+{t:4,h:"Miller's pyramid",b:"Knows, knows how, shows how, does — different assessments belong at different levels.",x:"George Miller proposed a four-level pyramid: knows (facts), knows how (applied knowledge), shows how (performance in simulation or OSCE), does (real-world practice). Each level needs a different assessment method. A trainee who passes the MCQ knows; only a workplace-based assessment shows whether they do.",s:"An SHO scores 90% on a written paper about anaphylaxis (knows). They can talk through the algorithm convincingly (knows how). On a simulator they hesitate over IM versus IV adrenaline (shows how). On the ward they get it right but slowly (does). Each level needed its own evidence."},
+{t:4,h:"Kolb's learning cycle",b:"Experience, reflection, conceptualisation, experimentation — experience alone doesn't teach.",x:"David Kolb described learning as a four-stage cycle: concrete experience (something happens), reflective observation (you think about it), abstract conceptualisation (you draw a principle), active experimentation (you test the principle next time). Experience without reflection is mostly repetition; reflection without experimentation never moves into practice.",s:"You miss a subtle stroke on a Saturday admission. Concrete experience: the case. Reflection: what did I notice and what did I miss? Conceptualisation: I tend to anchor on the presenting feature. Experimentation: next admission, force a structured neuro exam regardless of presentation."},
+{t:4,h:"Honey and Mumford styles",b:"Activist, reflector, theorist, pragmatist — most teachers default to their own preference.",x:"Honey and Mumford adapted Kolb into four learning-style preferences: activist (learns by doing), reflector (learns by watching and thinking), theorist (learns by frameworks), pragmatist (learns by applying). Most teachers default to the style they prefer themselves and underserve the others. Mixed delivery — sim, reading, discussion, reflection — covers more ground.",s:"A teaching session that's entirely lecture-and-slides bores the activists and the pragmatists. Breaking it into a short case (activist), a framework (theorist), a discussion (reflector), and a \"what will you change on Monday?\" (pragmatist) reaches the room."},
+{t:4,h:"Reflective practice",b:"Deliberate examination of experience to generate learning — not the same as feeling bad.",x:"Reflective practice is the deliberate examination of experience to generate learning, named by Donald Schön. It is distinct from rumination (going over the bad feeling repeatedly) and from journaling (just describing). The product of reflection is a change in how you'll act next time. If there's no action, it wasn't reflection.",s:"After a difficult family conversation, an SHO writes: \"It went badly because I started with the prognosis before checking what they understood. Next time I'll use the Perception step of SPIKES — ask what they've already been told before adding new information.\""},
+{t:4,h:"Gibbs' reflective cycle",b:"Description, feelings, evaluation, analysis, conclusion, action plan.",x:"Graham Gibbs added structure to reflection with six stages: description (what happened), feelings (what was I thinking and feeling), evaluation (what was good and bad), analysis (what sense can I make of it), conclusion (what else could I have done), action plan (what will I do next time). It's the default scaffold in UK portfolios.",s:"A trainee writes a Gibbs-structured reflection on a difficult handover. The action plan is concrete: \"I will use SBAR with a written prompt card for the next five on-calls and ask the receiver to give me brief feedback.\" The portfolio entry becomes useful, not performative."},
+{t:4,h:"Conscious competence model",b:"Unconscious incompetence → conscious incompetence → conscious competence → unconscious competence.",x:"The four-stage learning model: unconscious incompetence (you don't know what you don't know), conscious incompetence (you've noticed), conscious competence (you can do it with effort), unconscious competence (you can do it without thinking). The hardest stage is conscious incompetence — when you've just realised how far you have to go.",s:"An F1 starting acute medicine feels confident (unconscious incompetence). After two weeks they feel terrible (conscious incompetence). By six months they're doing well but find it tiring (conscious competence). By the end of the year they're holding the bleep without breaking sweat (unconscious competence)."},
+{t:4,h:"Spaced repetition",b:"Distributed, interleaved practice beats massed cramming for retention.",x:"Spaced repetition exploits the spacing effect: information reviewed at expanding intervals is retained much better than the same time spent in one block. Anki, Quizlet, and well-designed weekly recaps embed this. It feels less efficient in the moment — each review brings forgetting — but is dramatically more effective long-term.",s:"A trainee preparing for the SCE switches from re-reading chapters to a daily 20-minute Anki session. They forget more in the short term and feel less confident — but score five points higher on practice papers two months later."},
+{t:4,h:"Cognitive load theory",b:"Working memory is finite — reduce extraneous load, manage intrinsic, build germane.",x:"John Sweller's theory says working memory is finite, and effective teaching manages three loads: intrinsic (the inherent difficulty of the material), extraneous (anything not contributing to learning — cluttered slides, irrelevant detail), and germane (the effort of building schemas). The teacher's job is to reduce extraneous, sequence intrinsic, and create space for germane.",s:"A teaching slide with 14 bullet points, an animation, and a sound effect maximises extraneous load and minimises learning. The same content as one schematic with a clear sequence — and then a single discussion question — does the opposite."},
+{t:4,h:"Curriculum mapping",b:"Systematic tracing of where each capability is taught, practised, and assessed.",x:"Curriculum mapping is the systematic tracing of where each capability is taught, practised, and assessed across a programme. It reveals two things: capabilities that are taught everywhere and assessed nowhere, and ones that are assessed without ever being taught. Both are common and both are fixable.",s:"A programme director maps the curriculum and notices \"leadership in MDT working\" is in the curriculum, mentioned in two teaching days, but appears on no WPBA. A new ACAT-style MDT observation is added, closing the loop."},
+{t:5,h:"GROW model",b:"Goal, Reality, Options, Will — ask, don't tell.",x:"John Whitmore's GROW is the most widely used coaching frame: Goal (what do you want?), Reality (where are you now?), Options (what could you do?), Will (what will you actually do, and when?). The coach's job is to ask, not to tell — and to resist the urge to leap from G to a solution in 60 seconds.",s:"A trainee says they want to \"get better at teaching.\" A coaching conversation walks through it: Goal — what would good look like? Reality — what are you doing now? Options — what could you try? Will — which one, by when, and how will we know? Twenty minutes of GROW outperforms twenty minutes of advice."},
+{t:5,h:"Mentoring vs coaching vs sponsorship",b:"Three different relationships, three different needs — rarely the same person.",x:"A mentor draws on their own journey to share wisdom; a coach uses questions to unlock yours; a sponsor uses their own capital — visible advocacy, introductions, naming you in rooms you're not in — to open doors. Most careers need all three, often from different people.",s:"A trainee considering academic medicine has a mentor (a researcher who's walked the path), a coach (someone helping them think through decisions), and ideally a sponsor (a senior figure who suggests their name when an opportunity comes up). One person rarely plays all three well."},
+{t:5,h:"Pendleton's rules",b:"Learner first, teacher second — protects the learner but can feel formulaic.",x:"David Pendleton's rules for feedback have a fixed sequence: learner says what went well, teacher says what went well, learner says what to improve, teacher says what to improve. The intent is to protect the learner from a barrage of negatives. The downside is rigidity; many trainers now use it as a starting point rather than a script.",s:"After an observed clinic, the supervisor consciously holds back their feedback and asks the trainee, \"What do you think went well?\" The trainee names something the supervisor was about to criticise — and the conversation that follows is different in tone, because the trainee owns the agenda."},
+{t:5,h:"ALOBA / SET-GO",b:"Start feedback from what the learner wants to work on — not what the teacher noticed.",x:"The Agenda-Led, Outcome-Based Approach starts feedback from what the learner wants to work on, not from what the teacher noticed. SET-GO is a related sequence — what I Saw, what Else did anyone see, what do you Think, what's the Goal, what could you Offer to try? Both move feedback away from the teacher's monologue.",s:"After a sim, the facilitator says, \"What's the one thing you want feedback on?\" rather than \"let me run through what I saw.\" The debrief that follows lands harder because the learner has chosen the focus."},
+{t:5,h:"SNAPPS",b:"Learner-led case discussion — Summarise, Narrow, Analyse, Probe, Plan, Select.",x:"SNAPPS is a learner-led model for case-based teaching: Summarise the case, Narrow the differential, Analyse the differential (compare and contrast), Probe the teacher with questions, Plan management, Select an issue for self-directed learning. It puts the cognitive work on the learner where Bloom's taxonomy says it should be.",s:"At post-take, an SHO is asked to present a case using SNAPPS. They summarise, narrow the differential, then probe: \"I wasn't sure when to add a CT KUB on top of an USS — could we talk about that?\" The teaching is now responsive to a learner-identified gap."},
+{t:5,h:"Johari window",b:"Open, blind, hidden, unknown — feedback shrinks the blind, disclosure shrinks the hidden.",x:"Luft and Ingham's window has four panes: open (known to self and others), blind (known to others, not self), hidden (known to self, not others), unknown (known to neither). Feedback expands the open quadrant by shrinking the blind one; self-disclosure shrinks the hidden one. Healthy relationships expand the open quadrant in both directions.",s:"An MSF reveals a trainee is seen as abrupt by junior nurses — something they hadn't realised (blind). Feedback moves it into the open quadrant where they can work on it. Without the feedback, the behaviour would have continued unseen by them and unspoken by others."},
+{t:6,h:"Maslach burnout inventory",b:"Emotional exhaustion, depersonalisation, reduced personal accomplishment.",x:"Christina Maslach defined burnout along three dimensions: emotional exhaustion (you're drained), depersonalisation or cynicism (you treat people as objects), and reduced personal accomplishment (your work feels meaningless). It is a syndrome with measurable consequences for safety, not a personal weakness. Burnout is largely a function of the work environment, not the worker.",s:"A registrar finds themselves dreading every shift (exhaustion), referring to \"the gallbladder in bay 4\" rather than Mrs Khan (depersonalisation), and feeling that nothing they do matters (reduced accomplishment). All three together is not \"a bad week\" — it's a signal the system needs attention, not just them."},
+{t:6,h:"Moral injury",b:"Damage from acting against one's values under system constraints — distinct from burnout.",x:"Moral injury is the damage caused by acting against one's values under system constraints, or witnessing others doing so — coined first in military contexts and now widely applied in healthcare. It is distinct from burnout: a clinician working short-staffed and unable to give the care they believe their patient deserves is morally injured, not just tired. The remedy is not resilience training; it is system change.",s:"An on-call registrar discharges a patient at 2am because the bed is needed for the next admission, knowing the discharge isn't quite safe enough. The next day they don't feel exhausted — they feel betrayed by the system that made them do it. Moral injury, not burnout."},
+{t:6,h:"Compassion fatigue",b:"Gradual erosion of empathy in people repeatedly exposed to suffering — predictable, not a failing.",x:"Compassion fatigue is the gradual erosion of empathy in people repeatedly exposed to others' suffering. It is predictable and not a personal failing. Distinguishing it from burnout matters: compassion fatigue is about the cost of caring; burnout is about the cost of working in a broken system. They co-occur and amplify each other.",s:"An SHO who used to sit with bereaved families finds themselves rushing through these conversations. They feel guilty, then ashamed. Naming it as compassion fatigue — and protecting some of those interactions while letting go of others — is more useful than self-criticism."},
+{t:6,h:"Second victim phenomenon",b:"Clinicians involved in adverse events suffer measurable psychological harm themselves.",x:"Albert Wu's concept: clinicians involved in adverse events suffer measurable psychological harm — anxiety, depression, intrusive thoughts, sometimes long-term career impact. They are the \"second victim,\" after the patient. Most healthcare cultures still investigate without supporting; PSIRF explicitly tries to address this.",s:"An F2 makes a prescribing error that contributes to a serious incident. The investigation is professional but cold. Six months later they leave training. The error did not have to end their career — but the absence of structured support after it did."},
+{t:6,h:"Schwartz Rounds",b:"Trust-wide multidisciplinary reflective forum on the emotional aspects of healthcare work.",x:"Schwartz Rounds are a multidisciplinary reflective forum where staff at all levels discuss the emotional and social aspects of healthcare work. They are run trust-wide rather than specialty-specific, deliberately mixing roles. There is robust evidence of impact on staff wellbeing and team functioning.",s:"A consultant, a healthcare assistant, and a hospital chaplain talk to a packed lecture theatre about a death that affected each of them differently. The audience doesn't leave with answers — they leave with the recognition that they aren't alone in what the work costs them."},
+{t:6,h:"Balint groups",b:"Small, longitudinal group reflection on the doctor–patient relationship.",x:"Michael Balint developed these in the 1950s for GPs: small, longitudinal groups (8–12 people, meeting monthly for a year or more) that discuss the doctor–patient relationship in particular cases. They are more contained than Schwartz Rounds and more focused on the emotional content of clinical work — what the patient evoked in the doctor, and vice versa.",s:"A trainee presents a case where they felt unreasonable anger toward a frequent attender. The group doesn't problem-solve the medical issue; they explore what the patient might have been bringing, and what the trainee might have been bringing. The next consultation feels different."},
+{t:6,h:"Sleep hygiene on shifts",b:"Shift workers don't sleep well by default — push-through is not a strategy.",x:"Shift workers do not sleep well by default, and \"I'll just push through\" is not a strategy. Evidence-based protections include short anchor sleeps before nights, strategic caffeine timing, light exposure for circadian shifting, dark and quiet daytime sleep environments, and post-night recovery that includes one full night of normal sleep before resuming.",s:"A registrar on a run of nights treats their first day off as a normal day, has wine with dinner, and pushes through. By the second week of the rota they're sleep-deprived and irritable. Switching to a 4-hour nap after the last night, plus a structured first-real-night, makes the recovery actually work."},
+{t:6,h:"Sustainable pacing",b:"A career is a marathon punctuated by sprints — don't confuse the two.",x:"A career in medicine is a marathon punctuated by sprints. The error most trainees make is to confuse the two — sprinting for years on end and being surprised when they break. Sustainable pacing involves knowing your sprint capacity, recovering deliberately afterwards, and saying no to optional sprints when not in recovery.",s:"A registrar agrees to a teaching role, two QI projects, an audit lead post, and an exam — all in one rotation. By month four they're delivering none of them well. Sustainable pacing would have meant picking two and protecting recovery on the others."},
+{t:7,h:"Good Medical Practice",b:"GMC's four domains of duties — read it once a year; it's shorter than you remember.",x:"The GMC's Good Medical Practice (updated 2024) sets out the duties of a doctor under four domains: knowledge, skills and development; patients, partnership and communication; colleagues, culture and safety; trust and professionalism. Most fitness-to-practise cases trace to one of these domains. It is short, readable, and worth reading once a year.",s:"A trainee facing a complaint about a difficult consultation can map their conduct against Good Medical Practice. They realise they fell short on \"communicate respectfully\" but not on clinical care. The framework gives the appraisal conversation a structure rather than a vibe."},
+{t:7,h:"Duty of candour",b:"Statutory and professional — apology is not admission of liability, and the law says so.",x:"The duty of candour has two limbs: statutory (organisational) and professional (individual). Both require openness with patients when something has gone wrong — an apology, an explanation, and an offer of support. Crucially, apology under the duty of candour is not an admission of liability, and the legislation says so explicitly.",s:"A patient is given the wrong antibiotic — no harm done. The duty-of-candour conversation, done well, is not a legal land-mine: it explains what happened, says sorry, describes what is being done about it, and gives the patient a route to follow up. Done badly or not at all, it becomes a complaint."},
+{t:7,h:"Probity",b:"Honesty in financial, professional, and academic dealings — ends more careers than clinical errors.",x:"Probity covers honesty in financial, professional, and academic matters: declaring conflicts of interest, accurate record-keeping, honest job applications, no plagiarism, no inflated CVs. More careers end on probity issues than on clinical ones, because clinical errors are often understandable while dishonesty rarely is.",s:"A trainee lists a paper they were a middle author on as \"first author\" in a job application. It is discovered. The clinical part of their record is excellent, but the application is now an integrity issue — and resolving it takes longer than the job interview ever would have."},
+{t:7,h:"Mental Capacity Act principles",b:"Five principles — capacity is decision-specific and time-specific.",x:"The MCA 2005 has five principles: presume capacity, support the person to decide, allow unwise decisions, act in best interests if they lack capacity, choose the least restrictive option. Capacity is decision-specific and time-specific — someone may have capacity to choose a snack but not to consent to surgery, and capacity may fluctuate.",s:"An elderly patient with mild dementia refuses an angiogram. The wrong approach is to declare them incapacitous and proceed in their best interests. The right approach is to assess capacity for this decision at this time, support them to understand it, and respect a refusal if they have capacity — even one the team disagrees with."},
+{t:7,h:"Montgomery consent",b:"Material risk is what this patient would want to know — not what a reasonable doctor would disclose.",x:"The 2015 Montgomery v Lanarkshire ruling redefined consent in UK law. Material risk is no longer judged by what a reasonable doctor would disclose, but by what a reasonable person in this patient's position would want to know — and what this particular patient would want to know. Consent is a process, not a signature.",s:"Before a coronary angiogram, the consenting clinician discusses risks generic to the procedure and also asks, \"Are there things you'd specifically want to know about? Any risks that would change your mind?\" The patient mentions concern about their hands (they're a musician); the discussion goes deeper there. That's Montgomery in practice."},
+{t:7,h:"Caldicott principles",b:"Eight principles governing patient-identifiable information — \"need to know\" beats \"nice to know.\"",x:"The Caldicott principles (now eight, including the 2020 addition about informing patients about uses of their data) govern the use of patient-identifiable information in the NHS. Key principles: justify the purpose, use only what's necessary, share on a need-to-know basis, and remember that information sharing for direct care is as important as protecting confidentiality.",s:"A WhatsApp group between SHOs sharing photos of \"interesting\" ECGs may feel educational but breaches Caldicott in multiple ways. A secure, anonymised teaching app does the same job without the risk. The principle isn't \"don't share\"; it's \"share appropriately.\""},
+{t:7,h:"Whistleblowing & Freedom to Speak Up",b:"PIDA 1998 protects public-interest disclosures; FTSU Guardians offer a local route.",x:"The Public Interest Disclosure Act 1998 protects workers who raise concerns in the public interest. After the Francis Report, the NHS introduced Freedom to Speak Up Guardians — independent points of contact within trusts for staff worried about raising concerns through normal management lines. Concerns should be raised early and locally first.",s:"A trainee notices a colleague repeatedly turning up smelling of alcohol. Going to the press is whistleblowing of last resort; going to the educational supervisor first, and the FTSU Guardian if that doesn't help, is the protected and proportionate route."},
+{t:7,h:"Conflicts of interest",b:"Financial, personal, professional, intellectual — declaration is the minimum, sometimes management is required.",x:"Conflicts of interest can be financial (paid talks, stock holdings), personal (family, friendships), professional (rivalries, prior involvement), or intellectual (committed positions). Declaration is the minimum; sometimes management — recusal, oversight, divestment — is required. The test is not whether you feel biased, but whether others might reasonably think you are.",s:"A trainee is asked to lead the audit of a new piece of equipment manufactured by a company that pays for their conference attendance. Declaring it isn't enough; the right course is to declare it and step out of the lead role, or have an independent reviewer."},
+{t:7,h:"Professional boundaries",b:"Apply to patients, students, and colleagues — crossings start small.",x:"Boundaries protect patients, students, and colleagues from the misuse of asymmetric power. Crossings rarely look at the time like the thing they end up being — they're \"just\" friendly contact, a small loan, a hug, a drink. The GMC, royal colleges, and regulators set explicit limits and routes for help when boundaries are at risk of being crossed.",s:"A patient asks to add the SHO on social media. The right response — friendly, immediate, non-judgemental — is to explain that you don't connect with patients online, signpost the patient back to clinical routes, and document it. The boundary holds because it was set the first time, not the tenth."},
+{t:7,h:"Civility saves lives",b:"Rudeness measurably degrades cognitive performance — civility is a clinical skill.",x:"A growing body of evidence shows rudeness in the workplace measurably degrades cognitive performance — diagnostic accuracy drops, technical skills falter, helping behaviour decreases. Civility is therefore a clinical skill, not an etiquette. The Civility Saves Lives campaign collated this evidence specifically for healthcare audiences.",s:"A consultant snaps at the scrub nurse during a complex case. The team becomes quieter, miscount swabs more readily, and don't speak up about an instrument issue. Civility was not just a feeling; it was a functioning safety mechanism that just got switched off."},
+{t:8,h:"ARCP",b:"Annual Review of Competence Progression — know your outcomes 1 through 8.",x:"The Annual Review of Competence Progression is the formal annual checkpoint in postgraduate training. Outcomes range from 1 (satisfactory progression) through 2 (development needs), 3 (additional training time), 4 (released from programme) to 5/6 (insufficient evidence). Understanding the difference between 2 and 3 matters, because the consequences for the trainee are very different.",s:"A trainee with a busy year and patchy portfolio evidence anticipates a panel concern. Bringing the supervisor a clear plan to address the gaps — and starting it before the panel — often moves the outcome from a 3 to a 2 with conditions."},
+{t:8,h:"Capabilities in Practice (CiPs)",b:"The current curriculum unit — holistic capabilities, mapped against levels of supervision.",x:"CiPs are the current unit of UK postgraduate curricula: broad, holistic capabilities (like \"leading the daily ward round\") rather than long lists of competencies. They are assessed at four levels of supervision: direct, in the same room, available within minutes, available remotely. The framing pushes assessors to make trust-based judgements.",s:"An ES filling in a CiP for \"managing the acute medical take\" doesn't tick 50 sub-items; they make an overall judgement on the level of supervision the trainee needs. The conversation behind that judgement is the actual learning event."},
+{t:8,h:"Entrustable Professional Activities",b:"Discrete units of work that can be entrusted to a trainee — the bridge between curriculum and clinic.",x:"EPAs, developed by Olle ten Cate, are discrete units of professional work that can be entrusted to a trainee — \"lead a post-take ward round,\" \"manage an acute upper GI bleed.\" They are the bridge between an abstract curriculum and clinical reality, naming the things a trainee actually does on the job. UK CiPs draw heavily on EPA thinking.",s:"A trainee builds their portfolio around EPAs rather than around assessment types. Each entry shows growing independence on a specific clinical activity — and the cumulative picture at ARCP is much more coherent than a heap of WPBAs."},
+{t:8,h:"Workplace-based assessments",b:"Mini-CEX, CbD, ACAT, DOPS, MSF — formative tools, degraded by box-ticking.",x:"WPBAs include Mini-CEX (clinical encounter), CbD (case-based discussion), ACAT (ward-round-style observation), DOPS (procedural), and MSF (360°). They were designed as formative learning tools — to drive feedback conversations — but degrade quickly into box-ticking when used purely as summative evidence. Their value is in the conversation; the form is just a record of it.",s:"A trainee chasing numbers does six Mini-CEX in a week, getting brief sign-off each time. They have ticks but no growth. Doing two Mini-CEX with proper, planned debriefs would have taught them more and made better evidence."},
+{t:8,h:"Portfolio",b:"Curated evidence of progression — a story, not a dump.",x:"A portfolio is the curated record of your progression — assessments, reflections, certificates, governance and teaching activity. The key word is \"curated\": ARCP wants a coherent story, not an unedited dump. The trainee who reviews their portfolio quarterly with their educational supervisor outperforms the one who scrambles in March.",s:"A trainee with three months until ARCP imports their portfolio into a single document, sorts it by CiP, and identifies the two CiPs with thin evidence. They then plan three specific WPBAs in the remaining time to fill those gaps. The panel sees a story, not a pile."},
+{t:8,h:"Multi-source feedback (MSF)",b:"Structured anonymous 360° feedback — most useful with a coach to make sense of it.",x:"MSF — also called 360° feedback — gathers structured anonymous feedback from a wide range of colleagues: seniors, peers, juniors, nursing staff, allied health. It is most useful when the recipient has someone to make sense of it with, because raw MSF data is easy to misread, especially the outlier comments.",s:"A trainee's MSF includes glowing feedback from medics and lukewarm feedback from nursing staff. Without a coach, they spiral over the nursing comments. With a coach, they identify a specific behaviour (rushing through nursing concerns at handover) and a specific change."},
+{t:8,h:"LTFT training",b:"Less than full time — now available to all on well-founded reasons.",x:"Less than full time training was historically restricted to specific groups. The 2022 NHS LTFT framework opened it up to all trainees on \"well-founded reasons\" including personal lifestyle. It has implications for pay, on-call frequency, CCT date, and pension — none of which are reasons not to do it, but all of which are worth understanding before the conversation with the TPD.",s:"A trainee considering LTFT for parental reasons learns the framework allows down to 50% with full training credit. They run the numbers on pay and CCT date, talk to LTFT mentors, and apply through the deanery — a structured route rather than an ad hoc request."},
+{t:8,h:"Out of Programme",b:"OOPR, OOPE, OOPT, OOPC, OOPP — each has different ARCP and CCT implications.",x:"OOP comes in five flavours: OOPR (research), OOPE (experience), OOPT (training), OOPC (career break), and OOPP (pause). Each has different rules about ARCP, CCT date, pay, and whether the time counts toward training. Choosing the wrong category can cost a year or more.",s:"A trainee wanting to do a year of medical education in Australia mistakenly applies for OOPC (career break) when OOPE (experience) would have given them retained training number. Talking to the TPD before the application would have caught the error."},
+{t:8,h:"CESR / specialist registration via portfolio",b:"The non-training route to the Specialist Register — now the Portfolio Pathway.",x:"The Certificate of Eligibility for Specialist Registration is the non-training route to the Specialist Register. SAS doctors, IMGs, and those who left training can demonstrate equivalent competence through a structured portfolio. It is being progressively reformed (Portfolio Pathway from late 2023) but remains a substantial undertaking.",s:"A consultant in the team is recruiting an experienced SAS doctor onto the CESR pathway. Knowing what evidence the GMC will want — and helping the candidate plan WPBAs that meet it — is now a routine part of the registrar's supportive role."},
+{t:8,h:"Job planning",b:"DCC and SPA — knowing how a consultant week is constructed is a step toward becoming one.",x:"A consultant job plan splits weekly work into Direct Clinical Care (DCC) and Supporting Professional Activities (SPA), usually 7.5 DCC and 2.5 SPA in a 10-PA plan. Knowing how this constructs a working week is a key step toward becoming a consultant. SPAs cover teaching, audit, appraisal, CPD, management — and protecting them is its own discipline.",s:"A new consultant accepts a job offering 9 DCC and 1 SPA — flattered by the workload. Six months in they realise they have no time for their educational supervisor role or the QI work they were promised. Job planning at the start, not the breaking point, would have caught this."},
+{t:9,h:"PICO",b:"Population, Intervention, Comparator, Outcome — turns a hunch into a searchable question.",x:"PICO turns a clinical hunch into a searchable question by naming the Population, Intervention, Comparator, and Outcome. \"Does this drug work?\" goes nowhere; \"In adults with acute heart failure, does early IV diuresis compared with oral loading reduce length of stay?\" goes to a hit list. Variants like PICOT add Time.",s:"A trainee wants to look up \"whether magnesium helps in COPD.\" The PICO version — \"In adults admitted with acute COPD exacerbation, does IV magnesium compared with standard bronchodilator therapy reduce treatment failure?\" — finds the relevant trials in minutes, not an afternoon."},
+{t:9,h:"Audit vs QI vs research",b:"Three different things, three different governance routes — knowing which you're doing matters.",x:"Audit measures current practice against an existing standard (and re-measures after change). QI changes a process to make it better, measured against a SMART aim. Research generates new generalisable knowledge. The three have different governance routes: audit needs local registration, QI usually does, research needs HRA/REC approval.",s:"A trainee wants to find out whether a new sepsis protocol reduces mortality across two hospitals. That's research — generalisable, comparative — and needs ethical approval. Calling it \"audit\" to avoid the paperwork is both unethical and likely to invalidate publication."},
+{t:9,h:"Levels of evidence",b:"Hierarchies are starting points, not substitutes for thinking about applicability.",x:"Hierarchies of evidence — like the Oxford Centre's — rank study designs from systematic reviews of RCTs at the top to expert opinion at the bottom. They are useful starting points but not substitutes for thinking. A well-designed cohort study may be more relevant than a poorly applicable RCT, and the GRADE framework refines this further.",s:"A trainee cites a Cochrane review at the post-take MDT. The consultant points out that the population is dramatically different from theirs. Higher level doesn't automatically mean more applicable; the discussion that follows is the actual evidence-based medicine."},
+{t:9,h:"Critical appraisal",b:"A 20-minute habit that survives the rest of your career.",x:"Critical appraisal is the disciplined evaluation of a piece of research for its validity, results, and applicability. CASP checklists (for RCTs, cohort, case-control, systematic reviews, qualitative) give a structured 20-minute review. Once you've appraised twenty papers, you appraise the next one in three minutes.",s:"A drug rep brings a glossy summary of a new agent. The trainee runs through the CASP RCT checklist mentally and notes the outcome was a soft composite and the trial was industry-funded with the comparator at suboptimal dose. The conversation that follows is calibrated, not deferent."},
+{t:9,h:"Statistical vs clinical significance",b:"A p-value is not an effect size — both matter.",x:"A p-value of 0.04 means an effect is unlikely to be due to chance, given the assumptions. It says nothing about whether the effect is large enough to matter. A huge trial can find a statistically significant 0.2-day reduction in length of stay; a small trial may miss a clinically important effect. Effect sizes and confidence intervals matter at least as much as p-values.",s:"A poster claims \"statistically significant reduction in admission rates (p=0.03).\" Looking at the data, the absolute reduction is 1.2%, with a CI crossing zero on sensitivity analysis. Statistically real-ish, clinically meaningless — and unlikely to survive replication."},
+{t:10,h:"NHS structure",b:"DHSC → NHS England → ICBs → providers — knowing who commissions what shapes how to get things changed.",x:"The architecture from the top: DHSC (Department of Health and Social Care) sets policy; NHS England runs the operational NHS; Integrated Care Boards commission services for their populations; providers (acute trusts, mental health, community, primary care, ambulance) deliver them. Knowing who commissions what is the difference between a frustrated email and a credible business case.",s:"A trainee wants to expand a hospital-at-home service. Pitching it to their own trust gets nowhere. Pitching it to the ICB — with the right outcome data — opens a different conversation, because the ICB holds the commissioning lever."},
+{t:10,h:"Integrated Care Systems",b:"Place-based partnerships combining NHS, local authorities, and other partners.",x:"ICSs, established in statute in 2022, are place-based partnerships combining NHS organisations, local authorities, and other partners across a geographical footprint. They are the structural answer to fragmented care — moving from \"what each provider delivers\" to \"what the population needs.\" The model is still finding its operational form.",s:"An older person with multiple long-term conditions sees a GP, a community nurse, a hospital consultant, and a social worker, all from different organisations. In an ICS that works, they share a record, a plan, and a named coordinator. In one that doesn't, the patient is still the integrator."},
+{t:10,h:"Health inequalities",b:"Marmot's social determinants and the inverse care law — produced by systems, not patient choices.",x:"Michael Marmot's work established that the social determinants of health — housing, income, education, employment — drive most variation in outcomes. The inverse care law (Julian Tudor Hart) describes how good medical care tends to vary inversely with the need of the population served. Inequalities are produced by systems, not patient choices.",s:"A diabetic clinic has worse outcomes for patients from the most deprived postcodes. The reflex response is more education leaflets. The Marmot-informed response is to ask why these patients can't get to clinic — and find that bus routes, work patterns, and language matter more than leaflets."},
+{t:10,h:"Sustainable healthcare",b:"NHS Net Zero by 2040 (direct) and 2045 (supply chain) — overlaps with high-value care.",x:"The NHS has a statutory commitment to net zero direct emissions by 2040 and supply-chain emissions by 2045. About 5% of UK carbon emissions come from health and care. Sustainable healthcare overlaps strongly with high-value care — fewer unnecessary investigations, prevention over treatment, lower-carbon inhalers, less waste. It is not a parallel agenda.",s:"A respiratory team switches eligible patients from MDIs to DPIs. Carbon footprint drops dramatically, costs are similar, and patient outcomes are at least as good. A QI project, a sustainability project, and a clinical care project — the same project."},
+{t:10,h:"Health economics basics",b:"QALYs, ICERs, NICE thresholds, opportunity cost — every yes is a no to something else.",x:"Health economics rests on the recognition that resources are finite and choices are unavoidable. QALYs (quality-adjusted life-years) combine length and quality of life. ICERs (incremental cost-effectiveness ratios) compare interventions. NICE uses a threshold (commonly £20–30k per QALY) to inform decisions. Opportunity cost is the silent principle: every yes is a no to something else.",s:"A trainee advocates funding a new biologic. The economic question isn't \"is it effective?\" but \"is it cost-effective at the price, given the alternatives?\" Rationing happens whether or not it's named; making it explicit at least makes it accountable."},
+{t:11,h:"Equality Act 2010",b:"Nine protected characteristics — direct, indirect, harassment, victimisation each have legal meanings.",x:"The Equality Act consolidates UK anti-discrimination law into nine protected characteristics: age, disability, gender reassignment, marriage and civil partnership, pregnancy and maternity, race, religion or belief, sex, and sexual orientation. It defines direct discrimination, indirect discrimination, harassment, and victimisation — each with specific legal meanings.",s:"A rota policy requiring all trainees to work alternate weekends may be indirectly discriminatory if it disadvantages those with caring responsibilities, even if applied equally. Knowing the distinction between direct and indirect discrimination is the difference between a fair process and a tribunal."},
+{t:11,h:"Unconscious bias",b:"Awareness alone doesn't fix it — structural interventions do more.",x:"Unconscious or implicit bias is the gap between people's egalitarian explicit beliefs and their automatic associations. The evidence on intervention is humbling: awareness training alone does little. What works is structural — anonymised shortlisting, structured interviews, calibrated assessments — and behavioural commitments practised repeatedly.",s:"A consultant who sincerely believes they treat all trainees the same notices, after structured reflection, that they always offer the most complex cases to the same two trainees. The remedy isn't more guilt; it's a deliberate rotation system."},
+{t:11,h:"Microaggressions and allyship",b:"Small slights accumulate — allyship is the active use of one's own position.",x:"Microaggressions are small, often unintended slights that accumulate over time — being mistaken for the cleaner, having your name repeatedly mispronounced, being interrupted, having ideas attributed to someone else. Each one is \"minor\"; the cumulative effect is corrosive. Allyship is the active use of one's own position to interrupt, amplify, and create space.",s:"In an MDT, a junior female doctor is interrupted twice by colleagues. A senior present says, \"I want to come back to Sarah's earlier point — I don't think we finished it.\" That's allyship in three seconds, and it shapes what gets said next."},
+{t:11,h:"Cultural humility",b:"Lifelong learning about culture rather than claiming competence.",x:"Cultural humility, distinct from cultural competence, was articulated by Melanie Tervalon and Jann Murray-García. Competence implies you can master other cultures; humility recognises you can't, and centres the patient's expertise about their own. It involves ongoing self-reflection, lifelong learning, and acknowledging the power asymmetries in the clinical encounter.",s:"A trainee assumes a Muslim patient won't accept a medication containing alcohol. The cultural-humility version is to ask — and find that this particular patient is fine with it, or specifically not, and to act accordingly. The cultural-competence shortcut leads to wrong assumptions."},
+{t:11,h:"Inclusive leadership",b:"Belonging, voice, fairness — diversity is who's in the room, inclusion is whether they get to speak.",x:"Inclusive leadership rests on three behaviours: ensuring belonging (people feel they fit), voice (people feel heard), and fairness (people are treated equitably). Diversity is who's in the room; inclusion is whether they get to speak in it. You can have one without the other and lose the benefit.",s:"A department recruits a more diverse junior cohort but keeps the same meeting structure, same dominant voices, same patterns. Six months later, the new joiners are leaving. The diversity work was done; the inclusion work was not."},
+];
+
+const MS_PER_DAY = 86400000;
+function epochDayLocal(d) {
+  const local = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  return Math.floor(local.getTime() / MS_PER_DAY);
+}
+const today = new Date();
+const todayEpochDay = epochDayLocal(today);
+function conceptIndexForEpochDay(ed) {
+  return ((ed % CONCEPTS.length) + CONCEPTS.length) % CONCEPTS.length;
+}
+function dateForEpochDay(ed) { return new Date(ed * MS_PER_DAY); }
+function formatDate(d) {
+  return d.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+let viewingEpochDay = todayEpochDay;
+const $ = (id) => document.getElementById(id);
+function setAccent(hex) {
+  document.documentElement.style.setProperty('--accent', hex);
+  document.documentElement.style.setProperty('--accent-soft', hex + '18');
+}
+function pad2(n) { return n < 10 ? '0' + n : String(n); }
+
+function render() {
+  const idx = conceptIndexForEpochDay(viewingEpochDay);
+  const concept = CONCEPTS[idx];
+  const theme = THEMES[concept.t];
+  setAccent(theme.color);
+  $('dayBig').textContent = pad2(idx + 1);
+  $('category').textContent = theme.name;
+  $('title').textContent = concept.h;
+  $('lead').textContent = concept.b;
+  $('body').textContent = concept.x;
+  $('scenario').textContent = concept.s;
+  const d = dateForEpochDay(viewingEpochDay);
+  const isToday = viewingEpochDay === todayEpochDay;
+  $('dateLine').innerHTML = isToday
+    ? '<span class="today-flag">Today</span> · ' + formatDate(d)
+    : formatDate(d);
+  const todayBtn = $('todayBtn');
+  todayBtn.classList.toggle('is-today', isToday);
+  todayBtn.textContent = isToday ? 'Today' : 'Back to today';
+  renderProgress(idx);
+  const article = $('concept');
+  article.style.animation = 'none';
+  void article.offsetWidth;
+  article.style.animation = '';
+  const newHash = isToday ? '' : '#day=' + viewingEpochDay;
+  if (location.hash !== newHash) {
+    history.replaceState(null, '', newHash || (location.pathname + location.search));
+  }
+  renderIndexHighlights(idx);
+}
+
+function renderProgress(currentIdx) {
+  const container = $('progress');
+  if (container.children.length !== CONCEPTS.length) {
+    container.innerHTML = '';
+    for (let i = 0; i < CONCEPTS.length; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.title = (i + 1) + '. ' + CONCEPTS[i].h;
+      dot.addEventListener('click', () => goToConceptIdx(i));
+      container.appendChild(dot);
+    }
+  }
+  for (let i = 0; i < CONCEPTS.length; i++) {
+    const dot = container.children[i];
+    dot.classList.toggle('passed', i < currentIdx);
+    dot.classList.toggle('current', i === currentIdx);
+  }
+}
+
+function buildIndex() {
+  const list = $('indexList');
+  list.innerHTML = '';
+  const grouped = THEMES.map(() => []);
+  CONCEPTS.forEach((c, i) => grouped[c.t].push({ c, i }));
+  for (let ti = 0; ti < THEMES.length; ti++) {
+    if (!grouped[ti].length) continue;
+    const theme = THEMES[ti];
+    const wrap = document.createElement('div');
+    wrap.className = 'theme-group';
+    wrap.style.setProperty('--theme-color', theme.color);
+    const h = document.createElement('div');
+    h.className = 'theme-group-h';
+    h.textContent = theme.name;
+    wrap.appendChild(h);
+    for (const it of grouped[ti]) {
+      const row = document.createElement('div');
+      row.className = 'index-item';
+      row.dataset.idx = it.i;
+      row.dataset.search = (it.c.h + ' ' + it.c.b + ' ' + it.c.x).toLowerCase();
+      row.innerHTML = '<span class="num">' + pad2(it.i + 1) + '</span><span class="ti">' + escapeHtml(it.c.h) + '</span>';
+      row.addEventListener('click', () => { goToConceptIdx(it.i); closeIndex(); });
+      wrap.appendChild(row);
+    }
+    list.appendChild(wrap);
+  }
+}
+
+function renderIndexHighlights(currentIdx) {
+  document.querySelectorAll('.index-item').forEach(el => {
+    el.classList.toggle('is-today', Number(el.dataset.idx) === currentIdx);
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function goToConceptIdx(targetIdx) {
+  const currentIdx = conceptIndexForEpochDay(todayEpochDay);
+  const offset = ((currentIdx - targetIdx) + CONCEPTS.length) % CONCEPTS.length;
+  if (targetIdx === currentIdx) viewingEpochDay = todayEpochDay;
+  else viewingEpochDay = todayEpochDay - offset;
+  render();
+}
+
+function openIndex() {
+  $('indexOverlay').classList.add('open');
+  $('indexPanel').classList.add('open');
+  setTimeout(() => $('indexSearch').focus(), 200);
+}
+function closeIndex() {
+  $('indexOverlay').classList.remove('open');
+  $('indexPanel').classList.remove('open');
+}
+
+function applySearch() {
+  const q = $('indexSearch').value.trim().toLowerCase();
+  document.querySelectorAll('.theme-group').forEach(g => {
+    let any = false;
+    g.querySelectorAll('.index-item').forEach(it => {
+      const match = !q || it.dataset.search.includes(q);
+      it.style.display = match ? '' : 'none';
+      if (match) any = true;
+    });
+    g.style.display = any ? '' : 'none';
+  });
+}
+
+$('prev').addEventListener('click', () => { viewingEpochDay -= 1; render(); });
+$('next').addEventListener('click', () => { viewingEpochDay += 1; render(); });
+$('todayBtn').addEventListener('click', () => { viewingEpochDay = todayEpochDay; render(); });
+$('indexLink').addEventListener('click', openIndex);
+$('indexClose').addEventListener('click', closeIndex);
+$('indexOverlay').addEventListener('click', closeIndex);
+$('indexSearch').addEventListener('input', applySearch);
+
+document.addEventListener('keydown', (e) => {
+  if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+  if (e.key === 'ArrowLeft') { viewingEpochDay -= 1; render(); }
+  else if (e.key === 'ArrowRight') { viewingEpochDay += 1; render(); }
+  else if (e.key === 't' || e.key === 'T') { viewingEpochDay = todayEpochDay; render(); }
+  else if (e.key === 'Escape') closeIndex();
+  else if (e.key === '/' || e.key === 'i') { openIndex(); e.preventDefault(); }
+});
+
+function readHash() {
+  const m = location.hash.match(/day=(-?\d+)/);
+  if (m) viewingEpochDay = Number(m[1]);
+}
+
+readHash();
+buildIndex();
+render();
+</script>
+</body>
+</html>
